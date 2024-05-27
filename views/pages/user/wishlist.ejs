@@ -1,0 +1,54 @@
+
+  <!--================Cart Area =================-->
+  <% if(wishlistinfo.length > 0) {%>
+  <section class="cart_area section_padding">
+    <div class="container">
+      <div class="cart_inner">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Price</th>
+                
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+                <% console.log(wishlistinfo) %>
+            <% wishlistinfo.forEach(item=> {%> 
+              <tr>
+                <td>
+                  <div class="media">
+                    <div class="d-flex">
+                      <a href="/product/<%= item._id%>">
+                        <img src="/products/images/<%= item.images[0]%>" alt="" />
+                      </a>
+                    </div>
+                    <div class="media-body">
+                      <p><%= item.product_name%></p>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <h5><%= item.price%></h5>
+                </td>
+                
+                <td>
+                    <a href="/user/wishlist/remove/<%= item._id%>" class="genric-btn danger">Remove</a>
+                </td>
+              </tr>
+              
+             <% }) %>
+            </tbody>
+        </table>
+        </div>
+      </div>
+  </section>
+  <% } else {%> 
+ <section>
+    <div class="mt-5">
+        <h2 class="text-center">No item in your wishlist.</h2>
+    </div>
+ </section>
+ <% } %>

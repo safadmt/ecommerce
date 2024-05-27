@@ -1,0 +1,134 @@
+
+    <!--================login_part Area =================-->
+    <section class="login_part section_padding ">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6">
+                    <div class="login_part_text text-center">
+                        <div class="login_part_text_iner">
+                            
+                            <p>An OTP has been send to you email address.<br>
+                                 Please check your email</p>
+                            <a href="#" class="btn_3">Back to home</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="login_part_form">
+                        <div class="login_part_form_iner">
+                            
+                            <form class="row contact_form" onsubmit="handleVerifyEmail(event)" method="post">
+                                <div id="errordiv" class="text-danger text-center"></div>
+                                <div id="successdiv" class="text-success text-center"></div>
+                                
+                                
+                                <div class="col-md-12 form-group p_star">
+                                    <input type="text" class="form-control" id="otpvalue" name="otpvalue" value=""
+                                        placeholder="Enter OTP">
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <div class="creat_account d-flex align-items-center">
+                                        <input type="checkbox" id="f-option" name="selector">
+                                        <label for="f-option">Remember me</label>
+                                    </div>
+                                    <button type="submit" value="submit" class="btn_3">
+                                        Verify OTP
+                                    </button>
+                                    <button onclick="handleResendOTP(event)" class="btn_3">
+                                        Resend OTP
+                                    </button>
+                                    <a class="lost_pass" href="#">forget password?</a>
+                                </div>
+                            </form>
+                            <div id="countdown" class="text-center"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================login_part end =================-->
+</main>
+
+<script>
+    const errordiv = document.getElementById('errordiv');
+    const countdown = document.getElementById('countdown');
+    const otpInput = document.getElementById('otpvalue')
+    const successdiv = document.getElementById('successdiv')
+    let countdownTimer;
+
+    document.getElementById('submitbtn').disabled = true
+    
+    function clear (element) {
+        setTimeout(() => {
+            element.textContent = ""
+        }, 4000);
+    }
+    function startCountdown() {
+        let seconds = 90;
+        countdownTimer = setInterval(() => {
+            countdown.textContent = `OTP expires in ${seconds} seconds`;
+            seconds--;
+            if (seconds < 0) {
+                clearInterval(countdownTimer);
+                countdown.textContent = "OTP expired!";
+                clear(countdown)
+                document.getElementById('otp').disabled = true;
+                document.getElementById('submitbtn').disabled = true;
+            }
+        }, 1000);
+    }
+
+
+    // startCountdown()
+
+    function handleVerifyEmail(e) {
+        e.preventDefault();
+        const otp = otpInput.value
+        
+        if(!otp) return errordiv.textContent = "Required Field"
+        clear(errordiv)
+        const xhttp =  new XMLHttpRequest()
+        xhttp.onload = function() {
+          let response = JSON.parse(xhttp.response)
+          if(response.error) {
+              errordiv.textContent = response.error
+              clearError(errorDiv)
+              return
+          }
+          console.log(response)
+          window.location.href =  "/auth/login"
+
+          
+      }
+      xhttp.open('POST', `http://localhost:5000/auth/signup` ,true)
+          xhttp.setRequestHeader('Content-Type','application/json')
+          xhttp.send(JSON.stringify({otp:otp}))
+
+
+    }
+
+    function handleResendOTP(e) {
+        e.preventDefault()
+        const xhttp = new XMLHttpRequest()
+
+        xhttp.onload = function () {
+            let response = JSON.parse(xhttp.response)
+            if(response.error) {
+                errordiv.textContent = response.error
+                clear(errorDiv)
+              return
+            }else{
+                successdiv.textContent = response.data
+                clear(successdiv)
+                return
+            }
+
+        }
+
+        xhttp.open('GET', `http://localhost:5000/auth/resend-otp` ,true)
+        
+        xhttp.send()
+    }
+    
+</script>

@@ -1,0 +1,179 @@
+<style>
+  .form-div {
+    padding: 20px;
+    width: 60%;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    margin: auto;
+  }
+
+  .form-div label {
+    font-weight: bold;
+    margin-top: 10px;
+  }
+
+  .form-div input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    margin-bottom: 15px;
+  }
+
+  .button-div {
+    text-align: center;
+    margin-top: 20px;
+  }
+  @media only screen and(max-width: 700px){
+    .form-div{
+      width: 95vw !important;
+    }
+  }
+</style>
+<div>
+ 
+  <div class="form-div mt-5"> 
+    <div>
+    <a href="" id="backbtn" class="btn primary">Back</a>
+  </div>
+    <div><h1 class="text-center">Add New Address</h1></div>
+    <form action="" class="add-product-form" onsubmit="handleSubmit(this)">
+      <div class="row">
+        <div class="col-12">
+          <label for=""
+            >Name <span style="color: red; font-size: larger">*</span></label
+          >
+          <input type="text" name="recipient_name" id="recipient_name" />
+          <label for=""
+            >Mobile <span style="color: red; font-size: larger">*</span></label
+          >
+          <input type="tel" name="mobile" id="mobile" />
+          <label for=""
+            >Pin Code
+            <span style="color: red; font-size: larger">*</span></label
+          >
+          <input type="text" name="postal_code" id="pin_code" />
+          <label for=""
+            >Locality / Area / Street
+            <span style="color: red; font-size: larger">*</span></label
+          >
+          <input
+            type="text"
+            name="street_address_line1"
+            id="street_address_line1"
+          />
+          <label for=""
+            >Flat number / Building_name
+            <span style="color: red; font-size: larger">*</span></label
+          >
+          <input
+            type="text"
+            name="street_address_line2"
+            id="street_address_line2"
+          />
+          <label for=""
+            >Town / City
+            <span style="color: red; font-size: larger">*</span></label
+          >
+          <input type="text" name="city" id="street_1" />
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary">Add address</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  function handleSubmit(formInfo) {
+    event.preventDefault();
+
+    const formData = new FormData(formInfo);
+    console.log(...formData);
+    if (!formData.get("recipient_name")) {
+      return showMessage("Recipient Name is required");
+    } else if (!formData.get("mobile")) {
+      return showMessage("Mobile number is required");
+    } else if (!formData.get("postal_code")) {
+      return showMessage("Postal code is required");
+    } else if (formData.get("postal_code").match) {
+      const pinRegex = /^[0-9]{6}$/;
+      if (!pinRegex.test(formData.get("postal_code"))) {
+        return showMessage("Only 6 numbers required");
+      }
+    } else if (!formData.get("recipient_name")) {
+      return showMessage("Recipient Name is required");
+    } else if (!formData.get("street_address_line1")) {
+      return showMessage("Street address line1 is required");
+    } else if (!formData.get("street_address_line2")) {
+      return showMessage("Street address line2 is required");
+    } else if (!formData.get("city")) {
+      return showMessage("City is required");
+    }
+    const pin_code = formData.get("postal_code");
+    fetch(`https://api.postalpincode.in/pincode/${pin_code}`)
+      .then((response) => response.json())
+      .then((data) => {
+        const postOfficedata = data[0];
+        if (
+          postOfficedata.Status === "Success" &&
+          postOfficedata.PostOffice.length > 0
+        ) {
+          if (postOfficedata.PostOffice[0].State !== "Kerala") {
+            return showMessage(
+              `Not Deliverable to this ${pin_code} pin code , Only accross Kerala`
+            );
+          }
+        } else {
+          return showMessage("Not a avalid pincode!.");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    let obj = {}
+    console.log("obj",obj)
+    for(const [name, value] of formData.entries()) {
+        obj[name] = value
+     }
+
+    fetch(`/user/add-address`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(obj),
+    })
+    .then(response=> {
+        return response.json()
+    })
+    .then(result=> {
+        console.log(result.error)
+        if(result.error) {
+            return showMessage(result.error)
+        }else{
+            window.location.href = '/user/checkout'
+        }
+    })
+    .catch(err=> {
+        console.log(err)
+    })
+  }
+
+  function showMessage(message) {
+    const errorDiv = document.createElement("div");
+    errorDiv.classList.add("errorDiv");
+    errorDiv.classList.add("message");
+
+    errorDiv.textContent = message;
+    const form = document.querySelector(".add-product-form");
+    form.insertBefore(errorDiv, form.firstChild);
+    setTimeout(() => {
+      errorDiv.remove();
+    }, 4000);
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById('backbtn').href = document.referrer 
+  })
+
+</script>

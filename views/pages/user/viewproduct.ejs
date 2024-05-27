@@ -1,0 +1,246 @@
+
+<style>
+ 
+
+
+
+#product-info {
+    display: flex;
+    width: 90%;
+    margin: 0 auto
+}
+
+.item-image-parent {
+    order: 1;
+    width: 70%;
+    display: flex;
+}
+
+.item-info-parent {
+    padding-top: 4rem;
+    order: 2;
+    width: 50%;
+}
+
+.item-list-vertical {
+    order: 1;
+    width: 20%;
+    overflow-y: auto;
+    margin-top: 50px;
+}
+
+.item-image-main {
+    order: 2;
+    width: 90%;
+    
+}
+
+/* sectioning completed */
+
+
+.thumb-box {
+    width: 75%;
+    margin: 10px auto;
+    background: white;
+    border: 1px solid gray;
+}
+.thumb-box img {
+    width: 100%;
+    height: 100%;
+}
+
+.item-image-main img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    aspect-ratio: 16/12;
+}
+
+.thumb-box:hover {
+    cursor: pointer;
+    border-color: #e77600;;
+    box-shadow: 0px 1px 5px 1px #e77600;
+}
+
+/* Item Info */
+.main-info h4{
+    font-size: 21px;
+    margin-bottom: 0;
+    font-weight: 400
+}
+
+.star-rating {
+    width: 70%;
+    color: gray;
+    font-size: 24px;
+    border-bottom: 0.4px solid rgba(194, 194, 194, 0.829);
+}
+
+.star-rating span {
+    color: gold;
+}
+.commentdiv{
+    margin-bottom: 1rem;
+    border: 1px solid black;
+    padding: 3rem;
+}
+.main-info p ,
+.price li{
+    font-size: 20px;
+    color: gray;
+    
+}
+.main-info h2,
+.commentdiv p,
+.commentdiv h5{
+    font-family: Verdana, Geneva, Tahoma, sans-serif !important;
+}
+#price {
+    
+    color: rgb(168, 14, 14);
+    font-size: 21px;
+}
+
+/* Select Items */
+
+.change-color {
+    margin-bottom: 10px;
+}
+
+.change-color .thumb-box{
+    margin: 10px 10px 10px 0;
+    width: 40px;
+    display: inline-block;
+}
+
+.change-size select {
+    padding: 5px 10px;
+    border-radius: 4px;
+    border-color: rgb(189, 189, 189);
+    margin-top: 10px;
+}
+
+.description p,
+.commentdiv p {
+    padding-left: 17px;
+    font-size: 20px;
+    line-height: 1.3rem;
+}
+.commentsection{
+    padding: 3rem 4.3rem;
+}
+</style>
+<div class="viewproductdiv">
+
+
+<section id="product-info">
+
+  <div class="item-image-parent">
+      <div class="item-list-vertical">
+        <% product.images.forEach(item=> {%> 
+          <div class="thumb-box">
+              <img src="/products/images/<%= item %>" onmouseover="handleImage(event, '<%= item%>')" alt="thumbnail" />
+          </div>
+         <% }) %>
+
+      </div>
+      <div class="item-image-main">
+          <img src="/products/images/<%= product.images[0] %>" alt="default" id="mainimg"/>
+      </div>
+  </div>
+
+  <div class="item-info-parent">
+      <!-- main info -->
+      <div class="main-info">
+          <h2><%= product.product_name%></h2>
+          <h2><%= product.brand %></h2>
+          
+          <div class="price">
+            <ul>
+                <li>Rs.<%= product.price - (product.price * product.discount_in_percentage / 100) %></li>
+                <% if(product.discount_in_percentage) {%> 
+                <li class="discount">Discount : <%= product.price * product.discount_in_percentage / 100%></li>
+                <% } %>
+                  
+            </ul>
+        </div>
+          <p>Gender : <%= product.gender %></p>
+      </div>
+      <!-- Choose -->
+      <div class="select-items">
+          <p><%= product.description %></p>
+          <button class="genric-btn primary-border circle" 
+          onclick="addToCart(event,'<%= product._id%>')">Add to Cart</button>
+          <button class="genric-btn primary-border circle mt-2" 
+          onclick="addToWishlist(event,'<%= product._id%>')">Add to Wishlist</button>
+          
+      </div>
+      <!-- Description -->
+  
+</section>
+<section class="commentsection">
+    <h2>Comments</h2>
+    <div class="row">
+    <div >
+        <div class="col-md-8 col-sm-12">
+            <div class="commentdiv">
+                <div>
+                    <h5 style="color: black;"><strong>Sreeraj</strong></h5>
+                </div>
+                <div>
+                    <p>s simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the 
+                        industry's standard dummy text ever since the 1500s, when an unknown</p>
+                </div>
+            </div>
+            <div class="commentdiv" style="color: black;">
+                <div>
+                    <h5><strong>Sreeraj</strong></h5>
+                </div>
+                <div>
+                    <p>s simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the 
+                        industry's standard dummy text ever since the 1500s, when an unknown</p>
+                </div>
+            </div>
+            
+        </div>
+<div class="col-md-4 col-sm-12">
+                <h4>Leave a Review.</h4>
+                <form class="row contact_form" action="/auth/login" method="post">
+                    <%- include('../../partials/message/messages.ejs') %>  
+                    <div class="col-md-12 form-group p_star">
+                        <input type="text" class="form-control" id="email" name="email" value=""
+                            placeholder="Email">
+                    </div>
+                    <div class="product-ratting">
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star low-star"></i>
+                        <i class="far fa-star low-star"></i>
+                    </div>
+                    <div class="col-md-12 form-group ">
+                        <textarea name="comment" id="comment" style="width: 100%;" rows="6" ></textarea>
+                    </div>
+                    <div class="col-md-12 form-group">
+                   
+                        <button type="submit" value="submit" class="btn_3">
+                            Submit
+                        </button>
+                        
+                    </div>
+                </form>
+            </div>
+    </div>
+</section>
+</div>
+<script src="/costom/javascript/cart.js"></script>
+<script>
+    function handleImage (event, imageurl) {
+        const mainimg = document.getElementById('mainimg')
+        mainimg.src = `/products/images/${imageurl}`
+    } 
+
+    function addTotCart(event, productid, user) {
+      console.log(user)
+    }
+</script>

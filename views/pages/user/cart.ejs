@@ -1,0 +1,241 @@
+
+<style>
+  .product-count-div{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+  }
+  .btn-count-action{
+    padding: 0.4rem 0.6rem;
+    color: black;
+    border: 1px solid black;
+    border-radius: 50%;
+  }
+  .quantity-input{
+    width: 30px;
+    text-align: center;
+    border: 1px solid black;
+  }
+  .messagediv{
+    position: absolute;
+    background-color: rgb(22, 21, 21);
+    color: white;
+    text-align: center;
+    width: fit-content;
+    padding: 1rem 4rem;
+    
+  }
+</style>
+<!--================Cart Area =================-->
+<% if(products.length > 0) {%> 
+<section class="cart_area mt-5">
+  <div class="container">
+    <div class="cart_inner" id="cartinner">
+      <div class="table-responsive" id="tableresponsive">
+        <table class="table">
+          <thead>
+           
+
+            <tr>
+              <th scope="col">Product</th>
+              <th scope="col">Price</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Total</th>
+            </tr>
+          </thead>
+          <tbody> 
+            <% products.forEach(item=> {%>
+            <tr>
+              <td>
+                <div class="media">
+                  <div class="d-flex">
+                    <a href="/product/<%= item.productid._id%>">
+                      <img src="/products/images/<%= item.productid.images[0] %>" alt="" />
+                    </a>
+                  </div>
+                  <div class="media-body">
+                    <p><%= item.productid.gender %></p>
+                    <p><%= item.productid.description %>/p>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="price">
+                  <ul>
+                      <li>Rs.<%= item.productid.price %></li>
+                      <% if(item.productid.discount_in_percentage !== 0) {%> 
+                      <li class="discount">discount : <%= item.productid.price * item.productid.discount_in_percentage / 100%></li>
+                      <% } %>
+                        
+                  </ul>
+              </div>
+              </td>
+              <td>
+                  <div class="product-count-div">
+                  
+                    <button class="btn-count-action btn-decrement" 
+                    onclick="decProduct(event,'<%= item.productid._id%>')"> <i class="ti-minus"></i></button>
+                    <input type="text" class="quantity-input" id="<%= item.productid._id%>" value="<%= item.quantity%>">
+                    <button class="btn-count-action"
+                    onclick="incProduct(event, '<%= item.productid._id%>')"> <i class="ti-plus"></i></button>
+                  </div>
+              </td> 
+              <td>
+                <button class="genric-btn danger circle" onclick="removeProduct(event, '<%= item.productid._id%>')">Remove</button>
+              </td>
+            </tr>
+            <% }) %>
+           
+            <tr>
+              <td></td>
+              <td>Total price :</td>
+              <td></td>
+              <td id="actualprice"><%= actualprice%></td>
+            </tr>
+            <% if(totaldiscount) {%> 
+            <tr>
+              <td></td>
+              <td>Total discount  :</td>
+              <td></td>
+              <td id="totaldiscount"><%= totaldiscount%> -</td>
+            </tr>
+            <% } %>
+            <tr>
+              <td></td>
+              <td>Shipping Charge :</td>
+              <td></td>
+              <td id="totaldiscount"><%= shipping_charge%> +</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>Grand total  :</td>
+              <td></td>
+              <td id="totalprice"><%= totalprice%></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="checkout_btn_inner float-right">
+          <a class="btn_1" href="#">Continue Shopping</a>
+          <a class="btn_1 checkout_btn_1" href="/user/checkout">Proceed to checkout</a>
+        </div>
+      </div>
+    </div>
+</section>
+<% }else {%> 
+  <section class="container ">
+    <h2 class="mt-5">Your cart is empty.</h2>
+  </section>
+<% } %>
+    <script >
+       
+
+      
+        function incProduct(event, productid) {
+      console.log(productid)
+      fetch(`http://localhost:5000/user/add-to-cart/${productid}`, {
+            method: 'get',
+        }).then(response=> response.json())
+        .then(data=> {
+          console.log(data)
+          if(data.error) {
+            const cart_inner = document.querySelector('.cart_inner')
+              const div = document.createElement('div')
+              div.textContent = data.error;
+              div.classList.add('messagediv')
+              cart_inner.insertBefore(div, document.querySelector('.table-responsive'))
+
+            setTimeout(() => {
+              div.remove()
+            }, 5000);
+            return
+          }else if(data.response) {
+            console.log(data.response.count)
+            document.getElementById('cart-count').innerHTML = data.response.count
+            const quantityinput = document.getElementById(productid)
+            const totalprice = document.getElementById('totalprice')
+            const totaldiscount = document.getElementById('totaldiscount')
+            const actualprice = document.getElementById('actualprice')        
+            quantityinput.value = parseInt(quantityinput.value) + 1
+            quantityinputChange()
+            totalprice.textContent = data.response.totalprice;
+            totaldiscount.textContent = data.response.totaldiscount;
+            actualprice.textContent = data.response.actualprice;
+          } 
+    })
+    }
+
+    function decProduct(event, productid) {
+      console.log(productid)
+      fetch(`http://localhost:5000/user/decrement-cart-product/${productid}`, {
+            method: 'get',
+        }).then(response=> response.json())
+        .then(data=> {
+          console.log(data)
+          if(data.message) {
+              
+          }else if(data.response) {
+            document.getElementById('cart-count').innerHTML = data.count
+            const quantityinput = document.getElementById(productid)
+            const totalprice = document.getElementById('totalprice')
+            const totaldiscount = document.getElementById('totaldiscount')
+            const actualprice = document.getElementById('actualprice')        
+            quantityinput.value = parseInt(quantityinput.value) - 1
+            quantityinputChange()
+            totalprice.textContent = data.totalprice;
+            totaldiscount.textContent = data.totaldiscount;
+            actualprice.textContent = data.actualprice;
+          } 
+    })
+    }
+    
+    function removeProduct (event, productid){
+      fetch(`http://localhost:5000/user/remove-cart-product/${productid}`, {
+            method: 'get',
+        }).then(response=> response.json())
+        .then(data=> {
+          
+          if(data.message) {
+
+          }else if(data.response) {
+            document.getElementById('cart-count').innerHTML = data.count
+            if(data.count === 0) {
+             
+              window.location.reload();
+              return
+            }
+            
+            const row = event.target.closest('tr')
+            row.remove()
+            const totalprice = document.getElementById('totalprice')
+            const totaldiscount = document.getElementById('totaldiscount')
+            const actualprice = document.getElementById('actualprice')        
+            totalprice.textContent = data.totalprice;
+            totaldiscount.textContent = data.totaldiscount;
+            actualprice.textContent = data.actualprice;
+          } 
+    }).catch(err=> {
+      console.log(err)
+    })
+    } 
+    function quantityinputChange(){
+    const quantityinput = document.querySelectorAll('.quantity-input')
+      quantityinput.forEach(input=> {
+      const button = input.parentElement.querySelector('.btn-decrement')
+      console.log("hello")
+      
+    if(input.value == "1"){
+      button.disabled = true
+    }else{
+      button.disabled = false
+    }
+      })
+      
+    }
+
+  
+
+    document.addEventListener("DOMContentLoaded", quantityinputChange())
+    </script>
+    <!-- END PAGE LEVEL JAVASCRIPTS -->

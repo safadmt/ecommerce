@@ -1,0 +1,163 @@
+
+
+
+<!DOCTYPE html>
+<html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Windmill Dashboard</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/admin/assets/css/tailwind.output.css" />
+    <script
+      src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+      defer
+    ></script>
+    <script src="/admin/assets/js/init-alpine.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+      defer
+    ></script>
+    <script src="/admin/assets/js/charts-lines.js" defer></script>
+    <script src="/admin/assets/js/charts-pie.js" defer></script>
+  </head>
+  <body>
+    <div
+      class="flex h-screen bg-gray-50 dark:bg-gray-900"
+      :class="{ 'overflow-hidden': isSideMenuOpen }"
+    >
+      <%- include('../../partials/admin/adminasidebar.ejs') %>
+      <div class="flex flex-col flex-1 w-full">
+      <%- include('../../partials/admin/adminHeader.ejs') %>
+      <main class="h-full pb-16 overflow-y-auto">
+        <div class="container grid px-6 mx-auto">
+<div class="add-product-main-div">
+  <div class="container ">
+    <h4 class="text-center">/ Admin/ Banner/ Add Banner
+  </div>
+  <div class="container">
+    <a href="/admin/banners/" class="btn btn-primary" style="margin-bottom: 10px;">Back</a>
+  </div>
+  
+  <div class="container main-form-div">
+    
+    <form action="" class="add-product-form" onsubmit="handleSubmit(this)">
+      <div class="row">
+        <div class="col-md-6 col-sm-12">
+            
+          <label for="">First Caption<span style="color: red; font-size: larger;">*</span></label>
+          <input type="text" value="" name="first_caption"  id="first_caption" />
+          
+            <label for="" id="second_caption_label">Second Caption</label>
+          <input type="text" name="second_caption" id="first_caption" />
+            
+          
+        </div>
+        <div class="col-md-6 col-sm-12">
+            <label for="">Link</label>
+            <input type="url" name="link" placeholder="Link to any pages">
+         
+            <label for="">Active or not</label>
+            <select name="isActive" id="">
+              <option value="">Select</option>
+              <option value="true">True</option>
+              <option value="false">False</option>
+            </select>
+          
+        </div>
+        <div class="col-md-12">
+            <label for="">Upload Image <span style="color: red; font-size: larger;">*</span></label>
+            <input type="file" name="image" id="">
+        </div>
+      </div>
+      
+      <div class="button-div">
+        <button type="submit" class="btn btn-primary">Add Banner</button>
+      </div>
+      
+    </form>
+  </div>
+</div>
+        </div>
+      </main>
+      </div>
+    </div>
+  </body>
+</html>
+<script>
+    
+    function handleSubmit (formElement) {
+        event.preventDefault()
+             const formData = new FormData(formElement)
+             const obj = {}
+             for(const [name,value] of formData.entries()) {
+              obj[name] = value
+             }
+            console.log(obj)
+  if (!formData.get('first_caption')) {
+    return showMessage("First Caption is required");
+  }
+  console.log(formData.get('image'))
+  if(formData.get('image').name === "" && formData.get('image').size === 0) {
+    return showMessage("Image field is required")
+  }
+  
+  
+  
+
+  
+        fetch('http://localhost:5000/admin/banners/add-banner', {
+            method: 'POST',
+            body: formData
+        }).then(response=> response.json())
+        .then(data=> {
+            if(!data.error) {
+                const successdiv = document.createElement('div')
+              successdiv.classList.add('successDiv')
+              successdiv.classList.add('message')
+
+              successdiv.textContent = "Banner added successfully"
+              const form = document.querySelector('.add-product-form')
+              form.insertBefore(successdiv, form.firstChild)
+              setTimeout(() => {
+                window.location.reload()
+              }, 2000);
+            }else if(data.error){
+              return showMessage(data.error)
+            }
+            
+        })
+        .catch(err=> {
+            console.log(err)
+        })
+        
+    }
+
+    function showMessage(message) {
+        const errorDiv = document.createElement('div')
+        errorDiv.classList.add('errorDiv')
+        errorDiv.classList.add('message')
+
+        errorDiv.textContent = message
+        const form = document.querySelector('.main-form-div')
+        form.insertBefore(errorDiv, form.firstChild)
+        setTimeout(() => {
+            errorDiv.remove()
+        }, 4000);
+        
+    }
+
+    
+
+    
+    
+
+</script>

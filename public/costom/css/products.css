@@ -1,0 +1,247 @@
+body{
+  height: 100vh;
+  max-width: 100vw;
+  overflow-x: hidden !important;
+}
+.form-search{
+    margin: 0 auto;
+    text-align: center;
+
+    font: bold 13px sans-serif;
+     max-width: 100%;
+    position: relative;
+}
+
+.form-search input{
+    width: 60%;
+    box-sizing: border-box;
+    border-bottom-left-radius: 2px;
+    border-top-left-radius: 2px;
+    background-color:  #ffffff;
+    box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.08);
+    padding: 14px 15px 14px 40px;
+    border: 1px solid #b6c3cd;;
+    border-right: 0;
+    color:#4E565C;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.form-search button{
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
+    background-color:  #6caee0;
+    box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.08);
+    color: #ffffff;
+    padding: 15px 22px;
+    margin-left: -4px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+
+.form-search i{
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    font-size: 16px;
+    color: #80A3BD;
+}
+
+.add-product-main-div {
+  margin: 8rem 0;
+}
+
+.main-form-div {
+  padding: 3rem 4rem;
+  background-color: #fff;
+  
+  position: relative;
+}
+
+.add-product-form {
+  padding: 2rem 0;
+  color: black;
+  line-height: 20px;
+  margin: 3rem 1rem;
+}
+
+.add-product-form input,
+.add-product-form select,
+.add-product-form textarea {
+  display: block !important;
+  width: 100% !important;
+  height: 4rem !important;
+  padding: 8px 5px !important;
+  color: rgb(82, 77, 77) !important;
+  background-color: white !important;
+  border: none;
+  border-bottom: 2px solid rgb(139, 135, 135) !important;
+  font-size: 1.7rem !important;
+  margin-bottom: 2rem !important;
+  
+}
+
+.add-product-form label {
+  font-size: 1.7rem;
+  color: rgb(36, 33, 33);
+  font-weight: 100;
+}
+
+.message {
+  font-size: 2rem;
+  text-align: center;
+  padding: 7px 1rem;
+  width: fit-content;
+  margin-bottom: 5px;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+}
+
+.errorDiv {
+  color: #fff;
+  background-color: #FDE767;
+}
+
+.successDiv {
+  color: #fff;
+  background-color: #0D9276;
+}
+
+.button-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+  #cart-action-inc-dec{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    gap: 10px;
+  }
+
+  .action-div button{
+    font-weight: 600;
+    font-size: 2rem;
+    width: 30px;
+    height: 30px;
+    border-radius: 100% !important;
+  }
+  #cart-action-inc-dec input{
+    width: 35px;
+    height: 27px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  .error-div{
+    background-color: black;
+    padding: 1rem 1rem;
+    color: white;
+    text-align: center;
+    font-size: larger;
+    margin: auto;
+  }
+  #null-cart{
+    height: 70vh !important;
+    
+  }
+  #message-div{
+    height: 80vh;
+  }
+
+  .checkout_div{
+    background-color: rgba(127, 17, 224, 0.3);
+    padding: 7rem;
+    margin: 8rem 10rem 10rem 10rem;
+  }
+h3,h2,h1,h4{
+  color:rgb(65, 2, 65) !important;
+  font-weight: bold !important;
+}
+#checkoutcartinfo{
+  border: 2px solid rgb(65, 2, 65) !important;
+  margin-top: 5rem;
+  padding: 4rem 8rem;
+  font-size: 2rem;
+}
+.form-div{
+  padding: 4rem 8rem;
+}
+#billing_address{
+  margin-bottom: 2rem !important;
+  border-bottom: 3px solid rgb(65, 2, 65);
+}
+.font-1{
+  font: 1.7rem;
+}
+.font-2{
+  font: 2rem bold !important;
+  color: rgb(65, 2, 65) !important;
+}
+
+.searchcouponformdiv div{
+  display:flex;
+  flex-direction: row;
+  width: 100%;
+  font-size: 1.8rem;
+}
+.coupons-div{
+  
+  margin: 2.5rem 0rem 0rem 0rem;
+  
+}
+.coupon-parent-div{
+  height: 300px;
+  border: 1px solid rgb(65, 2, 65);
+  overflow-y: scroll;
+  padding: 5%
+}
+.coupons-div p{
+  line-height: 12px;
+  font-size: 1.7rem;
+}
+.checkout-product-details{
+  border-bottom: 2px solid rgb(65, 2, 65);
+}
+.searchcouponformdiv input{
+  width: 70%;
+}
+.searchcouponformdiv button{
+  width: 30%;
+  background-color: rgb(65, 2, 65);;
+}
+@media only screen and (max-width: 900px) {
+  .checkout_div{
+    background-color: rgba(127, 17, 224, 0.3);
+    padding: 1rem 5rem 1rem 5rem;
+    margin: 4rem 1rem 4rem 1rem;
+  }
+  #checkoutcartinfo{
+    
+  }
+}
+.nav-icon{
+  position: relative;
+}
+.nav-icon span {
+  font-weight: 400;
+  font-size: 1rem;
+  position: absolute;
+  top: -10px;
+  left: 25px;
+}
+
+
+@media only screen and (max-width: 900px) {
+  .checkout_div {
+    background-color: rgba(127, 17, 224, 0.3);
+    padding: 1rem 5rem;
+    margin: 4rem 1rem;
+  }
+}
+
+

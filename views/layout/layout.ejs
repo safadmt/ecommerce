@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>eCommerce HTML-5 Template</title>
+    <link rel="manifest" href="site.webmanifest" />
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="/ecommerce1/assets/img/favicon.ico"
+    />
+    
+    <!-- CSS here -->
+    <link rel="stylesheet" href="/ecommerce1/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/ecommerce1/assets/css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="/ecommerce1/assets/css/flaticon.css" />
+    <link rel="stylesheet" href="/ecommerce1/assets/css/slicknav.css" />
+    <link rel="stylesheet" href="/ecommerce1/assets/css/animate.min.css" />
+    <link rel="stylesheet" href="/ecommerce1/assets/css/magnific-popup.css" />
+    <link rel="stylesheet" href="/ecommerce1/assets/css/fontawesome-all.min.css" />
+    <link rel="stylesheet" href="/ecommerce1/assets/css/themify-icons.css" />
+    <link rel="stylesheet" href="/ecommerce1/assets/css/slick.css" />
+    <link rel="stylesheet" href="/ecommerce1/assets/css/nice-select.css" />
+    <link rel="stylesheet" href="/ecommerce1/assets/css/style.css" />
+    <title>Document</title>
+      <link rel="stylesheet" href="/costom/css/adminsidebar.css" />
+    <link rel="stylesheet" href="/costom/css/products.css" /> 
+
+
+    <!-- Global styles END -->
+
+    <!-- Page level plugin styles START -->
+  </head>
+  <style>
+    body {
+      overflow-x: hidden;
+    }
+  </style>
+  <body>
+    <% if(role == "" || role === "user") {%> <%-
+    include('../partials/user/Header.ejs') %>
+     <% } else {%>
+    
+    <%}%>
+    <main><%- body %></main>
+    <%- include('../partials/user/Footer.ejs') %>
+    <script src="/costom/javascript/adminsidebar.js"></script>
+
+    <!-- END PAGE LEVEL JAVASCRIPTS -->
+   <!-- JS here -->
+   
+       <!-- All JS Custom Plugins Link Here here -->
+       <script src="/ecommerce1/assets/js/vendor/modernizr-3.5.0.min.js"></script>
+       <!-- Jquery, Popper, Bootstrap -->
+       <script src="/ecommerce1/assets/js/vendor/jquery-1.12.4.min.js"></script>
+       <script src="/ecommerce1/assets/js/popper.min.js"></script>
+       <script src="/ecommerce1/assets/js/bootstrap.min.js"></script>
+       <!-- Jquery Mobile Menu -->
+       <script src="/ecommerce1/assets/js/jquery.slicknav.min.js"></script>
+
+       <!-- Jquery Slick , Owl-Carousel Plugins -->
+       <script src="/ecommerce1/assets/js/owl.carousel.min.js"></script>
+       <script src="/ecommerce1/assets/js/slick.min.js"></script>
+
+       <!-- One Page, Animated-HeadLin -->
+       <script src="/ecommerce1/assets/js/wow.min.js"></script>
+       <script src="/ecommerce1/assets/js/animated.headline.js"></script>
+       <script src="/ecommerce1/assets/js/jquery.magnific-popup.js"></script>
+
+       <!-- Scrollup, nice-select, sticky -->
+       <script src="/ecommerce1/assets/js/jquery.scrollUp.min.js"></script>
+       <script src="/ecommerce1/assets/js/jquery.nice-select.min.js"></script>
+       <script src="/ecommerce1/assets/js/jquery.sticky.js"></script>
+       
+       <!-- contact js -->
+       <script src="/ecommerce1/assets/js/contact.js"></script>
+       <script src="/ecommerce1/assets/js/jquery.form.js"></script>
+       <script src="/ecommerce1/assets/js/jquery.validate.min.js"></script>
+       <script src="/ecommerce1/assets/js/mail-script.js"></script>
+       <script src="/ecommerce1/assets/js/jquery.ajaxchimp.min.js"></script>
+       
+       <!-- Jquery Plugins, main Jquery -->	
+       <script src="/ecommerce1/assets/js/plugins.js"></script>
+       <script src="/ecommerce1/assets/js/main.js"></script>
+       
+  </body>
+</html>

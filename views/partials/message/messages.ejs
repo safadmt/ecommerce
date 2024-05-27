@@ -1,0 +1,11 @@
+<% if(typeof error_msg !== 'undefined' && error_msg !== null && error_msg !== '') { %>
+  <div class="text-danger text-center" role="alert">
+    <%= error_msg %>
+  </div>
+<% } %>
+
+<% if(typeof warning_msg !== 'undefined' && warning_msg !== null && warning_msg !== '') { %>
+  <div class="text-warning text-center" role="alert">
+    <%= warning_msg %>
+  </div>
+<% } %>
