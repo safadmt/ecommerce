@@ -20,9 +20,8 @@ const __dirname = dirname(currentFilePath)
 const MongoDBStore = connectMongoDBSession(expressSession);
 const store = new MongoDBStore({uri : process.env.MONGO_URL, collection: "session"})
 store.on('error', function (err) {
-  console.log("h")
+  logger.info(err.stack)
 })
-logger.error("something went ron")
 app.use(expressEjsLayouts)
 app.set('layout', './layout/layout.ejs')
 app.set('views', path.join(__dirname, 'views'))
@@ -46,7 +45,9 @@ app.use((req, res, next) => {
     res.locals.warning_msg = req.flash('warning_msg');
     next();
   });
+// Error handling
 app.use(handleError)
+// Connecting to database
 connectDB()
 .then(response=> {
   console.log(response)
