@@ -16,6 +16,7 @@ import adminRouter from './routes/admin.js'
 import { handleError } from './middleware/errorHandler.js'
 const currentFilePath = fileURLToPath(import.meta.url)
 const __dirname = dirname(currentFilePath)
+process.loadEnvFile()
 // Initialize MongoDBStore with express-session
 const MongoDBStore = connectMongoDBSession(expressSession);
 const store = new MongoDBStore({uri : process.env.MONGO_URL, collection: "session"})

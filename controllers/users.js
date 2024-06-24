@@ -9,6 +9,7 @@ import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import { createHmac } from "crypto";
 import { Types, isValidObjectId } from "mongoose";
+process.loadEnvFile()
 import {
   addRating,
   addToCart,

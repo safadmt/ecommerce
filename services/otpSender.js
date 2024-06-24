@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
 import otpGenerator from 'otp-generator';
+process.loadEnvFile()
 
 async function sendOTP(email) {
     const otp = otpGenerator.generate(6, { 
