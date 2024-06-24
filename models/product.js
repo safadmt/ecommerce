@@ -18,12 +18,13 @@ const productSchema = new Schema({
         {type: String,required: true}
     ],
     product_sold : {type: Number , default : 0},
-    discount_in_percentage : {type: Number, default: 0},
+    discount_in_percentage : {type: Number,required:true, default: 0},
+    returnable : {type: Boolean, default: true, required:true},
     isActive: {type:Boolean, default: true}
 },{timestamps: true})
 
 
 productSchema.index({ gender:1, brand: 1, type: 1})
-productSchema.index({ description: "text", product_name : "text"})
+productSchema.index({ description: "text", product_name : "text",brand:"text"})
 const Product = mongoose.model('products', productSchema);
 export default Product;

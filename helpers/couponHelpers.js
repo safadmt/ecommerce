@@ -1,76 +1,72 @@
 import { Types } from 'mongoose'
 import Coupon from '../models/coupon.js'
 
-export const insertCoupon = async(data) => {
-    try{
-        const response = await Coupon.create(data)
-        return response
-    }catch(err) {
-        console.error(err)
-    }
-    
+
+// Create one coupon
+export const insertCoupon = (data) => {
+   return new Promise((resolve,reject)=> {
+    Coupon.create(data)
+    .then(response=> {
+        resolve(response)
+    })
+    .catch(err=> {
+        reject(err)
+    })
+   })
     
 }
 
+
+
+// Get all Coupon from the database
 export const findAllCoupons = async(query) => {
-    try{
-        const response = await Coupon.find(query)
+   
+        const response = await Coupon.find(query).lean()
         return response
-    }catch(err) {
-        console.error(err)
-    }
 }
-
+// Finde coupon by coupon code
 export const findCouponByCouponCode = async(coupon_code) => {
-    try{
-        const response = await Coupon.findOne({coupon_code: coupon_code})
+  
+        const response = await Coupon.findOne({coupon_code: coupon_code,isActive:true})
         return response
-    }catch(err) {
-        console.error(err)
-    }
+    
 }
 
+// Find only one coupon by coupon _id
 export const findOneCoupon = async(couponId) => {
-    try{
+   
         const response = await Coupon.findById(couponId)
         return response
-    }catch(err) {
-        console.error(err)
-    }
+    
 }
 
+// Update one coupon 
 export const updateCoupon = async(couponId,data) => {
-    try{
+    
         const response = await Coupon.updateOne({_id: new Types.ObjectId(couponId)},{
             $set: data
         })
         return response
-    }catch(err) {
-        console.error(err)
-    }
+    
 }
 
+// Update coupon is active
 export const isCouponActive = async (couponId, isactive) => {
-    try{
+    
         const isact = isactive == "true" ? false : true
-        console.log(isactive)
         const response = await Coupon.findOneAndUpdate({_id: new Types.ObjectId(couponId)}, {
             $set : {isActive : isact},
             $currentDate: {updatedAt: true}
         },{new: true})
-        console.log(response)
         return response
-    }catch(err) {
-        console.error(err)
-    }
+    
 }
 
+// Delete one coupon
 export const deleteOneCoupon = async (couponId) => {
-    try{
+    
         const response = await Coupon.deleteOne({_id: new Types.ObjectId(couponId)})
         
         return response
-    }catch(err) {
-        console.error(err)
-    }
+    
 }

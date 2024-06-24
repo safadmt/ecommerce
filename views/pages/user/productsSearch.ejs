@@ -1,0 +1,184 @@
+<style>
+  .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .checkbox-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .checkbox-item input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ccc;
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    margin-right: 10px;
+  }
+
+  .checkbox-item input[type="checkbox"]:checked {
+    background-color: #4caf50;
+    border-color: #4caf50;
+  }
+
+  .checkbox-item input[type="checkbox"]:checked::before {
+    content: "\2713";
+    font-size: 14px;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .checkbox-item label {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+  }
+  
+</style>
+<section class="product_list section_padding">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <% if(products.length > 0) {%> <% if(products.length == 10) { %>
+        <div class="row">
+          <p>
+            showing <%= currentpage * products.length%> out of <%= totalproduct
+            %>
+          </p>
+        </div>
+        <%} else {%>
+        <div class="row">
+          <p>showing <%= totalproduct%> out of <%= totalproduct %></p>
+        </div>
+        <% } %>
+        <div class="product_list">
+          <div class="row">
+            <% products.forEach(item=> {%>
+            <div class="col-lg-4 col-sm-4">
+              <div class="single_product_item">
+                <a href="/product/<%= item._id%>">
+                  <img
+                    src="/products/images/<%= item.images[0]%>"
+                    alt=""
+                    class="img-fluid image-product-collection"
+                    
+                  />
+                </a>
+                <h3><%= item.brand%> | <%= item.gender %></h3>
+                <div class="price">
+                  <ul>
+                    <% if(item.discount_in_percentage) {%> 
+                      <li class="ft-0">Rs.<%= Math.round(item.price - (item.price * item.discount_in_percentage / 100)) %> MRP Rs.
+                          <span class="mrp ft-0"><%= item.price%></span><span class="discount">(<%= item.discount_in_percentage%>% OFF)</span>
+                      </li>
+                      <% }else {%>
+                      <li class="ft-0">Rs. <%= item.price%></li>    
+                      <% } %>                       
+                  </ul>
+                </div>
+                <button
+                  class="genric-btn primary-border circle"
+                  onclick="addToCart(event,'<%= item._id%>')"
+                >
+                  Add to Cart
+                </button>
+                <button
+                  class="genric-btn primary-border circle mt-2"
+                  onclick="addToWishlist(event,'<%= item._id%>')"
+                >
+                  Add to Wishlist
+                </button>
+              </div>
+            </div>
+            <% }) %>
+          </div>
+          <nav aria-label="...">
+            <ul class="pagination">
+              <li class="page-item " id="previouspageli">
+                <button
+                  class="page-link"
+                  id="previouspage"
+                  onclick="handlePreviouPage(event)"
+                >
+                  Previous
+                </button>
+              </li>
+              <% for(let i = 1 ; i <= totalpages; i++) {%> <% if(currentpage ===
+              i) {%>
+              <li class="page-item active">
+                <button disabled class="page-link"><%= i %></button>
+              </li>
+              <% } else {%>
+              <li class="page-item">
+                <button class="page-link" onclick="gotoNextPage(event)">
+                  <%= i %>
+                </button>
+              </li>
+              <% } %> <% } %>
+              <li class="page-item">
+                <button
+                  class="page-link"
+                  id="nextpagebutton"
+                  onclick="handleNextPage(event)"
+                >
+                  Next
+                </button>
+              </li>
+            </ul>
+          </nav>
+          <% } else {%>
+          <div>
+            <h2>No products found for your filter</h2>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- product list part end-->
+
+<!-- subscribe part here -->
+<section class="subscribe_part section_padding">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="subscribe_part_content">
+          <h2>Get promotions & updates!</h2>
+          <p>
+            Seamlessly empower fully researched growth strategies and
+            interoperable internal or “organic” sources credibly innovate
+            granular internal .
+          </p>
+          <div class="subscribe_form">
+            <input type="email" placeholder="Enter your mail" />
+            <a href="#" class="btn_1">Subscribe</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="/costom/javascript/cart.js"></script>
+<script src="/costom/javascript/productssearch.js"></script>
+<script>
+  let currentPage = "<%= currentpage %>" || 1;
+  let totalpages = "<%= totalpages%>";
+  let previouspage = currentPage
+
+  
+</script>

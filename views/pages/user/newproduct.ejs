@@ -1,0 +1,153 @@
+<style>
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+  
+    .checkbox-item input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid #ccc;
+      border-radius: 3px;
+      outline: none;
+      cursor: pointer;
+      position: relative;
+      margin-right: 10px;
+    }
+  
+    .checkbox-item input[type="checkbox"]:checked {
+      background-color: #4caf50;
+      border-color: #4caf50;
+    }
+  
+    .checkbox-item input[type="checkbox"]:checked::before {
+      content: "\2713";
+      font-size: 14px;
+      color: white;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+    .checkbox-item label {
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      color: #333;
+      cursor: pointer;
+    }
+    @media only screen and (min-width: 700px) {
+    .image-product-collection{
+      object-fit: contain;
+      min-height: 432px !important;
+      max-height: 432px !important;
+    }
+  }
+  </style>
+  <section class="product_list section_padding">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <% if(products.length > 0) {%>
+            
+          <div class="row">
+            <p>showing <%= products.length%> out of <%= products.length %></p>
+          </div>
+    
+          <div class="product_list">
+            <div class="row">
+                <% products.forEach((item,index)=> {%>
+    
+                <div class="col-xl-4 col-lg-4 col-md-6">
+                  <div class="single-product mb-60">
+                    <div class="product-img">
+                      <a href="/product/<%= item._id%>"
+                        ><img src="/products/images/<%= item.images[0] %>" alt="" class="image-product-collection"
+                      /></a>
+                      <div class="new-product">
+                        <span>New</span>
+                      </div>
+                    </div>
+                    <div class="product-caption">
+                      
+                      <h4><a href="#"><%= item.brand%></a></h4>
+    
+                      <div class="price">
+                        <ul>
+                          <% if(item.discount_in_percentage) {%> 
+                            <li class="ft-0">Rs.<%= Math.round(item.price - (item.price * item.discount_in_percentage / 100)) %> MRP Rs.
+                                <span class="mrp"><%= item.price%></span><span class="discount">(<%= item.discount_in_percentage%>% OFF)</span>
+                            </li>
+                            <% }else {%>
+                            <li ft-0>Rs. <%= item.price%></li>    
+                            <% } %>
+                        </ul>
+                      </div>
+                      <% if(item.stock_available !== 0) {%>
+                        <button
+                          class="genric-btn primary-border circle"
+                          onclick="addToCart(event,'<%= item._id%>')"
+                        >
+                          Add to Cart
+                        </button>
+                        <button
+                          class="genric-btn primary-border circle mt-2"
+                          onclick="addToWishlist(event,'<%= item._id%>')"
+                        >
+                          Add to Wishlist
+                        </button>
+                        <% } else {%>
+                          <button class="genric-btn danger circle">Out of stock</button>
+                        <% } %>
+                    </div>
+                  </div>
+                </div>
+    
+                <% }) %>
+                <!-- Card two -->
+              </div>
+            
+            <% } else {%>
+            <div>
+              <h2>No products found for your filter</h2>
+            </div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- product list part end-->
+  
+  <!-- subscribe part here -->
+  <section class="subscribe_part section_padding">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="subscribe_part_content">
+            <h2>Get promotions & updates!</h2>
+            <p>
+              Seamlessly empower fully researched growth strategies and
+              interoperable internal or “organic” sources credibly innovate
+              granular internal .
+            </p>
+            <div class="subscribe_form">
+              <input type="email" placeholder="Enter your mail" />
+              <a href="#" class="btn_1">Subscribe</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="/costom/javascript/cart.js"></script>

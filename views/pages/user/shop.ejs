@@ -1,364 +1,318 @@
 <style>
-    .checkbox-group {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
+  .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-.checkbox-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
+  .checkbox-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .checkbox-item input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ccc;
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    margin-right: 10px;
+  }
 
-.checkbox-item input[type="checkbox"] {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  width: 18px;
-  height: 18px;
-  border: 2px solid #ccc;
-  border-radius: 3px;
-  outline: none;
-  cursor: pointer;
-  position: relative;
-  margin-right: 10px;
-}
+  .checkbox-item input[type="checkbox"]:checked {
+    background-color: #4caf50;
+    border-color: #4caf50;
+  }
 
-.checkbox-item input[type="checkbox"]:checked {
-  background-color: #4CAF50;
-  border-color: #4CAF50;
-}
+  .checkbox-item input[type="checkbox"]:checked::before {
+    content: "\2713";
+    font-size: 14px;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 
-.checkbox-item input[type="checkbox"]:checked::before {
-  content: "\2713";
-  font-size: 14px;
-  color: white;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.checkbox-item label {
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-  color: #333;
-  cursor: pointer;
-}
+  .checkbox-item label {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+  }
 </style>
 <section class="product_list section_padding">
   <div class="container">
-      <div class="row">
-          <div class="col-md-4">
-              <div class="product_sidebar">
-                  <div class="single_sedebar">
-                      <form action="#" method="">
-                          <input type="text" name="search" placeholder="Search keyword">
-                          <i class="ti-search"></i>
-                      </form>
-                  </div>
-                  <form onsubmit="handleFilter()">
-                  <div class="single_sedebar">
-                     <h4 class="mb-30">Gender</h4>
-                      <div class="default-select" id="default-select">
-                          <select name="gender">
-                          <option value="" id="selectgender">Select</option>
-                          <option value="All">All</option>
-                          <option value="Mens">Mens</option>
-                          <option value="Womens">Womens</option>
-                          </select>
-                      </div>
-                  </div>
-                  <div class="single_sedebar">
-                    <h4>Brand</h4>
-                    <div class="checkbox-group">
-                        <div class="checkbox-item">
-                          <input type="checkbox" id="tissot" name="brand" value="TISSOT">
-                          <label for="vehicle1">Tissot</label>
-                        </div>
-                        <div class="checkbox-item">
-                          <input type="checkbox" id="fossil" name="brand" value="FOSSIL">
-                          <label for="fossil">Fossil</label>
-                        </div>
-                        <div class="checkbox-item">
-                          <input type="checkbox" id="rolex" name="brand" value="ROLLEX">
-                          <label for="rolex">Rolex</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="armani-exchage" name="brand" value="ARMANI EXCHAGE">
-                            <label for="armani-exchage">Armani Exchage</label>
-                          </div><div class="checkbox-item">
-                            <input type="checkbox" id="guess" name="brand" value="GUESS">
-                            <label for="guess">Guess</label>
-                          </div><div class="checkbox-item">
-                            <input type="checkbox" id="boat" name="brand" value="BOAT">
-                            <label for="boat">Boat</label>
-                          </div>
-                      </div>
-                        
-                   
-                  </div>
-                  <div class="single_sedebar">
-                    <h4>Type</h4>
-                    <div class="checkbox-group">
-                        <div class="checkbox-item">
-                          <input type="checkbox" id="analog" name="type" value="Analog">
-                          <label for="">Analog</label>
-                        </div>
-                        <div class="checkbox-item">
-                          <input type="checkbox" id="analog-digital" name="type" value="Analog-Digital">
-                          <label for="">Analog-Digital</label>
-                        </div>
-                        <div class="checkbox-item">
-                          <input type="checkbox" id="digital" name="type" value="Digital">
-                          <label for="">Digital</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="ybrid-smart-watch" name="type" value="Hybrid Smart Watch">
-                            <label for="">Hybrid Smart Watch</label>
-                          </div>
-                      </div>
-                  </div>
-                  <button type="submit" class="genric-btn info">Apply filters</button>
-                  <button type="button" class="genric-btn danger" onclick="clearFilter()" style="display: block; margin-top: 10px;">Clear filters</button>
-
-                  </form>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="product_sidebar">
+          
+          <form onsubmit="handleFilter('filter')">
+            <div class="single_sedebar">
+              <h4 class="mb-30">Gender</h4>
+              <div class="default-select" id="default-select">
+                <select name="gender">
+                  <option value="" id="selectgender">Select</option>
+                  <option value="All">All</option>
+                  <option value="Mens">Mens</option>
+                  <option value="Womens">Womens</option>
+                </select>
               </div>
-          </div>
-          <div class="col-md-8">
-            <% if(products.length > 0) {%>
-              <div class="product_list">
-                  <div class="row">
-                    <% products.forEach(item=> {%> 
-                      <div class="col-lg-6 col-sm-4">
-                          <div class="single_product_item">
-                              <a href="/product/<%= item._id%>">
-                                <img src="/products/images/<%= item.images[0]%>" alt="" class="img-fluid">
-                            </a>
-                              <h3><%= item.brand%> | <%= item.gender %></h3>
-                              <div class="price">
-                                <ul>
-                                    <li>Rs.<%= item.price %></li>
-                                    <% if(item.discount_in_percentage) {%> 
-                                    <li class="discount"><%= item.price * item.discount_in_percentage / 100%></li>
-                                    <% } %>
-                                      
-                                </ul>
-                            </div>
-                            <button class="genric-btn primary-border circle" 
-                                        onclick="addToCart(event,'<%= item._id%>')">Add to Cart</button>
-                                        <button class="genric-btn primary-border circle mt-2" 
-                                        onclick="addToWishlist(event,'<%= item._id%>')">Add to Wishlist</button>
-                          </div>
-                      </div>
-                      <% }) %>
-                      
-                      <nav aria-label="...">
-                        <ul class="pagination">
-                          <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1">Previous</a>
-                          </li>
-                          <li class="page-item"><a class="page-link" href="#">1</a></li>
-                          <li class="page-item active">
-                            <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                          </li>
-                          <li class="page-item"><a class="page-link" href="#">3</a></li>
-                          <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                          </li>
-                        </ul>
-                      </nav>
+            </div>
+            <div class="single_sedebar">
+              <h4>Brand</h4>
+              <div class="checkbox-group">
+                <div class="checkbox-item">
+                  <input
+                    type="checkbox"
+                    id="tissot"
+                    name="brand"
+                    value="TISSOT"
+                  />
+                  <label for="vehicle1">Tissot</label>
+                </div>
+                <div class="checkbox-item">
+                  <input
+                    type="checkbox"
+                    id="fossil"
+                    name="brand"
+                    value="FOSSIL"
+                  />
+                  <label for="fossil">Fossil</label>
+                </div>
+                <div class="checkbox-item">
+                  <input
+                    type="checkbox"
+                    id="rolex"
+                    name="brand"
+                    value="ROLEX"
+                  />
+                  <label for="rolex">Rolex</label>
+                </div>
+                <div class="checkbox-item">
+                  <input
+                    type="checkbox"
+                    id="armani-exchage"
+                    name="brand"
+                    value="ARMANI EXCHANGE"
+                  />
+                  <label for="armani-exchange">Armani Exchage</label>
+                </div>
+                <div class="checkbox-item">
+                  <input
+                    type="checkbox"
+                    id="guess"
+                    name="brand"
+                    value="GUESS"
+                  />
+                  <label for="guess">Guess</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="boat" name="brand" value="BOAT" />
+                  <label for="boat">Boat</label>
+                </div>
               </div>
-            <% } else {%> 
-              <div>
-                <h2>No products found for your filter</h2>
+            </div>
+            <div class="single_sedebar">
+              <h4>Type</h4>
+              <div class="checkbox-group">
+                <div class="checkbox-item">
+                  <input
+                    type="checkbox"
+                    id="analog"
+                    name="type"
+                    value="Analog"
+                  />
+                  <label for="">Analog</label>
+                </div>
+                <div class="checkbox-item">
+                  <input
+                    type="checkbox"
+                    id="analog-digital"
+                    name="type"
+                    value="Analog-Digital"
+                  />
+                  <label for="">Analog-Digital</label>
+                </div>
+                <div class="checkbox-item">
+                  <input
+                    type="checkbox"
+                    id="digital"
+                    name="type"
+                    value="Digital"
+                  />
+                  <label for="">Digital</label>
+                </div>
+                <div class="checkbox-item">
+                  <input
+                    type="checkbox"
+                    id="ybrid-smart-watch"
+                    name="type"
+                    value="Hybrid Smart Watch"
+                  />
+                  <label for="">Hybrid Smart Watch</label>
+                </div>
               </div>
-            <% } %>
-          </div>
+            </div>
+            <button type="submit" class="genric-btn info">Apply filters</button>
+            <button
+              type="button"
+              class="genric-btn danger"
+              onclick="clearFilter()"
+              style="display: block; margin-top: 10px"
+            >
+              Clear filters
+            </button>
+          </form>
+        </div>
       </div>
+      <div class="col-md-8">
+        <% if(products.length> 0) {%> <% if(products.length==10) { %>
+        <div class="row">
+          <p>
+            showing <%= currentpage * products.length%> out of <%= totalproduct
+            %>
+          </p>
+        </div>
+        <%} else {%>
+        <div class="row">
+          <p>showing <%= totalproduct%> out of <%= totalproduct %></p>
+        </div>
+        <% } %>
+        <div class="product_list">
+          <div class="row">
+            <% products.forEach(item=> {%>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <div class="single_product_item">
+                <a href="/product/<%= item._id%>">
+                  <img
+                    src="/products/images/<%= item.images[0]%>"
+                    alt=""
+                    class="image-product-collection"
+                  />
+                </a>
+                <h3><%= item.brand%> | <%= item.gender %></h3>
+                <div class="price">
+                  <ul>
+                    <% if(item.discount_in_percentage) {%> 
+                      <li class="ft-0">Rs.<%= Math.round(item.price - (item.price * item.discount_in_percentage / 100)) %> MRP Rs.
+                          <span class="mrp"><%= item.price%></span><span class="discount">(<%= item.discount_in_percentage%>% OFF)</span>
+                      </li>
+                      <% }else {%>
+                      <li class="ft-0">Rs. <%= item.price%></li>    
+                      <% } %>
+                  </ul>
+                </div>
+                <% if(item.stock_available !== 0) {%>
+                <button
+                  class="genric-btn primary-border circle"
+                  onclick="addToCart(event,'<%= item._id%>')"
+                >
+                  Add to Cart
+                </button>
+                <button
+                  class="genric-btn primary-border circle mt-2"
+                  onclick="addToWishlist(event,'<%= item._id%>')"
+                >
+                  Add to Wishlist
+                </button>
+                <% } else {%>
+                  <button class="genric-btn danger circle">Out of stock</button>
+                <% } %>
+              </div>
+            </div>
+            <% }) %>
+          </div>
+          <nav aria-label="...">
+            <ul class="pagination">
+              <li class="page-item disabled">
+                <button
+                  class="page-link"
+                  id="previouspage"
+                  onclick="handlePreviouPage(event)"
+                >
+                  Previous
+                </button>
+              </li>
+              <% for(let i=1 ; i <=totalpages; i++) {%> <% if(currentpage===i)
+              {%>
+              <li class="page-item active">
+                <button disabled class="page-link"><%= i %></button>
+              </li>
+              <% } else {%>
+              <li class="page-item">
+                <button class="page-link" onclick="gotoNextPage(event)">
+                  <%= i %>
+                </button>
+              </li>
+              <% } %> <% } %>
+              <li class="page-item">
+                <button
+                  class="page-link"
+                  id="nextpagebutton"
+                  onclick="handleNextPage(event)"
+                >
+                  Next
+                </button>
+              </li>
+            </ul>
+          </nav>
+          <% } else {%>
+          <div>
+            <h2>No products found for your filter</h2>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 <!-- product list part end-->
 
-<!-- client review part here -->
-<section class="client_review">
-  <div class="container">
-      <div class="row justify-content-center">
-          <div class="col-lg-8">
-              <div class="client_review_slider owl-carousel">
-                  <div class="single_client_review">
-                      <div class="client_img">
-                          <img src="/ecommerce1/assets/img/client.png" alt="#">
-                      </div>
-                      <p>"Working in conjunction with humanitarian aid agencies, we have supported programmes to help alleviate human suffering.</p>
-                      <h5>- Micky Mouse</h5>
-                  </div>
-                  <div class="single_client_review">
-                      <div class="client_img">
-                          <img src="/ecommerce1/assets/img/client_1.png" alt="#">
-                      </div>
-                      <p>"Working in conjunction with humanitarian aid agencies, we have supported programmes to help alleviate human suffering.</p>
-                      <h5>- Micky Mouse</h5>
-                  </div>
-                  <div class="single_client_review">
-                      <div class="client_img">
-                          <img src="/ecommerce1/assets/img/client_2.png" alt="#">
-                      </div>
-                      <p>"Working in conjunction with humanitarian aid agencies, we have supported programmes to help alleviate human suffering.</p>
-                      <h5>- Micky Mouse</h5>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
-</section>
-<!-- client review part end -->
 
 <!-- Shop Method Start-->
 <div class="shop-method-area section-padding30">
   <div class="container">
-      <div class="row d-flex justify-content-between">
-          <div class="col-xl-3 col-lg-3 col-md-6">
-              <div class="single-method mb-40">
-                  <i class="ti-package"></i>
-                  <h6>Free Shipping Method</h6>
-                  <p>aorem ixpsacdolor sit ameasecur adipisicing elitsf edasd.</p>
-              </div>
-          </div>
-          <div class="col-xl-3 col-lg-3 col-md-6">
-              <div class="single-method mb-40">
-                  <i class="ti-unlock"></i>
-                  <h6>Secure Payment System</h6>
-                  <p>aorem ixpsacdolor sit ameasecur adipisicing elitsf edasd.</p>
-              </div>
-          </div> 
-          <div class="col-xl-3 col-lg-3 col-md-6">
-              <div class="single-method mb-40">
-                  <i class="ti-reload"></i>
-                  <h6>Secure Payment System</h6>
-                  <p>aorem ixpsacdolor sit ameasecur adipisicing elitsf edasd.</p>
-              </div>
-          </div>
+    <div class="row d-flex justify-content-between">
+      <div class="col-xl-3 col-lg-3 col-md-6">
+        <div class="single-method mb-40">
+          <i class="ti-package"></i>
+          <h6>Free Shipping Method</h6>
+          <p>aorem ixpsacdolor sit ameasecur adipisicing elitsf edasd.</p>
+        </div>
       </div>
+      <div class="col-xl-3 col-lg-3 col-md-6">
+        <div class="single-method mb-40">
+          <i class="ti-unlock"></i>
+          <h6>Secure Payment System</h6>
+          <p>aorem ixpsacdolor sit ameasecur adipisicing elitsf edasd.</p>
+        </div>
+      </div>
+      <div class="col-xl-3 col-lg-3 col-md-6">
+        <div class="single-method mb-40">
+          <i class="ti-reload"></i>
+          <h6>Secure Payment System</h6>
+          <p>aorem ixpsacdolor sit ameasecur adipisicing elitsf edasd.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <!-- Shop Method End-->
 
-<!-- subscribe part here -->
-<section class="subscribe_part section_padding">
-  <div class="container">
-      <div class="row justify-content-center">
-          <div class="col-lg-8">
-              <div class="subscribe_part_content">
-                  <h2>Get promotions & updates!</h2>
-                  <p>Seamlessly empower fully researched growth strategies and interoperable internal or “organic” sources credibly innovate granular internal .</p>
-                  <div class="subscribe_form">
-                      <input type="email" placeholder="Enter your mail">
-                      <a href="#" class="btn_1">Subscribe</a>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
-</section>
 
 <script src="/costom/javascript/cart.js"></script>
-
-
+<script src="/costom/javascript/shop.js"></script>
 <script>
-const urls = new URL(window.location.href)
+  const urls = new URL(window.location.href);
+  let currentPage = "<%= currentpage %>" || 1;
+  let totalpages = "<%= totalpages%>";
 
-
-
-    document.addEventListener("DOMContentLoaded", ()=> {
-      
-      const params = new URLSearchParams(window.location.search)
-    
-      
-      
-      const gender = params.get('gender');
-      console.log(gender)
-  if (gender) {
-    console.log(gender)
-    document.querySelector(`select[name="gender"]`).value = gender;
-    document.querySelector(`select[name="gender"]`).innerHTML = gender;
-
-  }
-
-  const brands = params.getAll('brand');
-  brands.forEach(brand => {
-    console.log(brand)
-    const checkbox = document.querySelector(`input[name="brand"][value="${brand}"]`);
-    if (checkbox) {
-      checkbox.checked = true;
-    }
-  })
-
-
-  const types = params.getAll('type');
-  types.forEach(type => {
-    const checkbox = document.querySelector(`input[name="type"][value="${type}"]`);
-    if (checkbox) {
-      checkbox.checked = true;
-    }
-  }); 
-    })
-
-
-    function handleFilter() {
-  event.preventDefault(); // Prevent the default form submission
-  // Get the current URL
-  const currentUrl = new URL(window.location.href);
-
-  // Get the existing query parameters
-  const params = currentUrl.searchParams;
-  const gender = document.querySelector('select').value;
-  params.delete('brand')
-  Array.from(document.querySelectorAll('input[name="brand"]:checked'))
-  .forEach(brand=> params.append('brand', brand.value))
-  params.delete('type')
-  const typeCheckboxes = Array.from(document.querySelectorAll('input[name="type"]:checked'))
-  .forEach(type=> params.append('type', type.value))
-
-
-  if (gender) {
-    params.set('gender', gender);
-  } else {
-    params.delete('gender');
-  }
   
-  
-  // Update or add the brand parameters // Remove existing brand parameters
-  console.log(params)
-
-  // Construct the new URL with updated query parameters
-  const newUrl = `${currentUrl.origin}${currentUrl.pathname}?${params.toString()}`;
-
-//   // Navigate to the new URL
-      window.location.href = newUrl;
-}
-
-  function clearFilter () {
-    window.location.href = '/shop'
-  }
-
-
-  // async function handleSearch () {
-  //     const searchinput = document.getElementById('searchinput')
-  //     if(!searchinput.value.trim()) {
-  //       return
-  //     }
-
-  //     const response = await fetch(`/search?search=${searchinput}`, {
-  //       method: 'GET',
-
-  //     })
-
-  //     if(response.ok) {
-  //       const result = await response.json();
-  //       console.log(result)
-  //     }
-  //   }
-
 </script>

@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>eCommerce HTML-5 Template</title>
     <link rel="manifest" href="site.webmanifest" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link
       rel="shortcut icon"
       type="image/x-icon"
@@ -45,9 +46,7 @@
   <body>
     <% if(role == "" || role === "user") {%> <%-
     include('../partials/user/Header.ejs') %>
-     <% } else {%>
-    
-    <%}%>
+     <% } %>
     <main><%- body %></main>
     <%- include('../partials/user/Footer.ejs') %>
     <script src="/costom/javascript/adminsidebar.js"></script>
@@ -88,6 +87,12 @@
        <!-- Jquery Plugins, main Jquery -->	
        <script src="/ecommerce1/assets/js/plugins.js"></script>
        <script src="/ecommerce1/assets/js/main.js"></script>
-       
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+       <script>
+        toastr.options ={
+          closeButton : true,
+          progressBar: true,
+        }
+       </script>
   </body>
 </html>

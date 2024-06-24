@@ -34,6 +34,7 @@
 .slider-area{
     margin-top: -1px;
     .hero__img{
+       
         position: relative;
         bottom: -36px;
         left: -114px;
@@ -52,6 +53,7 @@
             
             @media #{$lg}{
                 height: 500px;
+                
             }
             @media #{$md}{
                 height: 500px;

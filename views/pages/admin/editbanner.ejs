@@ -1,18 +1,21 @@
-
-
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Windmill Dashboard</title>
-<style>
-    .form-image-banner{
+    <style>
+      .form-image-banner {
         width: 250px;
         object-fit: contain;
         aspect-ratio: 16/9;
-    }
-</style>
+      }
+      .styleform {
+        display: grid;
+        place-items: center;
+        padding: 3rem 0rem;
+      }
+    </style>
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
@@ -41,128 +44,112 @@
     >
       <%- include('../../partials/admin/adminasidebar.ejs') %>
       <div class="flex flex-col flex-1 w-full">
-      <%- include('../../partials/admin/adminHeader.ejs') %>
-      <main class="h-full pb-16 overflow-y-auto">
-        <div class="container grid px-6 mx-auto">
-<div class="add-product-main-div">
-  <div class="container ">
-    <h4 class="text-center">/ Admin/ Banner/ Add Banner
-  </div>
-  <div class="container">
-    <a href="/admin/banners/" class="btn btn-primary" style="margin-bottom: 10px;">Back</a>
-  </div>
-  
-  <div class="container main-form-div">
-    
-    <form action="" class="add-product-form" onsubmit="handleSubmit(this,'<%= banner._id %>')">
-      <div class="row">
-        <div class="col-md-6 col-sm-12">
-            
-          <label for="">First Caption<span style="color: red; font-size: larger;">*</span></label>
-          <input type="text" value="<%= banner.first_caption %>" name="first_caption"  id="first_caption" />
-          
-            <label for="" id="second_caption_label">Second Caption</label>
-          <input type="text" value="<%= banner.second_caption %>" name="second_caption" id="first_caption" />
-            
-          
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <label for="">Link</label>
-            <input type="text" value="<%= banner.link %>" name="link" placeholder="Link to any pages">
-         
-            <label for="">Active or not</label>
-            <select name="isActive" id="">
-              <option value="<%= banner.isActive %>"><%= banner.isActive%></option>
-              <option value="true">True</option>
-              <option value="false">False</option>
-            </select>
-          
-        </div>
-        <div>
-            <img src="/banners/<%= banner.imageurl%>" id="imgView" class="form-image-banner" alt="">
-        </div>
-        <div class="col-md-12">
-            <label for="">Upload Image <span style="color: red; font-size: larger;">*</span></label>
-            <input type="file" name="image" id="" onchange="viewImage(event)">
-        </div>
-      </div>
-      
-      <div class="button-div">
-        <button type="submit" class="btn btn-primary">Add Coupon</button>
-      </div>
-      
-    </form>
-  </div>
-</div>
-        </div>
-      </main>
+        <%- include('../../partials/admin/adminHeader.ejs') %>
+        <main class="h-full pb-16 overflow-y-auto">
+          <div class="container grid px-6 mx-auto">
+            <div class="styleform">
+              <div>
+                <a
+                  href="/admin/banners/"
+                  class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                >
+                  Back
+                </a>
+              </div>
+
+              <form
+                id="formElement"
+                class="col-md-6 col-sm-12"
+                onsubmit="handleSubmit(this,'<%= banner._id %>')"
+              >
+                <div class="row">
+                  <div class="col-12">
+                    <label class="block text-sm">
+                      <span class="text-gray-700 dark:text-gray-400"
+                        >First caption<span
+                          style="color: red; font-size: larger"
+                          >*</span
+                        ></span
+                      >
+                      <input
+                        class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                        style="color: gray"
+                        type="text"
+                        value="<%= banner.first_caption %>"
+                        name="first_caption"
+                        id="first_caption"
+                      />
+                    </label>
+
+                    <label class="block text-sm">
+                      <span class="text-gray-700 dark:text-gray-400"
+                        >Second caption<span
+                          style="color: red; font-size: larger"
+                          >*</span
+                        ></span
+                      >
+                      <input
+                        class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                        style="color: gray"
+                        type="text"
+                        value="<%= banner.second_caption %>"
+                        name="second_caption"
+                        id="second_caption"
+                      />
+                    </label>
+
+                    
+                    <label class="block text-sm">
+                      <span class="text-gray-700 dark:text-gray-400"
+                        >Link<span style="color: red; font-size: larger"
+                          >*
+                        </span>
+                      </span>
+                    </label>
+
+                    <div>
+                      <img
+                        src="/banners/<%= banner.imageurl%>"
+                        id="imgView"
+                        class="form-image-banner"
+                        alt=""
+                      />
+                    </div>
+                    <label class="block text-sm"
+                      >Upload Image
+                      <span class="text-gray-700 dark:text-gray-400"
+                        >Locality / Area / Street<span
+                          style="color: red; font-size: larger"
+                          >*</span
+                        ></span
+                      >
+                      <input
+                        class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                        type="file"
+                        name="image"
+                        id="image"
+                        onchange="viewImage(event)"
+                        style="color: gray"
+                      />
+                    </label>
+                  </div>
+                </div>
+                <div class="block buttondiv row">
+                  <button
+                    id="submitbutton"
+                    type="submit"
+                    class="px-5 py-3 text-center font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                  >
+                    Update Banner
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </main>
       </div>
     </div>
   </body>
 </html>
-<script>
-    
-    function handleSubmit (formElement,couponid) {
-        event.preventDefault()
-             const formData = new FormData(formElement)
-             const discount_value = parseInt(formData.get('discount_value'))
-             const obj = {}
-             for(const [name,value] of formData.entries()) {
-              obj[name] = value
-             }
-            console.log(obj)
-            console.log(couponid)
-  if (!formData.get('first_caption')) {
-    return showMessage("First Caption is required");
-  }
+<script src="/costom/javascript/admin/editbanner.js"></script>
  
-  
-        fetch(`http://localhost:5000/admin/banners/edit/${couponid}`, {
-            method: 'PUT',
-            body: formData
-        })
-        .then(response=> response.json())
-        .then(data=> {
-          console.log(data)
-            if(data === "Ok") {
-                const successdiv = document.createElement('div')
-              successdiv.classList.add('successDiv')
-              successdiv.classList.add('message')
-
-              successdiv.textContent = "Banner added successfully"
-              const form = document.querySelector('.add-product-form')
-              form.insertBefore(successdiv, form.firstChild)
-              
-            }else if(data.error){
-              return showMessage(data.error)
-            }
-            
-        })
-        .catch(err=> {
-            console.log(err)
-        })
-        
-    }
-
-    function showMessage(message) {
-        const errorDiv = document.createElement('div')
-        errorDiv.classList.add('errorDiv')
-        errorDiv.classList.add('message')
-
-        errorDiv.textContent = message
-        const form = document.querySelector('.main-form-div')
-        form.insertBefore(errorDiv, form.firstChild)
-        setTimeout(() => {
-            errorDiv.remove()
-        }, 4000);
-        
-    }
-
-    
-    function viewImage(event) {
-        document.getElementById('imgView').src=URL.createObjectURL(event.target.files[0])
-    }
-    
-    
-
-</script>

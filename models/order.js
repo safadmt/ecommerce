@@ -1,5 +1,5 @@
 import mongoose, {Schema} from "mongoose";
-
+import { orderStatusEnum } from "../utils/enum.js";
 
 
 // Order Schema
@@ -19,6 +19,15 @@ const OrderSchema = new Schema({
             type: Number,
             required: true,
             min: 1
+        },
+        price : {
+            type: Number,
+            required: true
+        },
+        returned_quantity : {
+            type: Number, 
+            required: true, 
+            default: 0
         }
     }],
     totalPrice: {
@@ -28,12 +37,14 @@ const OrderSchema = new Schema({
     },
     orderStatus: {
         type: String,
-        enum: ['pending', 'success', 'failed'],
-        default: 'pending'
+        required: true,
+        enum: Object.values(orderStatusEnum),
+        default: orderStatusEnum.PENDING
     },
+    deliveredAt : Date,
     addressId: {
         type: Schema.Types.ObjectId,
-        ref: 'address',  
+        ref: 'addresses',  
         required: true
     },
     shippingCharge: {
@@ -42,11 +53,17 @@ const OrderSchema = new Schema({
         min: 0,
         default: 0  
     },
+    payment_method : {type: String, enum: ["Razorpay", "Wallet" , "Stripe"], required: true},
     couponDiscount: {
         type: Number,
         default: 0
-    }
+    },
+    
 }, { timestamps: true });  // Enable timestamps
 
+OrderSchema.index({orderStatus: 1})
 const Order = mongoose.model('order', OrderSchema);
 export default Order;
+
+
+

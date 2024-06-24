@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Windmill Dashboard</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/admin/assets/css/tailwind.output.css" />
+    <style>
+      .order-listing {
+        margin: auto;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 20px;
+        margin-bottom: 20px;
+        max-width: 800px;
+      }
+
+      .order-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+
+      .order-info {
+        flex: 1;
+        min-width: 250px;
+      }
+
+      .order-actions {
+        margin-left: 20px;
+        flex: 1;
+        min-width: 150px;
+      }
+
+      .download-invoice {
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-bottom: 5px;
+      }
+
+      .order-products {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .product-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 100%;
+      }
+.btn-white{
+          background-color: white;
+          color: black;
+          border: 1px solid black;
+        }
+      .product-image {
+        width: 100px;
+        height: 100px;
+        margin-right: 20px;
+      }
+
+      .product-image img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+
+      .product-details {
+        flex: 1;
+      }
+
+      .product-details p {
+        line-height: 14px;
+      }
+
+      .price,
+      .quantity {
+        font-weight: bold;
+        margin-top: 5px;
+      }
+
+      .btn-sm {
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+      }
+
+      .btn-yellow {
+        background-color: yellow;
+        color: black;
+      }
+
+      .btn-black {
+        background-color: black;
+        color: white;
+      }
+
+      @media only screen and (max-width: 800px) {
+        .order-details {
+          display: block;
+        }
+
+        .order-actions {
+          margin-top: 10px;
+        }
+        
+        .product-item {
+          display: grid;
+          place-items: center;
+        }
+
+        .product-image {
+          width: 170px;
+          height: 170px;
+          margin-right: 20px;
+        }
+      }
+    </style>
+    <script
+      src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+      defer
+    ></script>
+    <script src="/admin/assets/js/init-alpine.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+      defer
+    ></script>
+    <script src="/admin/assets/js/charts-lines.js" defer></script>
+    <script src="/admin/assets/js/charts-pie.js" defer></script>
+  </head>
+  <body>
+    <div
+      class="flex h-screen bg-gray-50 dark:bg-gray-900"
+      :class="{ 'overflow-hidden': isSideMenuOpen }"
+    >
+      <%- include('../../partials/user/profilesidebar.ejs') %>
+      <div class="flex flex-col flex-1 w-full">
+        <%- include('../../partials/user/profileHeader.ejs') %>
+        <main class="h-full pb-16 overflow-y-auto">
+          <div class="container grid px-6 mx-auto">
+            <div>
+              <% if(orders.length > 0) {%> 
+              <% orders.forEach(order => { %>
+              <div class="order-listing col-md-12 col-lg-12 col-sm-12">
+                <div class="order-details">
+                  <div class="order-info">
+                    <h3>Order #<%= order._id %></h3>
+                    <p>Order Date: <%= order.createdAt.toLocaleString() %></p>
+                    <p>Total Price: Rs. <%= order.totalPrice %></p>
+                    <p>Shipping Charge: Rs. <%= order.shippingCharge %></p>
+                    <p>Order Status: <%= order.orderStatus %></p>
+                  </div>
+                  <div class="order-actions">
+                    <a class="genric-btn primary-border circle mb-2" href="/user/profile/orders/<%= order._id %>">View order</a>
+                    <a href="/user/download-invoice/<%= order._id %>" class="genric-btn primary-border circle">Download Invoice</a>
+                  </div>
+                </div>
+                <div class="order-products">
+                  <% order.products.forEach(product => { %>
+                  <div class="product-item">
+                    <div class="product-image">
+                      <img src="/products/images/<%= product.productid.images[0] %>" alt="Product Image" />
+                    </div>
+                    <div class="product-details">
+                      <p><%= product.productid.product_name %></p>
+                      <p class="price">Rs. <%= product.quantity * product.productid.price %></p>
+                      <p class="quantity">Quantity: <%= product.quantity %></p>
+                      <a class="genric-btn primary-border circle mt-2" href="/product/<%= product.productid._id%>">View</a>
+                    </div>
+                    <div class="mt-3">
+                      <% const existingReturn = order.orderReturns.find((orderReturn) => orderReturn?.productid.toString() === product.productid._id.toString()) %>
+                      <% if (!existingReturn && order.isReturnable === true && product.productid.returnable === true) { %>
+                      <a class="btn-sm btn-yellow mb-2" 
+                      href="/user/profile/return/<%= order._id%>/<%= product.productid._id%>">Return Item</a>
+                      <% } %>
+                      <% if (existingReturn) { %>
+                      <a class="btn-sm btn-white circle" href="/user/profile/return/details/<%= order._id%>/<%= product.productid._id%>"
+                       id="existingstatus_<%= product.productid._id %>"><%= existingReturn.returnStatus %> / View </a>
+                      <% } %>
+                      
+                      <% if (order.orderStatus === "Delivered") { %>
+                      <a href="/product/<%= product.productid._id %>" class="btn-sm btn-black">Write a review</a>
+                      <% } %>
+                    </div>
+                  </div>
+                  <% }) %>
+                </div>
+              </div>
+              <% }) %>
+              <% } else {%> 
+              <div >
+                <h1 class="text-center mt-5">No orders were created.</h1>
+              </div>
+              <% } %> 
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+    
+  </body>
+</html>

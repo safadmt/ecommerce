@@ -1,0 +1,188 @@
+const otpGroup = document.getElementById("otp-group");
+  const otpbtn = document.getElementById("otpbtn");
+  const emailbtn = document.getElementById("emailbtn");
+  const editemailform = document.getElementById("edit-email-form");
+  function openModal(modalId) {
+    document.getElementById(modalId).classList.remove("hidden");
+    document.getElementById("overlay").classList.remove("hidden");
+  }
+
+  function closeModal(modalId) {
+    document.getElementById(modalId).classList.add("hidden");
+    document.getElementById("overlay").classList.add("hidden");
+  }
+
+  async function handleSubmitCredentils(form) {
+    event.preventDefault();
+    const formData = new FormData(form);
+    const data = {};
+    formData.forEach((value, key) => {
+      data[key] = value;
+    });
+    const regex = /^\d{10}$/;
+    console.log(data);
+    if (!data.username?.trim() || !mobile) {
+      return alert("Username or mobile field is required");
+    } else if (!regex.test(data.mobile)) {
+      return alert("Not a valid mobile number");
+    }
+    console.log(data);
+    const response = await fetch("/user/profile/edit-credential", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    const result = await response.json();
+    if (response.ok) {
+      alert("Changes saved successfully!");
+      closeModal(form.closest(".model-div").id);
+      document.getElementById("username").textContent = data.username;
+      document.getElementById("profilename").textContent = data.username;
+
+    } else {
+      alert(`Error: ${result.message}`);
+    }
+  }
+
+  async function changePassword(form) {
+    event.preventDefault();
+    const formData = new FormData(form);
+    const data = {};
+    formData.forEach((value, key) => {
+      data[key] = value;
+    });
+    const regex = /^[\S]{8,25}$/;
+    const { current_password, new_password, confirm_new_password } = data;
+    if (
+      !current_password.trim() ||
+      !new_password.trim() ||
+      !confirm_new_password.trim()
+    ) {
+      return alert("Required all * indiacted field");
+    } else if (new_password !== confirm_new_password) {
+      return alert("Passwords do not match");
+    } else if (!validatePassword(current_password)) {
+      return alert(
+        "Current Password is invalid. It must be between 8 and 25 characters long."
+      );
+    } else if (!validatePassword(new_password)) {
+      return alert(
+        "New Password is invalid. It must be between 8 and 25 characters long."
+      );
+    } else if (!validatePassword(confirm_new_password)) {
+      return alert(
+        "Confirm New Password is invalid. It must be between 8 and 25 characters long."
+      );
+    }
+    console.log(data);
+    const response = await fetch("/user/profile/edit-password", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    const result = await response.json();
+    if (response.ok) {
+      alert("Changes saved successfully!");
+      closeModal(form.closest(".model-div").id);
+    } else {
+      alert(`Error: ${result.message}`);
+    }
+  }
+  function validatePassword(password) {
+    // Regex pattern to check password length between 8 and 25 characters
+    const pattern = /^[\S]{8,25}$/;
+
+    return pattern.test(password);
+  }
+
+  async function handleChangeEmail() {
+    event.preventDefault();
+    const email = document.getElementById("email").value;
+    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isEmailValid = pattern.test(email);
+
+    if (!email.trim()) {
+      return alert("Email is required");
+    } else if (!pattern.test(email)) {
+      return alert("Not a valid Email");
+    }
+    showMessage("Please wait", "green", editemailform, otpGroup);
+
+    try {
+      const response = await fetch("/user/profile/edit-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        alert(result.data);
+        otpGroup.classList.remove("hidden");
+        otpbtn.classList.remove("hidden");
+        emailbtn.classList.add("hidden");
+      } else {
+        return alert(`Error: ${result.message}`);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function handleSubmitOTP() {
+    event.preventDefault();
+
+    const otp = document.getElementById("otp").value;
+    console.log("hello otp", otp);
+    if (!otp.trim()) {
+      return alert("OTP field required");
+    } else if (otp.length !== 6) {
+      return "OTP only 6 charactors.";
+    }
+    showMessage("Please wait", "green", editemailform, otpGroup);
+
+    try {
+      const response = await fetch("/user/profile/change-email-verify-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ otp }),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        if (result.data) {
+          alert("Email has been changed successfully");
+          window.location.reload();
+        }
+      } else {
+        if (result.message !== "OTP is required") {
+          document.getElementById("otp-group").classList.add("hidden");
+          document.getElementById("otpbtn").classList.add("hidden");
+          document.getElementById("emailbtn").classList.remove("hidden");
+          return alert(result.message);
+        } else {
+          console.log(result);
+          return alert(result.message);
+        }
+      }
+    } catch (err) {
+      console.log(err);
+      alert(err);
+    }
+  }
+
+  function removeMessage(element) {
+    setTimeout(() => {
+      element.remove();
+    }, 4000);
+  }
+
+  function showMessage(message, color, maindiv, insetBeforeelem) {
+    const div = document.createElement("div");
+    div.style.color = color;
+    div.textContent = message;
+    maindiv.insertBefore(div, insetBeforeelem);
+    removeMessage(div);
+  }

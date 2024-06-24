@@ -36,6 +36,12 @@
                 
                 <td>
                     <a href="/user/wishlist/remove/<%= item._id%>" class="genric-btn danger">Remove</a>
+                    <button
+                  class="genric-btn primary"
+                  onclick="addToCart(event,'<%= item._id%>')"
+                >
+                  Add to Cart
+                </button>
                 </td>
               </tr>
               
@@ -52,3 +58,5 @@
     </div>
  </section>
  <% } %>
+
+ <script src="/costom/javascript/cart.js"></script>

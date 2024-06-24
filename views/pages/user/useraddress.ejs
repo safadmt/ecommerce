@@ -1,133 +1,91 @@
-<style>
-    .address-container {
-  width: 100%;
-  max-width: 700px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.address-row {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 20px;
-  border-bottom: 1px solid #ddd;
-  background-color: #fff;
-  border-radius: 8px;
-  margin-bottom: 15px;
-  transition: background-color 0.3s ease;
-}
-
-.address-row:hover {
-  background-color: #f0f0f0;
-}
-
-.address-text {
-  margin-bottom: 10px;
-  font-size: 16px;
-  font-weight: 400;
-  word-wrap: break-word;
-  color: #333;
-}
-
-.address-actions {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
-
-.edit-button-address,
-.delete-btn {
-  padding: 8px 16px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.edit-button-address {
-  background-color: #007bff;
-}
-
-.edit-button-address:hover {
-  background-color: #0056b3;
-}
-
-.delete-btn {
-  background-color: #dc3545;
-}
-
-.delete-btn:hover {
-  background-color: #c82333;
-}
-
-.address-text p {
-  margin: 4px 0;
-  line-height: 1.5;
-}
-
-@media (min-width: 481px) {
-  .address-row {
-    flex-direction: row;
-    align-items: center;
-  }
-
-  .address-text {
-    flex: 1;
-    margin-bottom: 0;
-  }
-
-  .address-actions {
-    width: auto;
-  }
-}
-
-</style>
-
-
-<div class="address-container">
-    <% addresses.forEach(item => { %>
-    <div class="address-row">
-      <div class="address-text">
-        <p><strong><%= item.recipient_name %></strong></p>
-        <p><%= item.street_address_line1 %><% if (item.street_address_line2) { %>, <%= item.street_address_line2 %><% } %></p>
-        <p><%= item.city %>, Pin Code: <%= item.postal_code %></p>
-        <p>Mobile: <%= item.mobile %></p>
-      </div>
-      <div class="address-actions">
-        <a href="/user/profile/manage-address/edit/<%= item._id%>" class="edit-button-address">Edit</a>
-        <button class="delete-btn" onclick="removeProduct('<%= item._id%>')">Delete</button>
+<!DOCTYPE html>
+<html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Windmill Dashboard</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/admin/assets/css/tailwind.output.css" />
+    <script
+      src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+      defer
+    ></script>
+    <script src="/admin/assets/js/init-alpine.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+      defer
+    ></script>
+    <script src="/admin/assets/js/charts-lines.js" defer></script>
+    <script src="/admin/assets/js/charts-pie.js" defer></script>
+  </head>
+  <body>
+    <div
+      class="flex h-screen bg-gray-50 dark:bg-gray-900"
+      :class="{ 'overflow-hidden': isSideMenuOpen }"
+    >
+      <%- include('../../partials/user/profilesidebar.ejs') %>
+      <div class="flex flex-col flex-1 w-full">
+        <%- include('../../partials/user/profileHeader.ejs') %>
+        <main class="h-full pb-16 overflow-y-auto">
+          <div class="container grid px-6 mx-auto">
+            <div class="w-full overflow-hidden rounded-lg shadow-xs">
+              <div class="w-full overflow-x-auto">
+                <div class="my-8">
+                  
+                  <div class="address-container">
+                    <div class="mb-8">
+                    <a
+                      href="/user/profile/manage-address/add"
+                      class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                    >
+                      Add address
+                    </a>
+                  </div>
+                    <% addresses.forEach(item => { %>
+                    <div class="address-row">
+                      <div class="address-text">
+                        <p><strong><%= item.recipient_name %></strong></p>
+                        <p>
+                          <%= item.street_address_line1 %><% if
+                          (item.street_address_line2) { %>, <%=
+                          item.street_address_line2 %><% } %>
+                        </p>
+                        <p>
+                          <%= item.city %>, Pin Code: <%= item.postal_code %>
+                        </p>
+                        <p>Mobile: <%= item.mobile %></p>
+                      </div>
+                      <div class="address-actions">
+                        <a
+                          href="/user/profile/manage-address/edit/<%= item._id%>"
+                          class="edit-button-address"
+                          >Edit</a
+                        >
+                        <button
+                          class="delete-btn"
+                          onclick="removeAddress('<%= item._id%>')"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                    <% }) %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
       </div>
     </div>
-    <% }) %>
-  </div>
+  </body>
+</html>
 
-  <script>
-    
-    function removeProduct (addressid){
-      console.log(addressid)
-      event.preventDefault()
-      fetch(`http://localhost:5000/user/manage-address/remove/${addressid}`, {
-            method: 'DELETE',
-        }).then(response=> response.json())
-        .then(data=> {
-          
-          if(data.message) {
-            alert(data.message)
-          }else if(data.data === "Ok" ){
-            alert("Removed successfully")
-            window.location.reload()
-          } 
-    }).catch(err=> {
-      alert(err)
-    })
-  }
-  </script>
-  
+<script src="/costom/javascript/address.js"></script>

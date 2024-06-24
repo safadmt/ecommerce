@@ -1,6 +1,9 @@
 /**
  * For usage, visit Chart.js docs https://www.chartjs.org/docs/latest/
  */
+
+console.log(months, counts)
+
 const lineConfig = {
   type: 'line',
   data: {

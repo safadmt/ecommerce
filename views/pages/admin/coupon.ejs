@@ -51,14 +51,13 @@
             <tr
               class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
             >
-              
+                    <th class="px-4 py-3">Valid till</th>
                       <th class="px-4 py-3" >Coupon code</th>
                     <th class="px-4 py-3">Discount Type</th>
                     <th class="px-4 py-3">Discount Value/Percentage</th>
                     <th class="px-4 py-3">Minimum Purchase Value</th>
                     <th class="px-4 py-3">Maximu Purchase Value</th>
                     <th class="px-4 py-3">Description</th>
-                    <th class="px-4 py-3">Usage Count</th>
                     <th class="px-4 py-3" colspan="3">Action</th>
             </tr>
           </thead>
@@ -67,8 +66,11 @@
           >
           <% coupons.forEach((coupon , index)=> {%>
             <tr class="text-gray-700 dark:text-gray-400">
-              
-              
+              <% if(coupon.valid_till) {%> 
+              <td class="px-4 py-3"><%= coupon.valid_till.toLocaleDateString() %> </td>
+              <% } else {%> 
+                <td class="px-4 py-3">-- </td>
+                <% } %>
                       <td class="px-4 py-3"><%= coupon.coupon_code %> </td>
                       <td class="px-4 py-3"><%= coupon.discount_type %></td>
                       <% if(coupon.discount_type === "percentage") {%> 
@@ -81,7 +83,7 @@
                   <td class="px-4 py-3">   
                 <div class="text-truncate" style="width: 100px;"><%= coupon.description%></div>
               </td>
-                      <td class="px-4 py-3"><%= coupon.usage_count %></td>
+                      
               
               <td class="px-4 py-3">
                 <div class="flex items-center space-x-4 text-sm">
@@ -139,48 +141,4 @@
 </body>
 </html>
 
-<script>
-  function productIsActive (event, couponid) {
-    const isActiveButton = event.currentTarget
-    let content = isActiveButton.textContent
-    console.log(isActiveButton.textContent)
-    console.log(content)
-    fetch(`/admin/coupons/edit-coupon-active/${couponid}`, 
-    {method: 'PATCH',
-    headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({content})
-  })
-    .then(response=> response.json())
-    .then(data=> {
-      console.log(data)
-      if(data.isActive == true) {
-        isActiveButton.textContent = "true"
-      }else{
-        isActiveButton.textContent = "false"
-      }
-    })
-    .catch(err=> {
-      console.log(err)
-    })
-  }
-
-  function handleDelete(event,couponid) {
-    event.preventDefault()
-    if(window.confirm("Do you want delete this coupon permenantly")) {
-      
-    const row = event.target.closest('tr')
-    
-    fetch(`/admin/coupons/delete/${couponid}`, {
-      method: 'DELETE',
-
-    })
-    .then(response=> response.json())
-    .then(data=> {
-      if(data === "Ok") {
-        row.remove()
-      }
-    })
-    }
-    
-  }
-</script>
+<script src="/costom/javascript/admin/coupon.js"></script>

@@ -32,7 +32,7 @@
 .item-image-main {
     order: 2;
     width: 90%;
-    
+    margin-top: 60px;
 }
 
 /* sectioning completed */
@@ -76,9 +76,7 @@
     border-bottom: 0.4px solid rgba(194, 194, 194, 0.829);
 }
 
-.star-rating span {
-    color: gold;
-}
+
 .commentdiv{
     margin-bottom: 1rem;
     border: 1px solid black;
@@ -106,7 +104,27 @@
 .change-color {
     margin-bottom: 10px;
 }
+.rating{
+    display: flex;
 
+    padding: 0px 15px;
+    gap: 10px;
+    margin: 0px 15px;
+}
+
+.star{
+    cursor: pointer;
+  color: #ccc;
+  transition: color 0.2s;
+}
+.star:hover,
+.star:hover ~ .star,
+.star.selected {
+  color: #ffcc00;
+}
+.rating > span.active {
+  color: gold;
+}
 .change-color .thumb-box{
     margin: 10px 10px 10px 0;
     width: 40px;
@@ -127,8 +145,113 @@
     line-height: 1.3rem;
 }
 .commentsection{
+    margin-top: 2rem;
     padding: 3rem 4.3rem;
 }
+.commenthead{
+    display: flex;
+    gap: 8px;
+    margin-bottom: 5px;
+}
+.commenthead img{
+    max-width: 25px;
+    border-radius: 50%;
+}
+.rate-area {
+	float: left;
+	border-style: none;
+}
+
+/* component */
+#commentform {
+    display: block;
+}
+.star-rating {
+
+  display:flex;
+  flex-direction: row-reverse;
+  font-size:1.5em;
+  justify-content:space-around;
+  text-align:center;
+  margin-left: 1rem;
+  width:5em;
+  margin-right: 1rem;
+}
+
+.star-rating input {
+  display:none;
+}
+
+.star-rating label {
+  color:#ccc;
+  cursor:pointer;
+}
+
+.star-rating :checked ~ label {
+  color:#f90;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color:#fc0;
+}
+
+/* explanation */
+
+article {
+  background-color:#ffe;
+  box-shadow:0 0 1em 1px rgba(0,0,0,.25);
+  color:#006;
+  font-family:cursive;
+  font-style:italic;
+  margin:4em;
+  max-width:30em;
+  padding:2em;
+}
+
+.rating {
+    display: flex;
+    background-color: #26a541;
+    color: white;
+    margin: 0rem 10px 0rem 0rem;
+    border-radius: 8px;
+    gap: 2px;
+    width: fit-content;
+    font-size: 1.1rem;
+}
+.discount{
+    color: red;
+    
+}
+.commentheadcontent{
+    display: flex;
+    flex-direction: column;
+    line-height: 10px;
+}
+.commentheadcontent span {
+    font-size: 0.8rem;
+}
+.mrp{
+    text-decoration: line-through;
+}
+@media only screen and (max-width: 900px) {
+    #product-info{
+        display: block;
+        padding: 0px 20px;
+    }
+    .item-image-parent {
+    order: 1;
+    width: 100%;
+    display: flex;
+}
+    
+    .item-info-parent{
+        display: grid;
+        place-items: center;   
+    }
+}
+
+
 </style>
 <div class="viewproductdiv">
 
@@ -157,14 +280,37 @@
           
           <div class="price">
             <ul>
-                <li>Rs.<%= product.price - (product.price * product.discount_in_percentage / 100) %></li>
                 <% if(product.discount_in_percentage) {%> 
-                <li class="discount">Discount : <%= product.price * product.discount_in_percentage / 100%></li>
+                <li >Rs.<%= Math.round(product.price - (product.price * product.discount_in_percentage / 100)) %> MRP Rs.
+                    <span class="mrp"><%= product.price%></span><span class="discount">(<%= product.discount_in_percentage%>% OFF)</span>
+                </li>
+                <% }else {%>
+                <li>Rs. <%= product.price%></li>    
                 <% } %>
+                <li style="display: flex; font-size:1rem;">
+                    <span class="rating"><%= rating %><span v-for="n in max">&starf;</span>
+                    </span> 
+                Rating & <span class="mx-2"><%= totalcomments%> </span> Reviews
+                </li>
+                                
                   
             </ul>
         </div>
-          <p>Gender : <%= product.gender %></p>
+        <div>
+            <p>Gender : <%= product.gender %></p>
+         
+            <p class="ft-0">Return policy : 
+                 <% if(product.returnable === true) {%> 
+            <span class="ft-0">
+                <%= returndays%> days return policy
+            </span class="text-danger ft-0" >
+            <% }else { %> 
+            <span>The item is not returnable</span>
+          <% } %>
+        </p>
+         
+        </div>
+          
       </div>
       <!-- Choose -->
       <div class="select-items">
@@ -180,67 +326,79 @@
 </section>
 <section class="commentsection">
     <h2>Comments</h2>
+    
     <div class="row">
     <div >
-        <div class="col-md-8 col-sm-12">
-            <div class="commentdiv">
-                <div>
-                    <h5 style="color: black;"><strong>Sreeraj</strong></h5>
+        <% if(comments.length > 0) {%> 
+        <div class="">
+            
+            <% comments.forEach(comment=> {%> 
+            <div
+                class="min-w-0 p-1 bg-white rounded-lg shadow-xs dark:bg-gray-800 mb-2"
+              > <div class="commenthead">
+                <img class="" style="width: 25px; height: 25px;"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnSA1zygA3rubv-VK0DrVcQ02Po79kJhXo_A&usqp=CAU" alt="image">
+                <div class="commentheadcontent">
+                <h6 class="mb-2 font-semibold text-gray-600 dark:text-gray-300">
+                 <%= comment.userid.username%>
+                </h6>
+                <span><%= comment.createdAt.toLocaleString()%></span>
                 </div>
-                <div>
-                    <p>s simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the 
-                        industry's standard dummy text ever since the 1500s, when an unknown</p>
+                
+              </div>
+               <% if(comment.rating !== 0) {%> 
+                <div style="display: flex;">
+                    <span class="rating"><%= comment.rating %><span class="ml-1" v-for="n in max">&starf;</span></span> Rating
                 </div>
-            </div>
-            <div class="commentdiv" style="color: black;">
-                <div>
-                    <h5><strong>Sreeraj</strong></h5>
-                </div>
-                <div>
-                    <p>s simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the 
-                        industry's standard dummy text ever since the 1500s, when an unknown</p>
-                </div>
-            </div>
+                <% }%> 
+                <p class="text-gray-600 dark:text-gray-400"><%= comment.comment%></p>
+              </div>                    
+            <% })%>
+            
             
         </div>
-<div class="col-md-4 col-sm-12">
+        <% } else {%>
+        <h5 class="ml-3 mt-2">No reiviews yet. Please login and be the first one to review this product</h4>
+        <% } %>
+        <% if(username && role === "user" && product) {%>
+        <div class="">
                 <h4>Leave a Review.</h4>
-                <form class="row contact_form" action="/auth/login" method="post">
+                <form class="row contact_form" id="commentform" onsubmit="handleReviewandRating(event)">
                     <%- include('../../partials/message/messages.ejs') %>  
-                    <div class="col-md-12 form-group p_star">
-                        <input type="text" class="form-control" id="email" name="email" value=""
-                            placeholder="Email">
-                    </div>
-                    <div class="product-ratting">
-                        <i class="far fa-star"></i>
-                        <i class="far fa-star"></i>
-                        <i class="far fa-star"></i>
-                        <i class="far fa-star low-star"></i>
-                        <i class="far fa-star low-star"></i>
-                    </div>
-                    <div class="col-md-12 form-group ">
-                        <textarea name="comment" id="comment" style="width: 100%;" rows="6" ></textarea>
-                    </div>
-                    <div class="col-md-12 form-group">
                    
-                        <button type="submit" value="submit" class="btn_3">
+                    <div class="star-rating">
+                        <input type="radio" id="5-stars" name="rating" value="5" />
+                        <label for="5-stars" class="star">&#9733;</label>
+                        <input type="radio" id="4-stars" name="rating" value="4" />
+                        <label for="4-stars" class="star">&#9733;</label>
+                        <input type="radio" id="3-stars" name="rating" value="3" />
+                        <label for="3-stars" class="star">&#9733;</label>
+                        <input type="radio" id="2-stars" name="rating" value="2" />
+                        <label for="2-stars" class="star">&#9733;</label>
+                        <input type="radio" id="1-star" name="rating" value="1" />
+                        <label for="1-star" class="star">&#9733;</label>
+                      </div>
+                    
+                    <div class="col-md-12 col-lg-12 form-group ">
+                        <textarea name="comment" id="comment" cols="50" rows="6" ></textarea>
+                    </div>
+                    <div id="commentdiv" class="col-md-12 form-group">
+                   
+                        <button type="submit" id="commentbtn" class="btn_3">
                             Submit
                         </button>
                         
                     </div>
                 </form>
             </div>
+            <% } %>
     </div>
 </section>
 </div>
 <script src="/costom/javascript/cart.js"></script>
+<script src="/costom/javascript/viewproduct.js"></script>
 <script>
-    function handleImage (event, imageurl) {
-        const mainimg = document.getElementById('mainimg')
-        mainimg.src = `/products/images/${imageurl}`
-    } 
-
-    function addTotCart(event, productid, user) {
-      console.log(user)
-    }
+    let value = ""
+    const productid  = "<%= product._id %>"
+    
 </script>

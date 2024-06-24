@@ -13,7 +13,7 @@ const addressSchema = new mongoose.Schema({
 },{timestamps: true});
 
 // Create Address Model
-const Address = mongoose.model('address', addressSchema);
+const Address = mongoose.model('addresses', addressSchema);
 
 
 addressSchema.index({is_deleted: 1})

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
   <head>
@@ -11,21 +10,36 @@
     />
     <link rel="stylesheet" href="/admin/assets/css/tailwind.output.css" />
     <style>
+      #edit-product-image-container{
+        display: flex;
+      }
       #edit-product-image-view {
-        height: 150px;
+        width: 120px;
         object-fit: contain;
         margin-right: 5px;
         aspect-ratio: 1/1;
       }
-      #textareaedit{
+      #textareaedit {
         height: 200px !important;
         width: 100% !important;
       }
+      .styleform {
+        display: grid;
+        place-items: center;
+        padding: 3rem 0rem;
+      }
+      
       @media only screen and (max-width: 400px) {
         #edit-product-image-view {
           display: block;
           margin-bottom: 5px;
         }
+        #edit-product-image-view {
+        width: 50px;
+        object-fit: contain;
+        margin-right: 5px;
+        aspect-ratio: 1/1;
+      }
       }
     </style>
     <script
@@ -51,280 +65,223 @@
     >
       <%- include('../../partials/admin/adminasidebar.ejs') %>
       <div class="flex flex-col flex-1 w-full">
-      <%- include('../../partials/admin/adminHeader.ejs') %>
-      <main class="h-full pb-16 overflow-y-auto">
-        <div class="container grid px-6 mx-auto">
-      
+        <%- include('../../partials/admin/adminHeader.ejs') %>
+        <main class="h-full pb-16 overflow-y-auto">
+          <div class="container grid px-6 mx-auto">
+            <div class="styleform">
+              <div>
+                <a
+                  href="/admin/products/"
+                  class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                >
+                  Back
+                </a>
+              </div>
 
-<div class="add-product-main-div">
-  <div class="container">
-    <h4 class="text-center">/ Admin/ Products/ Edit</h4>
-    <h4 class="text-center">Edit Watch</h4>
-  </div>
-  <div class="container">
-    <a
-      href="/admin/products/"
-      class="btn btn-primary"
-      style="margin-bottom: 10px"
-      >Back</a
-    >
-  </div>
-
-  <div class="container main-form-div">
-    <form action="" class="add-product-form" onsubmit="handleSubmit(this)">
-      <div class="row">
-        <div class="col-lg-6 col-sm-12">
-          <input
-            type="hidden"
-            name="productid"
-            id=""
-            value="<%= product._id %>"
-          />
-          <label for=""
-            >Name<span style="color: red; font-size: larger">*</span></label
-          >
-          <input
-            type="text"
-            name="product_name"
-            value="<%= product.product_name%>"
-            id="product_name"
-          />
-          <label for="">Type <span style="color: red; font-size: larger;">*</span></label>
-          <Select name="type">
-            <option value="<%= product.type%>"><%= product.type%></option>
-            <option value="Analog">Analog</option>
-            <option value="Analog-Digital">Analog-Digital</option>
-            <option value="Digital">
-              Digital
-            </option>
-            <option value="Hybrid Smart Watch">Hybrid Smart Watch</option>
-          </Select>
-          <label for=""
-            >Discount in percentage</label
-          >
-          <span id="discount-span"></span>
-          <input
-            type="number"
-            name="discount_in_percentage"
-            id="discount"
-            value="<%= product.discount%>"
-          />
-
-          <label for=""
-            >Brand <span style="color: red; font-size: larger">*</span></label
-          >
-
-          <Select name="brand">
-            <option value="<%= product.brand %>">
-              <%= product.brand %><span style="color: red; font-size: larger"
-                >*</span
+              <form
+                id="formElement"
+                class="col-md-6 col-sm-12"
+                onsubmit="handleSubmit(this, '<%= product._id%>')"
               >
-            </option>
-            <option value="ROLEX">Rolex</option>
-            <option value="FOSSIL">Fossil</option>
-            <option value="TISSOT">Tissot</option>
-            <option value="BOAT">Boat</option>
-            <option value="ARMANI EXCHAGE">Armani Exchage</option>
-          </Select>
-        </div>
-        <div class="col-lg-6 col-sm-12">
-          
-          <label for=""
-            >Price <span style="color: red; font-size: larger">*</span></label
-          >
-          <input
-            type="number"
-            value="<%= product.price %>"
-            name="price"
-            id="price"
-          />
-          <label for=""
-            >Stock Available
-            <span style="color: red; font-size: larger">*</span></label
-          >
-          <input
-            type="number"
-            value="<%= product.stock_available%>"
-            name="stock_available"
-            id="stock_available"
-          />
-          <label for="" class="mt-3">Gender <span style="color: red; font-size: larger"></span></label>
-          <select name="gender" id="">
-            <option value="<%= product.gender %>"><%= product.gender %></option>
-            <option value="Mens">Mens</option>
-            <option value="Womens">Womens</option>
-            <option value="All">All</option>
+                <div class="row">
+                  <div class="col-12">
+                    <label class="block text-sm">
+                      <span class="text-gray-700 dark:text-gray-400"
+                        >Name
+                        <span style="color: red; font-size: larger"
+                          >*</span
+                        ></span
+                      >
+                      <input
+                        class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                        style="color: gray"
+                        type="text"
+                        value="<%= product.product_name%>"
+                        name="product_name"
+                        id="product_name"
+                      />
+                    </label>
 
-          </select>
-          <label for="">Proudct Active or Inactive</label>
-          <select name="isActive" id="">
-            <option value="<%= product.isActive %>">
-              <%= product.isActive %>
-            </option>
-            <option value="true">True</option>
-            <option value="false">False</option>
-          </select>
-        </div>
-        <div>
-          <label for="">Description <span style="color: red; font-size: larger;">*</span></label>
-          <textarea id="textareaedit"
-                  name="description"
-                  class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                  rows="3"
-                  cols="100"
-                  placeholder="Enter some long form content."
-                ><%= product.description %></textarea>
-          <div id="edit-product-image-container" class="mb-3">
-            <% product.images.forEach((filename)=> { %>
-            <img
-              src="/products/images/<%= filename %>"
-              alt="product image"
-              id="edit-product-image-view"
-            />
-            <% }) %>
+                    <label class="block text-sm">
+                      <span class="text-gray-700 dark:text-gray-400"
+                        >Brand<span style="color: red; font-size: larger"
+                          >*
+                        </span>
+                      </span>
+                    </label>
+                    <select
+                      name="brand"
+                      id="brand"
+                      class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                    >
+                      <option value="<%= product.brand %>">
+                        <%= product.brand %>
+                      </option>
+                      <option value="ROLEX">Rolex</option>
+                      <option value="FOSSIL">Fossil</option>
+                      <option value="TISSOT">Tissot</option>
+                      <option value="BOAT">Boat</option>
+                      <option value="GUESS">Guess</option>
+                      <option value="ARMANI EXCHANGE">Armani Exchange</option>
+                    </select>
+                    <label class="block text-sm">
+                      <span class="text-gray-700 dark:text-gray-400"
+                        >Type<span style="color: red; font-size: larger"
+                          >*
+                        </span>
+                      </span>
+                    </label>
+                    <select
+                      name="type"
+                      id="type"
+                      class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                    >
+                      <option value="<%= product.type%>">
+                        <%= product.type%>
+                      </option>
+                      <option value="Analog">Analog</option>
+                      <option value="Analog-Digital">Analog-Digital</option>
+                      <option value="Digital">Digital</option>
+                      <option value="Hybrid Smart Watch">
+                        Hybrid Smart Watch
+                      </option>
+                    </select>
+                    <label class="block text-sm">
+                      <span class="text-gray-700 dark:text-gray-400"
+                        >Price<span style="color: red; font-size: larger"
+                          >*
+                        </span></span
+                      >
+                      <input
+                        class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                        type="number"
+                        name="price"
+                        value="<%= product.price %>"
+                        id="price"
+                        style="color: gray"
+                      />
+                    </label>
+                    <label class="block text-sm">
+                      <span class="text-gray-700 dark:text-gray-400"
+                        >Discount in percentage</span
+                      >
+                      <input
+                        class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                        type="number"
+                        name="discount_in_percentage"
+                        id="discount"
+                        value="<%= product.discount%>"
+                        style="color: gray"
+                      />
+                    </label>
+                    <label class="block text-sm">
+                      <span class="text-gray-700 dark:text-gray-400"
+                        >Stock Available
+                      </span>
+                      <input
+                        class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                        type="number"
+                        name="stock_available"
+                        value="<%= product.stock_available%>"
+                        id="stock_available"
+                        style="color: gray"
+                      />
+                    </label>
+                    <label class="block text-sm">
+                      <span class="text-gray-700 dark:text-gray-400"
+                        >Active or Inactive<span
+                          style="color: red; font-size: larger"
+                          >*
+                        </span>
+                      </span>
+                    </label>
+                    <select
+                      name="isBlocked"
+                      id="isBlocked"
+                      class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                    >
+                      <option value="<%= product.isActive %>">
+                        <%= product.isActive %>
+                      </option>
+                      <option value="true">True</option>
+                      <option value="false">False</option>
+                    </select>
+                    <label class="block text-sm">
+                      <span class="text-gray-700 dark:text-gray-400"
+                        >Gender<span style="color: red; font-size: larger"
+                          >*
+                        </span>
+                      </span>
+                    </label>
+                    <select
+                      name="gender"
+                      id="gender"
+                      class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                    >
+                      <option value="<%= product.gender %>">
+                        <%= product.gender %>
+                      </option>
+                      <option value="Mens">Mens</option>
+                      <option value="Womens">Womens</option>
+                      <option value="All">All</option>
+                    </select>
+                    <label class="block text-sm">
+                      <span class="text-gray-700 dark:text-gray-400"
+                        >Description<span style="color: red; font-size: larger"
+                          >*
+                        </span>
+                      </span>
+
+                      <textarea
+                        name="description"
+                        id="description"
+                        style="width: 100%"
+                        rows="6"
+                        placeholder="Enter some long form content."
+                      ><%= product.description %></textarea>
+                    </label>
+                    <div id="edit-product-image-container" class="mb-3">
+                      <% product.images.forEach((filename)=> { %>
+                      <img
+                        src="/products/images/<%= filename %>"
+                        alt="product image"
+                        id="edit-product-image-view"
+                      />
+                      <% }) %>
+                    </div>
+                    <label class="block text-sm">
+                      <span class="text-gray-700 dark:text-gray-400"
+                        >Upload Image<span style="color: red; font-size: larger"
+                          >*</span
+                        ></span
+                      >
+                      <input
+                        class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                        type="file"
+                        name="files"
+                        id="files"
+                        multiple
+                        onchange="viewImage(event)"
+                        style="color: gray"
+                      />
+                    </label>
+                  </div>
+                </div>
+                <div class="block buttondiv row">
+                  <button
+                    id="submitbutton"
+                    type="submit"
+                    class="px-5 py-3 text-center font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                  >
+                    Update product
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
-          
-          <div id="image_container"></div>
-          
-          <label for="">Upload Image</label>
-          <input
-            type="file"
-            name="files"
-            id="files"
-            multiple
-            onchange="viewImage(event)"
-          />
-        </div>
-      </div>
-
-      <div class="button-div">
-        <button type="submit" class="btn btn-primary">Add Product</button>
-      </div>
-    </form>
-  </div>
-</div>
-        </div>
-      </main>
+        </main>
       </div>
     </div>
   </body>
 </html>
-<script>
-  function handleSubmit(formElement) {
-    event.preventDefault();
-    const files = document.getElementById("files").files;
-
-    const formData = new FormData(formElement);
-    
-    if (!formData.get("product_name").trim()) {
-      return showMessage("Name is required");
-    }
-    if (!formData.get("description").trim()) {
-      return showMessage("Description is required");
-    }
-    if (formData.get('discount_in_percentage')) {
-    const discount = parseInt(formData.get('discount_in_percentage'))
-    if(discount > 70) {
-      return showMessage("Discount percentage not greater than 70%");
-    }
-    
-  }
-    if (!formData.get("brand")) {
-      return showMessage("Brand is required");
-    }
-    if (!formData.get("type")) {
-      return showMessage("Watch type is required");
-    }
-    if (!formData.get("price")) {
-      return showMessage("Price is required");
-    }
-    if (!formData.get("stock_available")) {
-      return showMessage("Stock available is required");
-    }
-    
-
-    if (!formData.get("gender")) {
-      return showMessage("Gender is required");
-    }
-    
-
-    const xhttp = new XMLHttpRequest();
-    xhttp.onload = function () {
-      const response = JSON.parse(xhttp.response);
-      if (response === "Ok") {
-        const successdiv = document.createElement("div");
-
-        successdiv.classList.add("successDiv");
-        successdiv.classList.add("message");
-
-        successdiv.textContent = "Product added successfully";
-        const form = document.querySelector(".add-product-form");
-        form.insertBefore(successdiv, form.firstChild);
-        setTimeout(() => {
-          successdiv.remove();
-        }, 5000);
-      }else if(response.error) {
-        return showMessage(response.error)
-      }
-    };
-    const productId = formData.get("productid");
-
-    xhttp.open(
-      "PUT",
-      `http://localhost:5000/admin/products/edit/${productId}`,
-      true
-    );
-
-    xhttp.send(formData);
-  }
-
-  function showMessage(message) {
-    const errorDiv = document.createElement("div");
-    errorDiv.classList.add("errorDiv");
-    errorDiv.classList.add("message");
-
-    errorDiv.textContent = message;
-    const form = document.querySelector(".main-form-div");
-    form.insertBefore(errorDiv, form.firstChild);
-    setTimeout(() => {
-      errorDiv.remove();
-    }, 4000);
-  }
-  document.getElementById('discount')
-    .addEventListener('keydown', function (event) {
-      const discountInput = event.target
-      const discount_span  = document.getElementById('discount-span')
-      if(discountInput.value.length >= 2) {
-        discount_span.style.color = "yellow"
-        discount_span.style.fontSize = "1.8rem"
-        discount_span.textContent = "Only enter less than 70%"
-        
-      }else {
-        discount_span.textContent = "Only enter less than 70%"
-      }
-      
-    })
-  function viewImage(e) {
-    const files = e.target.files;
-    const productImagediv = document.getElementById(
-      "edit-product-image-container"
-    );
-    const imageContainer = document.getElementById("image_container");
-
-    productImagediv.innerHTML = "";
-    imageContainer.innerHTML = "";
-    if (files.length > 0) {
-      Array.from(files).forEach((file, index) => {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          const img = document.createElement("img");
-          img.id = "edit-product-image-view";
-          img.src = e.target.result;
-          img.alt = "product image";
-          productImagediv.appendChild(img);
-        };
-        reader.readAsDataURL(file);
-      });
-    }
-  }
-</script>
+<script src="/costom/javascript/admin/editproduct.js"></script>

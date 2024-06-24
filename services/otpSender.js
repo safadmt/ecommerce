@@ -16,10 +16,10 @@ async function sendOTP(email) {
 
     try {
         const response = await sendMail(email, obj);
-        console.log(response);
+        
         return otp;
     } catch (err) {
-        console.error(err);
+        
         throw err;
     }
 }
@@ -35,10 +35,10 @@ async function sendOrderSuccessmsg(email, username,orderid) {
 
     try {
         const response = await sendMail(email, obj);
-        console.log(response);
+        
         return response;
     } catch (err) {
-        console.error(err);
+        
         throw err;
     }
 }

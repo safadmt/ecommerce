@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Windmill Dashboard</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/admin/assets/css/tailwind.output.css" />
+    <style>
+      
+       .maineditdiv{
+        display: grid;
+        place-items: center;
+        margin-top: 2rem;
+        
+       }
+       .buttondiv{
+        display: grid;
+        place-items: center;
+       }
+       .errorDiv{
+        color: red;
+        border: 1px solid gray;
+        border-radius: 10px;
+        padding: 1rem 2rem;
+        background-color: white;
+
+       }
+       .successdiv{
+        color: rgb(19, 129, 19);
+        border: 1px solid gray;
+        border-radius: 10px;
+        padding: 1rem 2rem;
+        background-color: white;
+        
+       }
+    </style>
+    <script
+      src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+      defer
+    ></script>
+    <script src="/admin/assets/js/init-alpine.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+      defer
+    ></script>
+    <script src="/admin/assets/js/charts-lines.js" defer></script>
+    <script src="/admin/assets/js/charts-pie.js" defer></script>
+  </head>
+  <body>
+    <div
+      class="flex h-screen bg-gray-50 dark:bg-gray-900"
+      :class="{ 'overflow-hidden': isSideMenuOpen }"
+    >
+      <%- include('../../partials/user/profilesidebar.ejs') %>
+      <div class="flex flex-col flex-1 w-full">
+        <%- include('../../partials/user/profileHeader.ejs') %>
+        <main class="h-full pb-16 overflow-y-auto">
+          <div class="container grid px-6 mx-auto">
+           
+
+            <div class="w-full overflow-hidden rounded-lg shadow-xs">
+              <div class="w-full overflow-x-auto">
+                <div class="maineditdiv">
+                  <div>
+                    <a href="/user/profile/manage-address"
+                      class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                    >
+                      Back
+                  </a>
+                  </div>
+                  
+                  
+                  <form
+                    id="edit-address-form"
+                    class="col-md-6 col-sm-12"
+                    onsubmit="handleSubmit(this)"
+                  >
+                    <div class="row">
+                      <div class="col-12 ">
+                        <label class="block text-sm">
+                          <span class="text-gray-700 dark:text-gray-400">Name<span style="color: red; font-size: larger"
+                            >*</span</span>
+                          <input
+                            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                            style="color: gray;"
+                            type="text"
+                            name="recipient_name"
+                            id="recipient_name"
+                          />
+                        </label>
+                        
+                        <label class="block text-sm">
+                          <span class="text-gray-700 dark:text-gray-400">Mobile<span style="color: red; font-size: larger"
+                            >*</span</span>
+                          <input
+                            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                            style="color: gray;"
+                            type="tel"
+                          name="mobile"
+                          id="mobile"
+                          />
+                        </label>
+                        
+                        <label class="block text-sm">
+                          <span class="text-gray-700 dark:text-gray-400">Pin Code<span style="color: red; font-size: larger"
+                            >*</span</span>
+                          <input
+                            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                            type="text"
+                          name="postal_code"
+                          id="pin_code"
+                          style="color: gray;"
+                          />
+                        </label>
+
+                        <label class="block text-sm">
+                          <span class="text-gray-700 dark:text-gray-400">Locality / Area / Street<span style="color: red; font-size: larger"
+                            >*</span</span>
+                          <input
+                            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                            type="text"
+                          name="street_address_line1"
+                          id="street_address_line1"
+                          style="color: gray;"
+                          />
+                        </label>
+                        
+                        <label class="block text-sm">
+                          <span class="text-gray-700 dark:text-gray-400">Flat number / Building_name<span style="color: red; font-size: larger"
+                            >*</span</span>
+                          <input
+                            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                            type="text"
+                          name="street_address_line2"
+                          id="street_address_line2"
+                          style="color: gray;"
+                          />
+                        </label>
+                        
+                        <label class="block text-sm">
+                          <span class="text-gray-700 dark:text-gray-400">Town / City<span style="color: red; font-size: larger"
+                            >*</span</span>
+                          <input
+                            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                            type="text"
+                          name="city"
+                          id="street_1"
+                          style="color: gray;"
+                          />
+                        </label>
+                        
+  
+                  
+                      </div>
+                      
+                      
+                    </div>
+                    <div class="buttondiv row">
+                        <button
+                          type="submit"
+                          class="px-5 py-3 text-center font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                        >
+                          Add address
+                        </button>
+                      </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script src="/costom/javascript/addaddressformprofile.js"></script>
+  

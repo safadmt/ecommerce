@@ -1,46 +1,43 @@
 import { Types } from "mongoose";
 import Banner from "../models/banner.js";
 
+// Create new Banner
 export async function insertOneBanner (info) {
-    try{
+    
         const response = await Banner.create(info)
         return response
-    }catch(err) {
-        console.log(err)
-    }
+    
 }
 
+// Find all banners
 export async function findBanner () {
-    try{
-        const response = await Banner.find()
+    
+        const response = await Banner.find().sort({_id: -1  })
         return response
-    }catch(err) {
-        console.log(err)
-    }
+    
 }
 
+// Find only one banner
 export async function findeOneBanner (bannerid) {
-    try{
+    
         const response = await Banner.findById(bannerid)
         return response
-    }catch(err) {
-        console.log(err)
-    }
+    
 }
 
+// Update only one banner
 export async function updateOneBanner (bannerid,bannerInfo) {
-    try{
+    
         const response = await Banner.updateOne({_id: new Types.ObjectId(bannerid)},{
             $set : bannerInfo
         })
         return response
-    }catch(err) {
-        console.log(err)
-    }
+    
 }
 
+// Update banner is active
 export const isBannerActive = async (bannerid, isactive) => {
-    try{
+    
         const isact = isactive == "true" ? false : true
         
         const response = await Banner.findOneAndUpdate({_id: new Types.ObjectId(bannerid)}, {
@@ -48,18 +45,15 @@ export const isBannerActive = async (bannerid, isactive) => {
             $currentDate: {updatedAt: true}
         },{new: true})
         return response
-    }catch(err) {
-        console.error(err)
-    }
+    
 }
 
+// DeleteOneBanner
 export const deleteOneBanner = async (bannerid) => {
-    try{
+    
         const response = await Banner.findOneAndDelete({_id: new Types.ObjectId(bannerid)})
         
         return response
-    }catch(err) {
-        console.error(err)
-    }
+    
 }
 

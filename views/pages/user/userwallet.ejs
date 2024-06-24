@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Windmill Dashboard</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/admin/assets/css/tailwind.output.css" />
+    <style>
+      .product-details-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.section {
+  margin-bottom: 30px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.section h3 {
+  margin-top: 0;
+}
+/* Chrome, Safari, Edge, Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.product-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+}
+
+.product-image {
+  width: 250px;
+  height: 250px;
+  margin-right: 20px;
+}
+
+.product-image img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+
+
+.main-wallets{
+    padding: 4rem;
+    margin: 4rem;
+
+}
+.walletamount{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+  background-color: white;
+
+  padding: 1.5rem 3rem;
+  margin-bottom: 1rem;
+}
+.walletamount p{
+  font-size: 2rem;
+  font-weight: bold;
+}
+.transaction-list p {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #8E3E63;
+}
+@media only screen and(max-width: 600px) {
+  .main-wallets{
+    padding: 0.8rem;
+    margin: 0.8rem;
+    
+
+}
+}
+
+    </style>
+    <script
+      src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+      defer
+    ></script>
+    <script src="/admin/assets/js/init-alpine.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+      defer
+    ></script>
+    <script src="/admin/assets/js/charts-lines.js" defer></script>
+    <script src="/admin/assets/js/charts-pie.js" defer></script>
+  </head>
+
+  <body>
+    <div
+      class="flex h-screen bg-gray-50 dark:bg-gray-900"
+      :class="{ 'overflow-hidden': isSideMenuOpen }"
+    >
+      <%- include('../../partials/user/profilesidebar.ejs') %>
+      <div class="flex flex-col flex-1 w-full">
+        <%- include('../../partials/user/profileHeader.ejs') %>
+        <main class="h-full pb-16 overflow-y-auto">
+          <div class=" grid px-6 mx-auto">
+            <div class="main-wallets">
+                <div>
+                    <div class="walletamount">
+                        <p><span>Total Fund - </span>Rs. <%= wallet.balance%></p>
+                    </div>
+                    <div class="transaction-list">
+                        <div
+    class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800"
+              >
+              <div class="d-flex">
+                <h4 class="mb-4 font-semibold text-gray-600 dark:text-gray-300">
+                  Transactions
+                </h4>
+                <button class="genric-btn primary circle ml-auto" onclick="openModal('edit-password')">Add cash to wallet</button>
+              </div>
+                
+                <% if(wallet.transactions.length > 0) {%> 
+                <table class="w-full whitespace-no-wrap ">
+                  <tbody
+                    class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
+                  >
+                  <% wallet.transactions.forEach((item , index)=> {%>
+                    <tr class="text-gray-700 dark:text-gray-400">
+                              <td class="px-4 py-3">Rs. <%= item.amount %> </td>
+                              <td class="px-4 py-3"><%= item.description %></td>
+                              <td class="px-4 py-3"><%= item.createdAt.toLocaleString()%></td>
+                              <% if(item.status === "Received") {%> 
+                              <td class="px-4 py-3 text-green-600" ><%= item.status%></td>
+                              <% } else if(item.status === "Paid"){ %> 
+                                <td class="px-4 py-3 text-red-600" ><%= item.status%></td>
+                              <% } %>
+                    </tr>
+                    <% }) %>
+                  </tbody>
+                </table>
+                <% } else {%> 
+                  <h6>No transactions created yet.</h6>
+                <% } %>
+              </div>
+                    </div>
+                </div>
+            </div>
+            <div id="edit-password" class="model-div hidden">
+              
+              <form id="edit-password-form" onsubmit="placeOrder(event)">
+                <div class="form-group">
+                  <label for="cash_wallet"
+                    >Enter the amout
+                    <span style="color: red; font-size: larger"
+                      >*</span
+                    ></label
+                  >
+                  <input
+                    type="number"
+                    id="cash_wallet"
+                    name="cash_wallet"
+                    placeholder="Please enter the amount that you transfer to you wallet"
+                    required
+                  />
+                </div>
+                
+                
+                <button type="submit" class="btn add-money" >Pay with razorpay</button>
+                <button
+                  type="button"
+                  class="btn close-btn"
+                  onclick="closeModal('edit-password')"
+                >
+                  Cancel
+                </button>
+              </form>
+            </div>
+          </div>
+          <div id="overlay" class="overlay hidden"></div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="/costom/javascript/userwallet.js"></script>

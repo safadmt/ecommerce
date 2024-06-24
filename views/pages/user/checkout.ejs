@@ -1,6 +1,6 @@
  <style>
   .show-coupon-main {
-    background-color: #2A629A;
+    background-color: #973131;
     width: 100%;
     height: 300px;
     max-width: 450px;
@@ -18,10 +18,7 @@
     padding: 0.8rem;
     
   }
-  .address{
-    color: black;
-
-  }
+  
   .show-coupons p{
     margin-bottom: 13px;
     line-height: 20px;
@@ -37,7 +34,6 @@
     float: right;
   }
   .addresshref:hover{
-    
     color: rgb(190, 36, 36);
     
   }
@@ -45,8 +41,9 @@
     background-color: #fff;
     padding: 1rem 2rem;
     margin: 1rem 2rem;
+    color: black;
   }
-  #addressiddiv{
+  .addressiddiv{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -54,6 +51,16 @@
   #addressid{
     transform: scale(2);
     
+  }
+  .btnnone{
+    border: none;
+    background-color: white;
+    color : rgb(34, 33, 33);
+    font-size: small;
+  }
+  .btnnone:hover,
+  #addressid:hover{
+    cursor: pointer;
   }
   .addresscontent p{
     line-height: 14px;
@@ -74,25 +81,40 @@
       <button class="tp_btn" onclick="applyCoupon()">Apply Coupon</a>
       
     </div>
-    <div class="show-coupon-main primary" >
+    <% if(coupons.length > 0) {%> 
+    <div class="show-coupon-main " >
         
         <% coupons.forEach(item=> {%> 
         <div class="show-coupons">
-          <p><span>Coupon code :  </span><%= item.coupon_code %></p>
+          <p>
+            <span>Coupon code :  </span><%= item.coupon_code %>
+             <button class="btnnone" onclick="copyToClipboard('<%= item.coupon_code%>')">copy</button>
+            <div>
+            <% if(item.valid_till) {%> 
+            <span>Valid till : </span><%= item.valid_till.toLocaleDateString() %>
+            <% }%>
+          </div> 
+           
+          </p>
           <p><%= item.description %> </p>
         </div>
         <% }) %>
-      </div>
+        
+    </div>
+    <% } else {%> 
+          <p>No coupons available to show you</p>
+      <% } %> 
     <div class="">
       
       <div class="row ">
-        <div class="col-8 address-list">
+        <div class="col-8 sm:col-12 address-list">
         <div class="row">
          <a href="/user/add-address" class="addresshref">  <span style="color: black;">Shipping to new address ?</span>Add new address</a>
         </div>
+        <% if(addresses.length > 0) {%>
         <% addresses.forEach(item=> {%>
         <div class="row address">
-          <div class="col-2" id="addressiddiv">
+          <div class="col-2 addressiddiv">
             <input type="radio" name="addressid" value="<%= item._id%>" id="addressid" onclick="radioButtonClick(event)">
           </div>
           <div class="col 10 addresscontent">
@@ -102,8 +124,16 @@
             <p><%= item.city %> , <%= item.mobile %>, <%= item.postal_code %></p>
 
           </div>
+          <div class="addressiddiv">
+            <button class="genric-btn danger" onclick="removeAddress('<%= item._id%>')">Remove Address</button>
+          </div>
         </div>
         <% }) %>
+        <% }else { %>
+          <div>
+            <h5>No addresses created!</h5>
+          </div>
+        <% } %>
       </div>
         <div class="col-lg-4">
           <div class="order_box" id="place-order-div">
@@ -155,30 +185,32 @@
             </ul>
             <div class="payment_item">
               <div class="radion_btn">
-                <input type="radio" id="f-option5" name="selector" />
-                <label for="f-option5">Check payments</label>
+                <input type="radio"  value="wallet" 
+                 onclick="radioPaymentMethodClick(event)" name="selector" id="f-option5"/>
+                <label for="f-option5">Wallet</label><span>Rs.<%= wallet %></span>
+                <div class="check"></div>
+              </div>
+              <div class="radion_btn">
+                <input type="radio"  value="Stripe" 
+                 onclick="radioPaymentMethodClick(event)" name="selector" id="f-option7"/>
+                 <label for="f-option7">Stripe</label>
+                <div class="check"></div>
+              </div>
+            </div>
+            <div class="payment_item">
+              <div class="radion_btn">
+                <input type="radio" id="f-option6" 
+                onclick="radioPaymentMethodClick(event)"
+                value="Razorpay" name="selector" />
+                <label for="f-option6">Razorpay</label>
+                <img src="img/product/single-product/card.jpg" alt="" />
                 <div class="check"></div>
               </div>
              
             </div>
-            <div class="payment_item active">
-              <div class="radion_btn">
-                <input type="radio" id="f-option6" name="selector" />
-                <label for="f-option6">Paypal </label>
-                <img src="img/product/single-product/card.jpg" alt="" />
-                <div class="check"></div>
-              </div>
-              <p>
-                Please send a check to Store Name, Store Street, Store Town,
-                Store State / County, Store Postcode.
-              </p>
-            </div>
-            <div class="creat_account">
-              <input type="checkbox" id="f-option4" name="selector" />
-              <label for="f-option4">I’ve read and accept the </label>
-              <a href="#">terms & conditions*</a>
-            </div>
-            <button class="btn_3" onclick="placeOrder()" id="place-order">Proceed to Razorpay</a>
+            
+    
+            <button class="genric-btn info" onclick="placeOrder()" id="place-order">Place order</a>
           </div>
         </div>
       </div>
@@ -186,202 +218,20 @@
   </div>
 </section>
 <!--================End Checkout Area =================-->
+<!-- Replace the "test" client-id value with your client-id -->
+<script src="https://www.paypal.com/sdk/js?client-id=AWXbFeiN5HvrUFkMFcnHyi6ShfHRsMNu1eFVUCHxEYmKHK8FJA8GhsJsKq3WDI4qV3sPWozeu-rdBApg&currency=INR"></script>
+<script src="/costom/javascript/paypal.js"></script>
 
-
-
+<script src="/costom/javascript/address.js"></script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
   let addressId;
-  function radioButtonClick (event) {
-        
-        addressId = event.target.value // Extract address ID from the value attribute
-        console.log("Selected address ID:", addressId);
-           
-      
+  let payment_method = ""
+  let walletbalance = '<%= wallet%>'
+  let totalprice = '<%= totalprice%>'
+  walletbalance = parseInt(walletbalance)
+  totalprice = parseInt(totalprice)
     
-  }
-  function showMessage(message,color) {
-    const buttondiv = document.getElementById("place-order-div");
-    const div = document.createElement("div");
-    div.style.color = color;
-      div.textContent = message;
-      buttondiv.insertBefore(div, document.getElementById('place-order'))
-      removeMessage(div);
-  }
-  async function placeOrder() {
-    event.preventDefault()
-    
-    const buttondiv = document.getElementById("place-order-div");
-    showMessage("Please wait. Processing your request", "green")
-    if (!addressId) {
-      showMessage("Please choose a valid address!", "red")
-      
-    }
-    try{
-const response = await fetch("/user/place-order", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ addressId }),
-    })
-      
-    const order = await response.json();
-    if(response.ok) {
-      console.log(order)
-      await paywithrazorpay(order)
-    }else{
-      console.log(order)
-    }
-    }catch(err) {
-      console.log(err)
-      showMessage("Something went wrong", "red")
-    }
-    
-        
-      
-  }
-
-  async function verifyPayment (info,orderid) {
-    try{
-    const response = await fetch('/user/payment-verify', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({response: info, orderid})
-    })
-    const result = await response.json()
-    return result
-    }catch(err) {
-      return err
-    }
-    
-  }
-
-  async function onPaymentFailed(info,orderid) {
-    try{
-const response = await fetch('/user/payment-failed', {
-      method: 'POST',
-      headers : {'Content-Type': 'application/json'},
-      body: JSON.stringify({response:info, orderid})
-    })
-    const result = await response.json()
- 
-      return result
-    }catch(err) {
-      return err
-    }
-    
-  }
-function paywithrazorpay(order) {
-    var options = {
-      key: 'rzp_test_nUooIVVrMk6Hev', // Enter the Key ID generated from the Dashboard
-      amount: order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-      currency: "INR",
-      name: "Safad",
-      description: "Test Transaction",
-      image: "https://example.com/your_logo",
-      order_id: order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-      handler: function (response) {
-        verifyPayment(response, order.receipt)
-        .then(response=> {
-          if(response.message) {
-            console.log(response.message)
-          }else{
-            console.log(response)
-            window.location.href = '/'
-          }
-        })
-
-      },
-      notes: {
-        address: "HELIO the watch store",
-      },
-      theme: {
-        color: "#3399cc",
-      },
-    };
-    const rzp1 = new Razorpay(options);
-    rzp1.open()
-    rzp1.on("payment.failed", function (response) {
-
-     
-      alert(response.error.description);
-      
-      alert(response.error.reason);
-      alert(response.error.metadata.order_id);
-      alert(response.error.metadata.payment_id);
-      try{
-       onPaymentFailed(response,orderid)
-       .then(response=> {
-        if(response.message) {
-          console.log(response.message)
-          showMessage(response.message, "red")
-        }else{
-        
-        }
-       })
-      }catch(err) {
-        console.log(err)
-      }
-      
-    });
-  }
-
-
-
-  async function applyCoupon() {
-    event.preventDefault();
-    
-    const coupon_code = document.getElementById("search_coupon").value;
-    console.log(coupon_code);
-    try {
-      const response = await fetch("/user/checkout/coupon", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ coupon_code: coupon_code }),
-      });
-      const result = await response.json();
-      console.log(result);
-      const messageDiv = document.createElement("div");
-      const totalpricediv = document.getElementById("totalprice");
-      const coupon_discountdiv = document.getElementById("coupon_discount");
-      const shipping_chargediv = document.getElementById("shipping_charge");
-      
-
-      if (response.ok) {
-        messageDiv.textContent = "Coupon applied successfully!";
-        messageDiv.style.color = "green";
-        removeMessage(messageDiv);
-        totalpricediv.textContent = result.totalprice;
-        
-        coupon_discountdiv.textContent = "Rs." + result.coupon_discount;
-        shipping_chargediv.textContent = "Rs." + result.shipping_charge;
-      } else {
-        messageDiv.textContent = result.message;
-        messageDiv.style.color = "red";
-        removeMessage(messageDiv);
-      }
-
-      insertAfter(
-        document.querySelector(".searchcouponformdiv h4"),
-        messageDiv
-      );
-    } catch (error) {
-      console.error("Error applying coupon:", error);
-      const errorMessageDiv = document.createElement("div");
-      errorMessageDiv.textContent = "An error occurred. Please try again.";
-      errorMessageDiv.style.color = "red";
-      insertAfter(
-        document.querySelector(".searchcouponformdiv h4"),
-        errorMessageDiv
-      );
-      removeMessage(errorMessageDiv);
-    }
-  }
-  function removeMessage(element) {
-    setTimeout(() => {
-      element.remove();
-    }, 4000);
-  }
-  function insertAfter(referenceNode, newNode) {
-    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-  }
+  
 </script>
+<script src="/costom/javascript/checkout.js"></script>

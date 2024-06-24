@@ -1,90 +1,128 @@
 import Product from '../models/product.js'
-import {isValidObjectId, Types} from 'mongoose'
+import { Types} from 'mongoose'
+import Review from '../models/reviews.js'
+
+// Create new product
 export async function insertProduct(productInfo) {
-    try{
         const response = await Product.create(productInfo)
         return response
-    }catch(err) {
-        console.log(err)
-    }
 }
 
-export async function getAllProduct(info,limit, skip) {
-    try{
-        
-        const response = await Product.find(info).skip(skip).limit(limit)
-        
+// Get all product from the database based on the filteration , limit number of product , skip
+export async function getAllProduct(info,limit = 50, skip=0, sort = 1) {
+        const response = await Product.find(info)
+        .skip(skip)
+        .limit(limit)
+        .sort({createdAt:sort})
         return response
-    }catch(err) {
-        console.log(err)
-    }
 }
-//Get One Product
+
+
+//Get One Product 
 export async function getOneProduct(productId) {
-    try{
         const product = await Product.findById(productId)
         return product;
-    }catch(err) {
-        console.error(err)
-    }
 }
 
+// Update the one product
 export async function updateOneProduct (productId, productInfo) {
-    try{
-        const response = await Product.updateOne({_id: new Types.ObjectId(productId)},{
+        const response = await Product.findOneAndUpdate({_id: new Types.ObjectId(productId)},{
             $set: productInfo
-        })
+        },{new:true})
         return response
-    }catch(err) {
-        console.error(err)
-    }
 }
 
+// Update product isActive or not
 export async function productAcitveorInactive (productId,isactive){
-    try{
         let acti = isactive.trim()
-        console.log(acti)
         const bool = acti == "Active" ? true : false
         const response = await Product.findOneAndUpdate({_id: new Types.ObjectId(productId)},{
             $set: {isActive: bool},
             $currentDate: {updatedAt: true}
         },{new: true})
         return response
-    }catch(err) {
-        console.error(err)
-    }
 }
 
+//Update stock availability
 export async function updateStockAvailability (productId,quantity){
-    try{
-        
         const response = await Product.updateOne({_id: new Types.ObjectId(productId)},{
             $inc: {stock_available: -quantity, product_sold: quantity}
-
         })
         return response
-    }catch(err) {
-        console.error(err)
-    }
 }
 
-export async function getNewProduct (limit = 8){
-    try{
-        const currentDate = new Date();
-        const weekago = new Date(currentDate.getTime() - 7 * 24 * 60 * 60  * 1000)
-        const response = await Product.find({createdAt: {$gt: weekago, $lt: currentDate}}).limit(limit)
+// Get new product from the database 
+export async function getNewProduct (limit = 10){
+        const response = await Product.find({isActive: true}).sort({createdAt: -1}).limit(limit)
         return response
-    }catch(err) {
-        console.error(err)
-    }
 }
 
-export async function searchProduct(searchtext) {
-    try{
-        const response = Product.find({$text: {$search : searchtext}}).skip(0).limit(12)
+// Search product from the database 
+export async function searchProduct(searchtext, skip, limit) {
+        const response = Product.find({$text: {$search : searchtext}}).skip(skip).limit(limit)
         return response
-    }catch(err) {
-        console.log(err)
-    }
 }
+
+
+
+// Search product from the database 
+export async function getProductCountByBrand() {
+        const response = Product.aggregate([
+            {
+                $group: {
+                    _id: "$brand",
+                    totalproduct: {$count: {}}
+                }
+            },
+            
+        ])
+        return response
+}
+
+// Search product from the database 
+export async function findPrdoctComments(productid) {
+        const response = await Review.
+        find({productid: new Types.ObjectId(productid)}).populate('userid', {username: 1})
+        return response
+}
+// Count total product documents based on the filteration
+export async function countProductDocuments(info) {
+        const response = Product.countDocuments(info)
+        return response
+}
+
+// get averate rating of the product
+export async function getProductAverageRating(productid) {
+        const response = Review.aggregate([
+            {
+                $match : {productid: new Types.ObjectId(productid), rating: {$ne: 0}}
+            },
+            {
+                $group: {
+                    _id: null,
+                    averagerating : {$avg:"$rating"}
+                }
+            }
+        ])
+        
+        return response
+}
+
+// get averate rating of the product
+export async function getTotalCommentofProduct(productid) {
+        const response = await Review.aggregate([
+            {
+                $match : {productid: new Types.ObjectId(productid), comment: {$ne:null}}
+            },
+            {
+                $group: {
+                    _id: null,
+                    totalcomments : {$count : {}}
+                }
+            }
+        ])
+        
+        return response[0]?.totalcomments || 0
+}
+
 

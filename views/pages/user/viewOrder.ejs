@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Windmill Dashboard</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/admin/assets/css/tailwind.output.css" />
+    <style>
+      .product-details-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.section {
+  margin-bottom: 30px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.section h3 {
+  margin-top: 0;
+}
+
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.product-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+}
+
+.product-image {
+  width: 250px;
+  height: 250px;
+  margin-right: 20px;
+}
+
+.product-image img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.download-invoice {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+    </style>
+    <script
+      src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+      defer
+    ></script>
+    <script src="/admin/assets/js/init-alpine.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+      defer
+    ></script>
+    <script src="/admin/assets/js/charts-lines.js" defer></script>
+    <script src="/admin/assets/js/charts-pie.js" defer></script>
+  </head>
+
+  <body>
+    <div
+      class="flex h-screen bg-gray-50 dark:bg-gray-900"
+      :class="{ 'overflow-hidden': isSideMenuOpen }"
+    >
+      <%- include('../../partials/user/profilesidebar.ejs') %>
+      <div class="flex flex-col flex-1 w-full">
+        <%- include('../../partials/user/profileHeader.ejs') %>
+        <main class="h-full pb-16 overflow-y-auto">
+          <div class="container grid px-6 mx-auto">
+            <div class="product-details-page">
+                <div class="section">
+                  <h3>Shipping Address</h3>
+                  <div class="address-details">
+                    <p><%= order.addressId.recipient_name %></p>
+                    <p><%= order.addressId.street_address_line1 %></p>
+                    <p><%= order.addressId.street_address_line2 %></p>
+                    <p><%= order.addressId.city %>, <%= order.addressId.postal_code %></p>
+                    <p>Mobile: <%= order.addressId.mobile %></p>
+                  </div>
+                </div>
+              
+                <div class="section">
+                  <h3>Product Details</h3>
+                  <div class="product-list">
+                    <% order.products.forEach(function(product) { %>
+                      <div class="product-item">
+                        <div class="product-image">
+                          <a href="/product/<%= product.productid._id%>">
+                            <img src="/products/images/<%= product.productid.images[0] %>" alt="Product Image">
+                          </a>
+                        </div>
+                        <div class="product-info">
+                          <h4><%= product.productid.product_name %></h4>
+                          <p><%= product.productid.brand %></p>
+                          <p><%= product.productid.description %></p>
+                          <p>Price: Rs. <%= product.productid .price %></p>
+                          <p>Quantity: <%= product.quantity %></p>
+                        </div>
+                      </div>    
+                    <% }) %>
+                  </div>
+                </div>
+              
+                <div class="section">
+                  <h3>Order Details</h3>
+                  <div class="order-details">
+                    <p>Order ID: <%= order._id %></p>
+                    <p>Order Date: <%= order.createdAt.toLocaleString() %></p>
+                    <p>Total Price: Rs. <%= order.totalPrice %></p>
+                    <p>Discount: Rs. <%= order.couponDiscount %></p>
+                    <p>Shipping Charge: Rs. <%= order.shippingCharge %></p>
+                    <p>Payment Method : <%= order.payment_method%></p>
+                    <p>Order Status: <%= order.orderStatus %></p>
+                    <a href="/user/download-invoice/<%= order._id%>" class="genric-btn primary-border circle">Download Invoice</a>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

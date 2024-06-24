@@ -1,65 +1,117 @@
+<style>
+  .searchbutn:hover {
+    cursor: pointer;
+  }
+  @media only screen and (max-width: 991.5px) {
+    .header-search{
+      margin-bottom: 13px;
+    }
+  }
+</style>
 <nav class="navbar navbar-expand-lg navbar-light bg-light py-4">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand" href="/">WATCHFREAK</a>
-  
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item active">
-            <a class="nav-link" href="#">Category <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="#">About <span class="sr-only">(current)</span></a>
-          </li>
-      </ul>
-      <a href="/user/wishlist" class="mr-3 nav-icon">
-        <li class="far fa-heart" style="color: black; font-size: 2rem;"></li>
-        <span class="badge badge-danger" id="wishlist-count"><%= wishlist %></span>
-    </a>
-      <a href="/cart" class="mr-3 nav-icon">
-        <li class="fas fa-shopping-cart " style="color: black; font-size: 2rem;"></li>
-        <span class="badge badge-primary" id="cart-count"><%= count %></span>
-    </a>
-      <form class="form-inline my-2 my-lg-0" action="/shop" method="get">
-        <input class="form-control mr-sm-2 circle" 
-        type="search" name="q" placeholder="Enter search text" aria-label="Search" id="searchinput">
-        <button class="genric-btn info-border circle" type="submit">
-            <i class="fas fa-search special-tag" style="color: black; font-size: 1rem;"></i>
-        </button>
-      </form>
-      <div class="dropdown show">
-        <button class="genric-btn primary-border circle dropdown-toggle" 
-       role="button" id="dropdownMenuLink" data-toggle="dropdown" 
-        aria-haspopup="true" aria-expanded="false">
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarTogglerDemo03"
+    aria-controls="navbarTogglerDemo03"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="/">HELIOS</a>
 
-          <% if(username) {%> 
-            <%= username %>
-        <%} else {%>
-            Account
-        <% } %>
-      </button>
-      
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <% if(username) {%> 
-                <a class="dropdown-item" href="/auth/logout">Logout</a>
-                <a class="dropdown-item" href="/user/profile">Profile</a>
-                <a class="dropdown-item" href="/user/profile/orders">Orders</a>
-
-            <%} else {%>
-                <a class="dropdown-item" href="/auth/login">Login</a>
-                <a class="dropdown-item" href="/auth/signup">Signup</a>  
-            <% } %>
-          
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item active">
+        <a class="nav-link" href="/collection/Mens"
+          >Men's <span class="sr-only">(current)</span></a
+        >
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/collection/Womens"
+          >Womens's <span class="sr-only">(current)</span></a
+        >
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/shop"
+          >Shop <span class="sr-only">(current)</span></a
+        >
+      </li>
+    </ul>
+    <form class="mr-3 header-search" action="/search" method="get">
+      <div class="input-group ">
+        <input
+          type="text"
+          class="form-control"
+          name="q"
+          placeholder="Search"
+          aria-label="Recipient's username"
+          aria-describedby="basic-addon2"
+        />
+        <div class="input-group-append">
+          <button
+            type="submit"
+            class="input-group-text info searchbutn"
+            id="basic-addon2"
+          >
+            <img
+              width="50"
+              height="24"
+              style="object-fit: contain"
+              src="https://img.icons8.com/ios-filled/50/search--v1.png"
+              alt="search--v1"
+            />
+          </button>
         </div>
       </div>
+    </form>
+    <a href="/user/wishlist" class="mr-3 nav-icon">
+      <li class="far fa-heart" style="color: black; font-size: 1.5rem"></li>
+      <span class="badge badge-danger" id="wishlist-count"
+        ><%= wishlist %></span
+      >
+    </a>
+    <a href="/cart" class="mr-3 nav-icon">
+      <li
+        class="fas fa-shopping-cart"
+        style="color: black; font-size: 1.5rem"
+      ></li>
+      <span class="badge badge-primary" id="cart-count"><%= count %></span>
+    </a>
+
+    
+    <div class="dropdown show">
+      <button
+        class="genric-btn primary-border circle dropdown-toggle"
+        role="button"
+        id="dropdownMenuLink"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <% if(username) {%> <%= username %> <%} else {%> Account <% } %>
+      </button>
+
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <% if(username) {%>
+
+        <a class="dropdown-item" href="/user/profile">Profile</a>
+        <a class="dropdown-item" href="/user/profile/orders">Orders</a>
+        <a class="dropdown-item" href="/auth/logout-user">Logout</a>
+        <%} else {%>
+        <a class="dropdown-item" href="/auth/login">Login</a>
+        <a class="dropdown-item" href="/auth/signup">Signup</a>
+        <a class="dropdown-item" href="/admin">Admin</a>
+
+        <% } %>
+      </div>
     </div>
-  </nav>
+  </div>
+</nav>
 
-
+<!-- 
   <script>
     async function handleSearch () {
       const searchinput = document.getElementById('searchinput')
@@ -77,4 +129,4 @@
         console.log(result)
       }
     }
-  </script>
+  </script> -->

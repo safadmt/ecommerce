@@ -1,457 +1,194 @@
 <!DOCTYPE html>
-<html lang="en">
+<html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit Account Information</title>
-    <link rel="stylesheet" href="styles.css" />
-    <style>
-      /* styles.css */
-      .account-section {
-        font-family: "Arial", sans-serif;
-        background-color: #f4f4f9;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 20px;
-        height: 100vh;
-      }
-
-      .edituseraccount {
-        background-color: #ffffff;
-        padding: 20px 30px;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        max-width: 400px;
-        text-align: center;
-        margin-bottom: 20px;
-      }
-
-      .edituseraccount h2 {
-        margin-bottom: 20px;
-        color: #333333;
-      }
-
-      .form-group {
-        margin-bottom: 15px;
-        text-align: left;
-      }
-
-      .form-group label {
-        display: block;
-        margin-bottom: 5px;
-        color: #666666;
-      }
-
-      .form-group input {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #cccccc;
-        border-radius: 4px;
-        font-size: 16px;
-        transition: border-color 0.3s;
-      }
-
-      .form-group input:focus {
-        border-color: #0066cc;
-        outline: none;
-      }
-
-      .btn {
-        width: 100%;
-        padding: 10px 15px;
-        background-color: #0066cc;
-        border: none;
-        border-radius: 4px;
-        color: #ffffff;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-        margin-top: 10px;
-      }
-
-      .btn:hover {
-        background-color: #005bb5;
-      }
-
-      .hidden {
-        display: none;
-      }
-
-      .model-div {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-        width: 100%;
-        max-width: 400px;
-      }
-
-      .model-div h2 {
-        margin-bottom: 20px;
-      }
-
-      .model-div .form-group {
-        margin-bottom: 15px;
-      }
-
-      .overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 999;
-      }
-
-      .close-btn {
-        background-color: #999;
-      }
-
-      .close-btn:hover {
-        background-color: #777;
-      }
-    </style>
+    <title>Windmill Dashboard</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/admin/assets/css/tailwind.output.css" />
+    <script
+      src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+      defer
+    ></script>
+    <script src="/admin/assets/js/init-alpine.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+      defer
+    ></script>
+    <script src="/admin/assets/js/charts-lines.js" defer></script>
+    <script src="/admin/assets/js/charts-pie.js" defer></script>
   </head>
+
   <body>
-    <div class="account-section">
-      <div class="edituseraccount">
-        <h2>Edit Account Information</h2>
-        <button class="btn" onclick="openModal('edit-username')">
-          Edit Username
-        </button>
-        <button class="btn" onclick="openModal('edit-email')">
-          Edit Email
-        </button>
-        <button class="btn" onclick="openModal('edit-password')">
-          Change Password
-        </button>
-      </div>
+    <div
+      class="flex h-screen bg-gray-50 dark:bg-gray-900"
+      :class="{ 'overflow-hidden': isSideMenuOpen }"
+    >
+      <%- include('../../partials/user/profilesidebar.ejs') %>
+      <div class="flex flex-col flex-1 w-full">
+        <%- include('../../partials/user/profileHeader.ejs') %>
+        <main class="h-full pb-16 overflow-y-auto">
+          <div class="container grid px-6 mx-auto">
+            <div class="account-section">
+              <div class="edituseraccount">
+                <h2>Edit Account Information</h2>
+                <button class="btn" onclick="openModal('edit-username')">
+                  Edit Username
+                </button>
+                <button class="btn" onclick="openModal('edit-email')">
+                  Edit Email
+                </button>
+                <button class="btn" onclick="openModal('edit-password')">
+                  Change Password
+                </button>
+              </div>
 
-      <!-- Modals -->
-      <div id="edit-username" class="model-div hidden">
-        <h2>Edit Username and Mobile</h2>
-        <form
-          id="edit-username-form"
-          onsubmit="handleSubmitCredentils(this, '<%= user._id%>')"
-        >
-          <div class="form-group">
-            <label for="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              value="<%= user.username %>"
-              name="username"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="mobile">Mobile</label>
-            <input
-              type="text"
-              id="mobile"
-              value="<%= user.mobile %>"
-              name="mobile"
-              required
-            />
-          </div>
-          <button type="submit" class="btn">Save Changes</button>
-          <button
-            type="button"
-            class="btn close-btn"
-            onclick="closeModal('edit-username')"
-          >
-            Cancel
-          </button>
-        </form>
-      </div>
+              <!-- Modals -->
+              <div id="edit-username" class="model-div hidden">
+                <h2>Edit Username and Mobile</h2>
+                <form
+                  id="edit-username-form"
+                  onsubmit="handleSubmitCredentils(this, '<%= user._id%>')"
+                >
+                  <div class="form-group">
+                    <label for="username">Username</label>
+                    <input
+                      type="text"
+                      id="username"
+                      value="<%= user.username %>"
+                      name="username"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="mobile">Mobile</label>
+                    <input
+                      type="text"
+                      id="mobile"
+                      value="<%= user.mobile %>"
+                      name="mobile"
+                      required
+                    />
+                  </div>
+                  <button type="submit" class="btn">Save Changes</button>
+                  <button
+                    type="button"
+                    class="btn close-btn"
+                    onclick="closeModal('edit-username')"
+                  >
+                    Cancel
+                  </button>
+                </form>
+              </div>
 
-      <div id="edit-email" class="model-div hidden">
-        <h2>Edit Email</h2>
-        <form id="edit-email-form" onsubmit="handleChangeEmail()">
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              value="<%= user.email %>"
-              name="email"
-              required
-            />
-          </div>
-          <div class="form-group hidden" id="otp-group">
-            <label for="otp">Please enter OTP</label>
-            <input type="text" name="otp" id="otp" />
-          </div>
-          <button
-            type="button"
-            id="otpbtn"
-            class="btn hidden"
-            onclick="handleSubmitOTP()"
-          >
-            Submit OTP
-          </button>
-          <button type="submit" id="emailbtn" class="btn">Change Email</button>
-          <button
-            type="button"
-            class="btn close-btn"
-            onclick="closeModal('edit-email')"
-          >
-            Cancel
-          </button>
-        </form>
-      </div>
+              <div id="edit-email" class="model-div hidden">
+                <h2>Edit Email</h2>
+                <form id="edit-email-form" onsubmit="handleChangeEmail()">
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input
+                      type="email"
+                      id="email"
+                      value="<%= user.email %>"
+                      name="email"
+                      required
+                    />
+                  </div>
+                  <div class="form-group hidden" id="otp-group">
+                    <label for="otp">Please enter OTP</label>
+                    <input type="text" name="otp" id="otp" />
+                  </div>
+                  <button
+                    type="button"
+                    id="otpbtn"
+                    class="btn hidden"
+                    onclick="handleSubmitOTP()"
+                  >
+                    Submit OTP
+                  </button>
+                  <button type="submit" id="emailbtn" class="btn">
+                    Change Email
+                  </button>
+                  <button
+                    type="button"
+                    class="btn close-btn"
+                    onclick="closeModal('edit-email')"
+                  >
+                    Cancel
+                  </button>
+                </form>
+              </div>
 
-      <div id="edit-password" class="model-div hidden">
-        <h2>Change Password</h2>
-        <form id="edit-password-form" onsubmit="changePassword(this)">
-          <div class="form-group">
-            <label for="current_password"
-              >Current Password
-              <span style="color: red; font-size: larger">*</span></label
-            >
-            <input
-              type="password"
-              id="current_password"
-              name="current_password"
-              required
-            />
+              <div id="edit-password" class="model-div hidden">
+                <h2>Change Password</h2>
+                <form id="edit-password-form" onsubmit="changePassword(this)">
+                  <div class="form-group">
+                    <label for="current_password"
+                      >Current Password
+                      <span style="color: red; font-size: larger"
+                        >*</span
+                      ></label
+                    >
+                    <input
+                      type="password"
+                      id="current_password"
+                      name="current_password"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="new_password"
+                      >New Password
+                      <span style="color: red; font-size: larger"
+                        >*</span
+                      ></label
+                    >
+                    <input
+                      type="password"
+                      id="new_password"
+                      name="new_password"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="confirm_password"
+                      >Confirm Password
+                      <span style="color: red; font-size: larger"
+                        >*</span
+                      ></label
+                    >
+                    <input
+                      type="password"
+                      id="confirm_new_password"
+                      name="confirm_new_password"
+                      required
+                    />
+                  </div>
+                  <button type="submit" class="btn">Change Password</button>
+                  <button
+                    type="button"
+                    class="btn close-btn"
+                    onclick="closeModal('edit-password')"
+                  >
+                    Cancel
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            <div id="overlay" class="overlay hidden"></div>
           </div>
-          <div class="form-group">
-            <label for="new_password"
-              >New Password
-              <span style="color: red; font-size: larger">*</span></label
-            >
-            <input
-              type="password"
-              id="new_password"
-              name="new_password"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="confirm_password"
-              >Confirm Password
-              <span style="color: red; font-size: larger">*</span></label
-            >
-            <input
-              type="password"
-              id="confirm_new_password"
-              name="confirm_new_password"
-              required
-            />
-          </div>
-          <button type="submit" class="btn">Change Password</button>
-          <button
-            type="button"
-            class="btn close-btn"
-            onclick="closeModal('edit-password')"
-          >
-            Cancel
-          </button>
-        </form>
+        </main>
       </div>
     </div>
-
-    <div id="overlay" class="overlay hidden"></div>
-
-    <script>
-      const otpGroup = document.getElementById("otp-group");
-      const otpbtn = document.getElementById("otpbtn");
-      const emailbtn = document.getElementById("emailbtn");
-      const editemailform = document.getElementById("edit-email-form");
-      function openModal(modalId) {
-        document.getElementById(modalId).classList.remove("hidden");
-        document.getElementById("overlay").classList.remove("hidden");
-      }
-
-      function closeModal(modalId) {
-        document.getElementById(modalId).classList.add("hidden");
-        document.getElementById("overlay").classList.add("hidden");
-      }
-
-      async function handleSubmitCredentils(form) {
-        event.preventDefault();
-        const formData = new FormData(form);
-        const data = {};
-        formData.forEach((value, key) => {
-          data[key] = value;
-        });
-        const regex = /^\d{10}$/;
-        console.log(data);
-        if (!data.username?.trim() || !mobile) {
-          return alert("Username or mobile field is required");
-        } else if (!regex.test(data.mobile)) {
-          return alert("Not a valid mobile number");
-        }
-        console.log(data);
-        const response = await fetch("/user/profile/edit-credential", {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        });
-
-        const result = await response.json();
-        if (response.ok) {
-          alert("Changes saved successfully!");
-          closeModal(form.closest(".model-div").id);
-          document.getElementById("username").textContent = data.username;
-        } else {
-          alert(`Error: ${result.message}`);
-        }
-      }
-
-      async function changePassword(form) {
-        event.preventDefault();
-        const formData = new FormData(form);
-        const data = {};
-        formData.forEach((value, key) => {
-          data[key] = value;
-        });
-        const regex = /^[\S]{8,25}$/;
-        const { current_password, new_password, confirm_new_password } = data;
-        if (
-          !current_password.trim() ||
-          !new_password.trim() ||
-          !confirm_new_password.trim()
-        ) {
-          return alert("Required all * indiacted field");
-        } else if (new_password !== confirm_new_password) {
-          return alert("Passwords do not match");
-        } else if (!validatePassword(current_password)) {
-          return alert(
-            "Current Password is invalid. It must be between 8 and 25 characters long."
-          );
-        } else if (!validatePassword(new_password)) {
-          return alert(
-            "New Password is invalid. It must be between 8 and 25 characters long."
-          );
-        } else if (!validatePassword(confirm_new_password)) {
-          return alert(
-            "Confirm New Password is invalid. It must be between 8 and 25 characters long."
-          );
-        }
-        console.log(data);
-        const response = await fetch("/user/profile/edit-password", {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        });
-
-        const result = await response.json();
-        if (response.ok) {
-          alert("Changes saved successfully!");
-          closeModal(form.closest(".model-div").id);
-        } else {
-          alert(`Error: ${result.message}`);
-        }
-      }
-      function validatePassword(password) {
-        // Regex pattern to check password length between 8 and 25 characters
-        const pattern = /^[\S]{8,25}$/;
-
-        return pattern.test(password);
-      }
-
-      async function handleChangeEmail() {
-        event.preventDefault();
-        const email = document.getElementById("email").value;
-        const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const isEmailValid = pattern.test(email);
-
-        if (!email.trim()) {
-          return alert("Email is required");
-        } else if (!pattern.test(email)) {
-          return alert("Not a valid Email");
-        }
-        showMessage("Please wait", "green", editemailform, otpGroup);
-
-        try {
-          const response = await fetch("/user/profile/edit-email", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email }),
-          });
-
-          const result = await response.json();
-          if (response.ok) {
-            alert(result.data);
-            otpGroup.classList.remove("hidden");
-            otpbtn.classList.remove("hidden");
-            emailbtn.classList.add("hidden");
-          } else {
-            return alert(`Error: ${result.message}`);
-          }
-        } catch (err) {
-          console.log(err);
-        }
-      }
-
-      async function handleSubmitOTP() {
-        event.preventDefault();
-
-        const otp = document.getElementById("otp").value;
-        console.log("hello otp", otp);
-        if (!otp.trim()) {
-          return alert("OTP field required");
-        } else if (otp.length !== 6) {
-          return "OTP only 6 charactors.";
-        }
-        showMessage("Please wait", "green", editemailform, otpGroup);
-
-        try {
-          const response = await fetch(
-            "/user/profile/change-email-verify-otp",
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ otp }),
-            }
-          );
-
-          const result = await response.json();
-          if (response.ok) {
-            if (result.data) {
-              alert("Email has been changed successfully");
-              window.location.reload();
-            }
-          } else {
-            if (result.message !== "OTP is required") {
-              document.getElementById("otp-group").classList.add("hidden");
-              document.getElementById("otpbtn").classList.add("hidden");
-              document.getElementById("emailbtn").classList.remove("hidden");
-              return alert(result.message);
-            } else {
-              console.log(result);
-              return alert(result.message);
-            }
-          }
-        } catch (err) {
-          console.log(err);
-          alert(err);
-        }
-      }
-
-      function removeMessage(element) {
-        setTimeout(() => {
-          element.remove();
-        }, 4000);
-      }
-
-      function showMessage(message, color, maindiv, insetBeforeelem) {
-        const div = document.createElement("div");
-        div.style.color = color;
-        div.textContent = message;
-        maindiv.insertBefore(div, insetBeforeelem);
-        removeMessage(div);
-      }
-    </script>
   </body>
 </html>
+
+<script class="/costom/javascript/edituserinfo.js"></script>

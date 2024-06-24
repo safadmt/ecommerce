@@ -9,3 +9,9 @@
     <%= warning_msg %>
   </div>
 <% } %>
+
+<% if(typeof success_msg !== 'undefined' && success_msg !== null && success_msg !== '') { %>
+  <div class="text-success text-center" role="alert">
+    <%= success_msg %>
+  </div>
+<% } %>

@@ -5,7 +5,7 @@
         justify-content: center;
         align-items: center;
         text-align: center;
-        padding: 20% 0;
+        padding: 10% 0;
     }
     .page-not-found-main-div{
         height: 100vh;
@@ -18,10 +18,10 @@
 <div class="page-not-found-main-div">
     <div class="page-not-found-parent-div">
         <div>
-        <h1>404</h1>
+        <h1><%= status %></h1>
         <h1>Oops!</h1>
-        <h5>Requested page not found</h5>
-        <a href="/" class="btn btn-info">Back to home page</a>
+        <h5><%= error %></h5>
+        <a href="/" class="genric-btn primary-border circle mt-2">Back to home page</a>
     </div>
     </div>
     

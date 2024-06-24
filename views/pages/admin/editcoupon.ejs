@@ -25,6 +25,13 @@
     <script src="/admin/assets/js/charts-lines.js" defer></script>
     <script src="/admin/assets/js/charts-pie.js" defer></script>
   </head>
+  <style>
+    .styleform {
+      display: grid;
+      place-items: center;
+      padding: 3rem 0rem;
+    }
+  </style>
   <body>
     <div
       class="flex h-screen bg-gray-50 dark:bg-gray-900"
@@ -32,199 +39,161 @@
     >
       <%- include('../../partials/admin/adminasidebar.ejs') %>
       <div class="flex flex-col flex-1 w-full">
-      <%- include('../../partials/admin/adminHeader.ejs') %>
-      <main class="h-full pb-16 overflow-y-auto">
-        <div class="container grid px-6 mx-auto">
+        <%- include('../../partials/admin/adminHeader.ejs') %>
+        <main class="h-full pb-16 overflow-y-auto">
+          <div class="container grid px-6 mx-auto">
+            <div class="styleform">
+              <div>
+                <a
+                  href="/admin/coupons/"
+                  class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                >
+                  Back
+                </a>
+              </div>
 
+              <form
+                id="formElement"
+                class="col-md-6 col-sm-12"
+                onsubmit="handleSubmit(this,'<%= coupon._id %>')"
+              >
+                <div class="row">
+                  <div class="col-12">
+                    <label class="block text-sm">
+                      <span class="text-gray-700 dark:text-gray-400"
+                        >Coupon code<span style="color: red; font-size: larger"
+                          >*</span
+                        ></span
+                      >
+                      <input
+                        class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                        style="color: gray"
+                        type="text"
+                        value="<%= coupon.coupon_code %>"
+                        name="coupon_code"
+                        id="coupon_code"
+                      />
+                    </label>
+                    <label class="block text-sm">
+                      <span class="text-gray-700 dark:text-gray-400"
+                        >Discount Type<span
+                          style="color: red; font-size: larger"
+                          >*
+                        </span>
+                      </span>
+                    </label>
+                    <select
+                      name="discount_type"
+                      id="discount_type"
+                      onchange="handleDiscountTypeChange(event)"
+                      class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                    >
+                      <option value="<%= coupon.discount_type %>">
+                        <%= coupon.discount_type %>
+                      </option>
+                      <option value="free_shipping">Free Shipping</option>
+                      <option value="percentage">Percentage</option>
+                      <option value="fixed_amount">Fixed Amount</option>
+                    </select>
+                    <div id="discount-value-div">
+                      <label class="block text-sm">
+                        <span class="text-gray-700 dark:text-gray-400"
+                          >Discount Value<span
+                            style="color: red; font-size: larger"
+                            >*</span
+                          ></span
+                        >
+                        <input
+                          class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                          style="color: gray"
+                          type="number"
+                          value="<%= coupon.discount_value %>"
+                          name="discount_value"
+                          id="discount_value"
+                          onkeydown="discountValueChange(event)"
+                        />
+                      </label>
+                    </div>
 
-<div class="add-product-main-div">
-  <div class="container ">
-    <h4 class="text-center">/ Admin/ Coupon/ Edit Coupon
-  </div>
-  <div class="container">
-    <a href="/admin/coupons/" class="btn btn-primary" style="margin-bottom: 10px;">Back</a>
-  </div>
-  
-  <div class="container main-form-div">
-    
-    <form action="" class="add-product-form" onsubmit="handleSubmit(this,'<%= coupon._id %>')">
-      <div class="row">
-        <div class="col-md-6 col-sm-12">
-            
-          <label for="">Coupon code <span style="color: red; font-size: larger;">*</span></label>
-          <input type="text" name="coupon_code" value="<%= coupon.coupon_code %>"  id="coupon_code" />
-          <label for="">Discount Type</label>
-            <Select name="discount_type" id="discount_type" onchange="handleDiscountTypeChange(event)">
-                <option value="<%= coupon.discount_type %>"><%= coupon.discount_type %></option>
-                <option value="free_shipping">Free Shipping</option>
-                <option value="percentage">Percentage</option>
-                <option value="fixed_amount">
-                  Fixed Amount
-                </option>
-                
-              </Select>
-            <div id="discount-value-div">
-                <label for="" id="discount_value_label">Discount Value <span style="color: red; font-size: larger;">*</span></label>                  
-                <input type="number" name="discount_value" value="<%= coupon.discount_value %>" id="discount_value" onkeydown="discountValueChange(event)"/>
+                    <label class="block text-sm">
+                      <span class="text-gray-700 dark:text-gray-400"
+                        >Minimum Purchase Value
+                        <span style="color: red; font-size: larger"
+                          >*
+                        </span></span
+                      >
+                      <input
+                        class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                        type="number"
+                        value="<%= coupon.minimum_purchase_value %>"
+                        name="minimum_purchase_value"
+                        placeholder="Enter 0 if you selected free shiiping"
+                        id="minimum_purchase_value"
+                        style="color: gray"
+                      />
+                    </label>
+                    <label class="block text-sm">
+                      <span class="text-gray-700 dark:text-gray-400"
+                        >Maximum Purchase Value</span
+                      >
+                      <input
+                        class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                        type="number"
+                        value="<%= coupon.maximum_purchase_value %>"
+                        name="maximum_purchase_value"
+                        id="maximum_purchase_value"
+                        style="color: gray"
+                      />
+                    </label>
+                    <label class="block text-sm">
+                      <span class="text-gray-700 dark:text-gray-400"
+                        >Valid Till<span style="color: red; font-size: larger"
+                          >*</span
+                        ></span
+                      >
+                      <input
+                        class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                        type="date"
+                        name="valid_till"
+                        id="valid_till"
+                        oninput="validateInput(this)"
+                        style="color: gray"
+                        value="<%= coupon.valid_till.toISOString().split('T')[0]%>"
+                      />
+                      <span id="valid_till_warning" class="txt-sm text-danger"></span>
+                    </label>
+                    <label class="block text-sm">
+                      <span class="text-gray-700 dark:text-gray-400"
+                        >Description<span style="color: red; font-size: larger"
+                          >*
+                        </span>
+                      </span>
 
+                      <textarea
+                        name="description"
+                        id="description"
+                        style="width: 100%"
+                        rows="6"
+                      ><%= coupon.description%></textarea>
+                    </label>
+                  </div>
+                </div>
+                <div class="block buttondiv row">
+                  <button
+                    id="submitbutton"
+                    type="submit"
+                    class="px-5 py-3 text-center font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                  >
+                    Update Coupon
+                  </button>
+                </div>
+              </form>
             </div>
-          
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <label for="">Minimum Purchase Value <span style="color: red; font-size: larger;">*</span></label>
-            <input type="number" name="minimum_purchase_value" 
-            value="<%= coupon.minimum_purchase_value %>" 
-            id="minimum_purchase_value" 
-            placeholder="Enter 0 if you selected free shiiping"/>
-          <label for="">Maximum Purchase Value </label>
-          <input type="number" value="<%= coupon.maximum_purchase_value %>" name="maximum_purchase_value" id="maximum_purchase_value" />
-          <label for="">Usage Count</label>
-          
-            <input type="number" value="<%= coupon.usage_count %>" name="usage_count" id="usage_count" />
-        
-        </div>
-        <div class="col-md-12">
-          <label for="">Description</label>
-          <textarea name="description" id="description" rows="4"><%= coupon.description%></textarea>
-        </div>
-      </div>
-      
-      <div class="button-div">
-        <button type="submit" class="btn btn-primary">Add Coupon</button>
-      </div>
-      
-    </form>
-  </div>
-</div>
-        </div>
-      </main>
+          </div>
+        </main>
       </div>
     </div>
   </body>
 </html>
-<script>
-    window.addEventListener('DOMContentLoaded', function () {
-        const discount_type = document.getElementById('discount_type').value
-        const discount_value = document.getElementById("discount_value")
-        const discount_value_label = document.getElementById('discount_value_label')
-        if(discount_type === "free_shipping") {
-            discount_value.disabled = true
-            discount_value_label.textContent = "Discount value is disabled when you choosen Free shipping"
-            discount_value.style.backgroundColor = "#a9a9a9"
-            discount_value.style.color = "#888"
-            discount_value.style.cursor = not-allowed;
-        }
-    })
-    function handleSubmit (formElement,couponid) {
-        event.preventDefault()
-             const formData = new FormData(formElement)
-             const discount_value = parseInt(formData.get('discount_value'))
-             const obj = {}
-             for(const [name,value] of formData.entries()) {
-              obj[name] = value
-             }
-            console.log(obj)
-  if (!formData.get('coupon_code')) {
-    return showMessage("coupon code is required");
-  }
+<script src="/costom/javascript/admin/editcoupon.js"></script>
   
-  if(formData.get('discount_type') === "percentage") {
-    if(!formData.get('discount_value')) {
-      return showMessage("Discount Percentage is required")
-    }
-    if(discount_value > 70) {
-      return showMessage("Discount percentage not greater than 70 %")
-    }
-  }
-  if(formData.get('discount_type') === "fixed_amount") {
-    if(!formData.get('discount_value')) {
-      return showMessage("Discount Percentage is required")
-    }
-  }
-  if (!formData.get('minimum_purchase_value')) {
-    return showMessage("Minimum Purchase Value is required");
-  }
-
-  if (!formData.get('description').trim()) {
-    return showMessage("Description is required");
-  }
-  
-  
-
-  
-        const xhttp = new XMLHttpRequest()
-        xhttp.onload = function () {
-        const response = JSON.parse(xhttp.response)
-        console.log(response)
-        if(response) {
-              const successdiv = document.createElement('div')
-              successdiv.classList.add('successDiv')
-              successdiv.classList.add('message')
-
-              successdiv.textContent = "Coupon added successfully"
-              const form = document.querySelector('.add-product-form')
-              form.insertBefore(successdiv, form.firstChild)
-              
-            }
-            
-        }
-        // console.log(couponid)
-        xhttp.open('PUT', `http://localhost:5000/admin/coupons/edit/${couponid}`, true)
-        xhttp.setRequestHeader("Content-Type", "application/json")
-        xhttp.send(JSON.stringify(obj))
-    }
-
-    function showMessage(message) {
-        const errorDiv = document.createElement('div')
-        errorDiv.classList.add('errorDiv')
-        errorDiv.classList.add('message')
-
-        errorDiv.textContent = message
-        const form = document.querySelector('.main-form-div')
-        form.insertBefore(errorDiv, form.firstChild)
-        setTimeout(() => {
-            errorDiv.remove()
-        }, 4000);
-        
-    }
-
-    function handleDiscountTypeChange(event) {
-        const input = document.getElementById('discount_value')
-        const label = document.getElementById('discount_value_label')
-        if(event.target.value === "free_shipping") {
-            label.textContent = "Discount value is disabled when you choosen Free shipping"
-            input.disabled = true
-            input.style.backgroundColor = "#a9a9a9"
-            input.style.color = "#888"
-            input.style.cursor = not-allowed;
-            
-        }else if(event.target.value === "percentage") {
-            document.getElementById('discount_value').disabled = false
-            label.textContent = "Discount in Percentage"
-            input.style.backgroundColor = "#fff"
-            input.style.color = "rgb(82, 77, 77)"
-            
-            
-        }else if(event.target.value === "fixed_amount"){
-          label.textContent = "Discount Value"
-          input.disabled = false
-          input.style.backgroundColor = "#fff"
-          input.style.color = "rgb(82, 77, 77)"
-        }
-    }
-
-    function discountValueChange(event) {
-      const type = document.getElementById('discount_type').value
-      console.log(type)
-      const discount_value = document.getElementById("discount_value")
-      if(type === "percentage") {
-      const value = event.target.value
-      const val = parseInt(value)
-      if(val > 70) {
-        return showMessage("Discount percentage not greater than 70 %")
-      }
-      }
-      
-    }
-
-</script>
