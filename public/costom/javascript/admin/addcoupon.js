@@ -90,7 +90,7 @@ function handleSubmit(formElement) {
           window.location.reload();
         }, 2000);
       }
-    };curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+    }
     xhttp.open("POST", `${window.location.origin}/admin/coupons/add-coupon`, true);
     xhttp.setRequestHeader("Content-Type", "application/json");
     xhttp.send(JSON.stringify(obj));

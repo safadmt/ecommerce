@@ -20,12 +20,6 @@ import { googleCallback,
 import passport from 'passport';
 import { ensureAdminauthenticated, ensureUserauthenticated } from '../middleware/authorization.js';
 
-const currentFilePath = fileURLToPath(import.meta.url)
-console.log(currentFilePath)
-const __dirname = dirname(currentFilePath)
-
-
-
 
 // Route to get the user login page
 router.get('/login', ensureUserauthenticated, getLoginPage);

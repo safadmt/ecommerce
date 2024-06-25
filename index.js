@@ -18,6 +18,7 @@ const currentFilePath = fileURLToPath(import.meta.url)
 const __dirname = dirname(currentFilePath)
 process.loadEnvFile()
 // Initialize MongoDBStore with express-session
+console.log(process.env.MONGO_URL)
 const MongoDBStore = connectMongoDBSession(expressSession);
 const store = new MongoDBStore({uri : process.env.MONGO_URL, collection: "session"})
 store.on('error', function (err) {
@@ -53,7 +54,7 @@ connectDB()
 .then(response=> {
   console.log(response)
 }).catch(err=> {
-  logger.info(err)
+  logger.info(err.stack)
 })
 app.use('/', homeRouter)
 app.use('/user', userRouter)

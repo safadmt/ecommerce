@@ -86,17 +86,6 @@ function handleSubmit(formElement,event) {
   }
 
 
-  // function showMsg(message) {
-  //   const errorDiv = document.createElement("div");
-  //   errorDiv.classList.add("text-red-700");
-
-  //   errorDiv.textContent = message;
-  //   const form = document.querySelector(".buttondiv");
-  //   form.insertBefore(errorDiv, document.getElementById("submitbutton"));
-  //   setTimeout(() => {
-  //     errorDiv.remove();
-  //   }, 4000);
-  // }
   
   function showMessage(inputname, message) {
     document.getElementById(inputname + "_warning").textContent = message

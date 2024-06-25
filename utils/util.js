@@ -58,7 +58,6 @@ export async function getTotalCartPriceDiscount(req, res, next) {
           
           actualprice += item.productid.price * item.quantity;
           if (item.productid.discount_in_percentage !== 0) {
-            console.log("useritem", item.productid.discount_in_percentage)
             totaldiscount +=
               (item.productid.price * item.productid.discount_in_percentage / 100) * item.quantity;
           }

@@ -26,7 +26,4 @@ const logger = createLogger({
     }));
   }
 
-  logger.on('error', (err)=> {
-    console.log("logger error", err)
-  })
 export default logger;
