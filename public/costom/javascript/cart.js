@@ -30,7 +30,7 @@ async function addToWishlist(event, productid) {
         result.wishlistcount;
     } else {
       if (result.message === "login") {
-        window.location.href = "/auth/login";
+        window.location.href = `${window.location.origin}/auth/login`;
       } else if(result.message !== "login"){
         toastr.warning(result.message)
         

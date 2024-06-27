@@ -53,17 +53,17 @@ fetch(`${window.location.origin}/auth/forgot-password/verify-otp`, {
   .then((data) => {
     if (data.message) {
       toastr.warning(data.message);
-      window.location.href = data.url
+      window.location.href = `${window.location.origin}${data.url}`
     } else {
-      toastr.warning('OTP verified successfully')
-      window.location.href = data.data.url
+      toastr.success('OTP verified successfully')
+
+      window.location.href = `${window.location.origin}${data.data.url}`
 
     }
   })
   .catch((err) => {
     toastr.error("Something went wrong.")  });
 }
-
 
 function showMessage(message, color, maindiv, insetBeforeelem) {
 const div = document.createElement("div");

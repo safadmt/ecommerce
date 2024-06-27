@@ -1951,12 +1951,12 @@ export async function verifyForgotPasswordOTP(req, res, next) {
       // req.flash("warning_msg", "OTP verified successfull. Enter new password")
       return res.json({
         message: null,
-        data: { url: "http://localhost:5000/auth/reset-password" },
+        data: { url: "/auth/reset-password" },
       });
     } else {
       return res.json({
         message: "Otp has expired",
-        url: "http://localhost:5000/auth/forgot-password",
+        url: "/auth/forgot-password",
       });
     }
   } catch (err) {

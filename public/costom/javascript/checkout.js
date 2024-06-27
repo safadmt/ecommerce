@@ -42,14 +42,14 @@ async function placeOrder() {
     const data = await response.json();
     if (response.ok) {
       if (data.message === "redirect") {
-        window.location.href = '/'
+        window.location.href = window.location.origin
       }else if(data.message){
         return showMessage(data.message, "red");
       }
       if (data.status === "Pending") {
         await paywithrazorpay(data.order);
       } else if (data.status === "Placed") {
-        window.location.href = `/order/confirmation/${data.orderid}`;
+        window.location.href = `${window.location.origin}/order/confirmation/${data.orderid}`;
       } else if (data.status === "stripe") {
         window.location.href = data.stripeurl;
       }
@@ -104,7 +104,7 @@ function paywithrazorpay(order) {
         if (response.message) {
           toastr.warning(response.message);
         } else {
-          window.location.href = `/order/confirmation/${order.receipt}`;
+          window.location.href = `${window.location.origin}/order/confirmation/${order.receipt}`;
         }
       });
     },

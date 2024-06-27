@@ -60,7 +60,7 @@ function handleSubmit(formInfo) {
         if (result.error) {
           return showMessage(result.error)
         } else {
-          window.location.href = '/user/checkout'
+          window.location.href = `${window.location.origin}/user/checkout`
         }
       })
       .catch(err => {
