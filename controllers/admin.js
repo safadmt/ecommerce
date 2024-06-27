@@ -56,6 +56,7 @@ import {
   returnStatusEnum,
 } from "../utils/enum.js";
 import { dateFilters } from "../utils/util.js";
+import logger from "../utils/logger.js";
 
 const path = dirname(dirname(fileURLToPath(import.meta.url)));
 
@@ -320,7 +321,7 @@ export const editProduct = async (req, res, next) => {
         product.images.forEach((file) => {
           unlink(`${path}/public/products/images/${file}`, (err) => {
             // Delete old images
-            if (err) throw err;
+            if (err) return res.status(500).json("Something went wrong.")
           });
         });
         let image = [];
@@ -594,7 +595,9 @@ export async function editOneBanner(req, res, next) {
       const banner = await findeOneBanner(req.params.bannerid);
       // Delete the old image
       unlink(`${path}/public/banners/${banner.imageurl}`, (err) => {
-        if (err) throw err;
+        if(err) {
+          logger.info("banner edit image unlink error")
+        }
       });
 
       // Add the new image filename to the request body
@@ -653,11 +656,13 @@ export async function removeOneBanner(req, res, next) {
 
     // Delete the banner image file
     unlink(`${path}/public/banners/${banner.imageurl}`, (err) => {
-      if (err) throw err;
+      if (err) {
+        logger.info("Banner image remove error when deleting banner")
+      }
       res.json("Ok");
     });
   } catch (err) {
-    next(err);
+    res.status(500).json("Something went wrong.")
   }
 }
 

@@ -473,12 +473,7 @@ h3,h2,h1,h4{
   font-weight: 400 !important;
   font-style: normal !important;
 }
-.carousel-caption h1 {
-  font-size: calc(1.5rem + 1.5vw) !important;
-}
-.carousel-caption h4 {
-  font-size: calc(1rem + 0.5vw);
-}
+
 @media only screen and (min-width: 700px) {
   .image-product-collection{
     object-fit: contain;
@@ -497,5 +492,14 @@ h3,h2,h1,h4{
     object-fit: contain;
     min-height: 80% !important;
     max-height: 400px !important;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .carousel-caption h1 {
+    font-size: 0.8rem !important;
+  }
+  .carousel-caption h4 {
+    font-size: 0.5rem;
   }
 }

@@ -1056,7 +1056,7 @@ export async function placeOrder(req, res, next) {
           receipt: order._id,
         };
         instance.orders.create(options, (err, orderRazorpay) => {
-          if (err) throw err;
+          if (err) return res.status(401).json("Unauthorized access. Please check your credentials and try again.");
 
           res
             .status(200)
@@ -2176,7 +2176,7 @@ export async function transferAmountToWallet(req, res, next) {
   getUser(_id)
     .then((user) => {
       instance.orders.create(options, (err, payment) => {
-        if (err) throw err;
+        if (err) return res.status(401).json("Unauthorized access. Please check your credentials and try again.")
         req.session.wallettransferamount = cash_wallet;
         res
           .status(200)
