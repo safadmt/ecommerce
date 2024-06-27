@@ -3,8 +3,6 @@ const url = new URL(window.location.href)
 function productIsActive(event, couponid) {
     const isActiveButton = event.currentTarget;
     let content = isActiveButton.textContent;
-    console.log("isActiebutton",isActiveButton.textContent);
-    console.log("content", content);
     fetch(`/admin/coupons/edit-coupon-active/${couponid}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -12,7 +10,6 @@ function productIsActive(event, couponid) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         if (data.isActive == true) {
           isActiveButton.textContent = "true";
         } else {
@@ -20,12 +17,11 @@ function productIsActive(event, couponid) {
         }
       })
       .catch((err) => {
-        console.log(err);
+        toastr.error("Something went wrong.")
       });
   }
 
   const orderstsu = "<%= orderStatus%>".split(',')
-  console.log(orderstsu)
   const selectValue = 
   window.addEventListener("DOMContentLoaded", function () {
 
@@ -33,8 +29,6 @@ function productIsActive(event, couponid) {
   async function handleOrderStatus(event, orderid) {
     
     const value = event.target.value;
-
-    console.log("value", value)
     if (!value) return;
   
     fetch(`${window.location.origin}/admin/orders/status/${orderid}`, {
@@ -44,7 +38,6 @@ function productIsActive(event, couponid) {
     })
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
         if (!result.message) {
           const row = event.target.closest("tr");
           const statusTd = row.querySelector("td:nth-child(6)");
@@ -52,14 +45,13 @@ function productIsActive(event, couponid) {
           updateOrderStatusSpan(result.data.status, statusTd)
           return
         } else if (result.message) {
-          console.log(result)
           toastr.warning(result.message)
           event.target.value = value
           
         }
       })
       .catch((err) => {
-        console.log(err);
+        toastr.error("Something went wrong.")
       });
   }
   

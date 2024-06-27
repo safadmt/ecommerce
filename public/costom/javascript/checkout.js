@@ -6,12 +6,10 @@ window.addEventListener("DOMContentLoaded", function () {
 
 function radioButtonClick(event) {
   addressId = event.target.value; // Extract address ID from the value attribute
-  console.log("Selected address ID:", addressId);
 }
 
 function radioPaymentMethodClick(event) {
   payment_method = event.target.value;
-  console.log(payment_method);
 }
 
 function showMessage(message, color) {
@@ -42,9 +40,10 @@ async function placeOrder() {
     });
 
     const data = await response.json();
-    console.log(data);
     if (response.ok) {
-      if (data.message) {
+      if (data.message === "redirect") {
+        window.location.href = '/'
+      }else if(data.message){
         return showMessage(data.message, "red");
       }
       if (data.status === "Pending") {
@@ -58,7 +57,7 @@ async function placeOrder() {
       console.log(order);
     }
   } catch (err) {
-    console.log(err);
+    
     showMessage("Something went wrong", "red");
   }
 }
@@ -103,9 +102,8 @@ function paywithrazorpay(order) {
     handler: function (response) {
       verifyPayment(response, order.receipt).then((response) => {
         if (response.message) {
-          console.log(response.message);
+          toastr.warning(response.message);
         } else {
-          console.log(response);
           window.location.href = `/order/confirmation/${order.receipt}`;
         }
       });
@@ -128,7 +126,7 @@ function paywithrazorpay(order) {
     try {
       onPaymentFailed(response, order.receipt).then((response) => {
         if (response.message) {
-          console.log(response.message);
+          toastr.warning(response.message);
           showMessage(response.message, "red");
         } else {
         }
@@ -163,7 +161,6 @@ async function applyCoupon() {
   event.preventDefault();
 
   const coupon_code = document.getElementById("search_coupon").value;
-  console.log(coupon_code);
   try {
     const response = await fetch("/user/checkout/coupon", {
       method: "POST",
@@ -171,7 +168,6 @@ async function applyCoupon() {
       body: JSON.stringify({ coupon_code: coupon_code }),
     });
     const result = await response.json();
-    console.log(result);
     const messageDiv = document.createElement("div");
     const totalpricediv = document.getElementById("totalprice");
     const coupon_discountdiv = document.getElementById("coupon_discount");
@@ -207,7 +203,6 @@ async function applyCoupon() {
 
     insertAfter(document.querySelector(".searchcouponformdiv h4"), messageDiv);
   } catch (error) {
-    console.error("Error applying coupon:", error);
     const errorMessageDiv = document.createElement("div");
     errorMessageDiv.textContent = "An error occurred. Please try again.";
     errorMessageDiv.style.color = "red";

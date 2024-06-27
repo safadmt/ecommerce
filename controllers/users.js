@@ -4,12 +4,10 @@ import passport from "passport";
 import Razorpay from "razorpay";
 import PDFDocument from "pdfkit";
 import Stripe from "stripe";
-import fs from "fs";
-import path, { dirname } from "path";
-import { fileURLToPath } from "url";
 import { createHmac } from "crypto";
 import { Types, isValidObjectId } from "mongoose";
-process.loadEnvFile()
+import dotenv from 'dotenv';
+dotenv.config()
 import {
   addRating,
   addToCart,
@@ -77,6 +75,7 @@ import {
   returnRefundOptionEnum,
   returnStatusEnum,
 } from "../utils/enum.js";
+import setcache from "../middleware/cache.js";
 
 // Create razorpay instances
 const instance = new Razorpay({
@@ -121,13 +120,7 @@ export const verfiyEmail = async (req, res, next) => {
 export async function getSignupPage(req, res, next) {
   try {
     // Set cache control headers to prevent caching
-    res.set(
-      "Cache-Control",
-      "no-store, no-cache, must-revalidate, proxy-revalidate"
-    );
-    res.set("Pragma", "no-cache");
-    res.set("Expires", "0");
-    res.set("Surrogate-Control", "no-store");
+    setcache(req,res)
     const count = await getCartTotalQuantity(req, res, next);
     const wishlist = 0;
     var role = req.session?.role ? req.session.role : "user";
@@ -143,7 +136,10 @@ export const userSignup = async (req, res, next) => {
     // Check if the OTP is valid and not expired
     if (req.session?.emailOTP?.otp === req.body.otp) {
       if (req.session?.emailOTP?.expireTime < Date.now()) {
-        res.status(403).json({ error: "OTP expired. Please resend." });
+        return res.status(403).json({ error: "OTP expired. Please resend." });
+      }
+      if(!req.session.signupInfo) {
+        return res.status(401).json({error: 'redirect', url:'/auth/signup'})
       }
       // Get the password from the session signup info
       const { password } = req.session.signupInfo;
@@ -159,12 +155,13 @@ export const userSignup = async (req, res, next) => {
 
       if (response.error) {
         // Send error
-        res.json({ error: response.error });
+        res.status(401).json({ error: response.error });
         return;
       } else {
         // Delte signupinfo
-        delete req.session.signupInfo;
         req.session.signupInfo = null;
+        delete req.session.signupInfo;
+        
         // Merge guest cart if there's any
         if (req.session.guest) {
           const data = await mergeGuestCart(
@@ -173,10 +170,10 @@ export const userSignup = async (req, res, next) => {
           );
           
         }
-        res.json({ error: null, data: "ok" });
+        return res.status(200).json({data: "Ok", url:"/auth/login"});
       }
     } else {
-      res.json({
+      return res.status(401).json({
         error: "Wrong OTP entered",
       });
     }
@@ -188,7 +185,7 @@ export const userSignup = async (req, res, next) => {
       for (const key in err.errors) {
         validation_error[key] = err.errors[key].message;
       }
-      res.status(400).json({ error: null, validation_error: validation_error });
+      return res.status(400).json({ error: null, validation_error: validation_error });
     } else {
       // Handle other errors
       next(err);
@@ -199,17 +196,14 @@ export const userSignup = async (req, res, next) => {
 // Get the otp verify page
 export const otpverify = async (req, res, next) => {
   try {
-    res.set(
-      "Cache-Control",
-      "no-store, no-cache, must-revalidate, proxy-revalidate"
-    );
-    res.set("Pragma", "no-cache");
-    res.set("Expires", "0");
-    res.set("Surrogate-Control", "no-store");
+    setcache(req,res)
+    if(!req.session.signupInfo) {
+      return res.redirect('/auth/signup')
+    }
     const count = await getCartTotalQuantity(req, res, next);
     const wishlist = 0;
     var role = req.session?.role ? req.session.role : "user";
-    res.render("pages/user/verifyemail", {
+    return res.render("pages/user/verifyemail", {
       username: "",
       wishlist,
       role,
@@ -226,7 +220,7 @@ export const resendOTP = async (req, res, next) => {
       const otp = await sendOTP(req.session.signupInfo.email);
       let expireTime = Date.now() + 90 * 1000;
       req.session.emailOTP = { otp, expireTime };
-      res.json({ error: null, data: "otp send to your email address" });
+      return res.status(200).json({ error: null, data: "otp send to your email address" });
     } else {
       req.flash("warning_msg", "Please signup");
       res.redirect("/auth/signup");
@@ -239,18 +233,12 @@ export const resendOTP = async (req, res, next) => {
 // Function to render the login page with appropriate cache settings
 export async function getLoginPage(req, res, next) {
   // Set cache control headers to prevent caching
-  res.set(
-    "Cache-Control",
-    "no-store, no-cache, must-revalidate, proxy-revalidate"
-  );
-  res.set("Pragma", "no-cache");
-  res.set("Expires", "0");
-  res.set("Surrogate-Control", "no-store");
+  setcache(req,res)
   try {
     const count = await getCartTotalQuantity(req, res, next);
     const wishlist = 0; // Initialize wishlist count
 
-    res.render("pages/user/login", {
+    return res.render("pages/user/login", {
       username: req.session.user ? req.session.username : "",
       count,
       role: "user",
@@ -285,13 +273,7 @@ export const userLogin = async (req, res, next) => {
         req.session.guest = null;
         delete req.session.guest;
       }
-      res.set(
-        "Cache-Control",
-        "no-store, no-cache, must-revalidate, proxy-revalidate"
-      );
-      res.set("Pragma", "no-cache");
-      res.set("Expires", "0");
-      res.set("Surrogate-Control", "no-store");
+      
       // Store the user information in the session user after successfull login
       req.session.user = { username, email, _id };
       req.session.role = "user";
@@ -315,16 +297,10 @@ export const googleCallback = (req, res, next) => {
 
 // Function to render the main landing page
 export async function getMainLandingPage(req, res, next) {
-  res.set(
-    "Cache-Control",
-    "no-store, no-cache, must-revalidate, proxy-revalidate"
-  );
-  res.set("Pragma", "no-cache");
-  res.set("Expires", "0");
-  res.set("Surrogate-Control", "no-store");
+  setcache(req,res)
   try {
     const wishlist = await wishlistCount(req, res, next); // Get wishlist count
-    const banners = await findBanner(); // Get banner data
+    const banners = await findBanner({isActive:true}); // Get banner data
 
     let products = await getNewProduct(6); // Get new product
     const count = await getCartTotalQuantity(req, res, next);
@@ -638,13 +614,7 @@ export async function getUserCartPage(req, res, next) {
 export function logout(req, res, next) {
   
   // Set cache control headers to prevent caching
-  res.set(
-    "Cache-Control",
-    "no-store, no-cache, must-revalidate, proxy-revalidate"
-  );
-  res.set("Pragma", "no-cache");
-  res.set("Expires", "0");
-  res.set("Surrogate-Control", "no-store");
+  setcache(req,res)
   req.session.user = null;
   req.session.role = null;
   res.redirect("/");
@@ -753,6 +723,7 @@ export async function removeCartProduct(req, res, next) {
 
 // function to render the checkout page
 export async function getCheckoutPage(req, res, next) {
+  setcache(req,res)
   try {
     // Get the cart price details
     const cartpriceInfo = await getTotalCartPriceDiscount(req, res, next);
@@ -911,7 +882,9 @@ export async function applyCoupons(req, res, next) {
     } else if (coupon.discount_type === "fixed_amount") {
       if (
         totalprice >= coupon.minimum_purchase_value &&
-        totalprice <= coupon.maximum_purchase_value
+        (totalprice <= coupon.maximum_purchase_value ||
+          coupon.maximum_purchase_value == 0
+        )
       ) {
         req.session.cart_charge_offer.coupon_discount.push({
           _id: coupon._id,
@@ -946,6 +919,7 @@ export async function applyCoupons(req, res, next) {
 
 // Function to place an order
 export async function placeOrder(req, res, next) {
+  
   const { _id } = req.session.user;
   let orderedproducts = [];
   if (!req.body) {
@@ -967,7 +941,9 @@ export async function placeOrder(req, res, next) {
     const cartpriceinfo = await getTotalCartPriceDiscount(req, res, next);
     // Get the user's cart details
     let cart = await getUserCart(_id);
-
+    if(!cart) {
+      res.status(403).json({message: "redirect"})
+    }
     const { totalprice, coupon_discount, shipping_charge } = cartpriceinfo;
     if (payment_method === "wallet") {
       const user = await getUser(_id);
@@ -1261,7 +1237,7 @@ export async function verfiyPayment(req, res, next) {
         .json("Something went wrong. Please try again later");
     }
   } else {
-    res
+    return res
       .status(401)
       .json({ message: "Razorpay payment signature does not match" });
   }
@@ -1683,8 +1659,9 @@ export async function addToWishList(req, res, next) {
       const product = user.wishlist.some(
         (item) => item == req.params.productid
       );
+     
       if (product) {
-        return res.json({ message: "Product already added to wishlist" });
+        return res.status(403).json({ message: "Product already added to wishlist" });
       }
       // Add product to the wishlist
       user.wishlist.push(req.params.productid);
@@ -1841,6 +1818,7 @@ export async function searchProducts(req, res, next) {
 
 // Function to get the add address page from profile
 export async function getAddressPagefromProfile(req, res, next) {
+  setcache(req,res)
   try {
     const role = "profile";
     const username = req.session.user.username;
@@ -1860,33 +1838,23 @@ export async function getAddressPagefromProfile(req, res, next) {
 // Function to download the invoice for a specific order
 export async function downloadInvoice(req, res, next) {
   try {
-    const orderId = req.params.orderid; // Get the order ID from the request parameters
-    const order = await findOneOrder(orderId); // Find order by Id
-    // Return message if order not found
+    const orderId = req.params.orderid;
+    const order = await findOneOrder(orderId);
+
     if (!order) return res.status(404).json({ message: "Order not found" });
-
-    // Get the current file path and directory name
-    const currentFilePath = fileURLToPath(import.meta.url);
-
-    const __dirname = dirname(dirname(currentFilePath));
-    // Define the path to save the invoice PDF
-    const invoicePath = path.join(
-      __dirname + "/public",
-      "invoices",
-      `invoice_${orderId}.pdf`
-    );
 
     // Create a new PDF document
     const doc = new PDFDocument();
 
-    // Write the PDF file to the file system
-    const writeStream = fs.createWriteStream(invoicePath);
-    doc.pipe(writeStream);
+    // Set response headers
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename=invoice_${orderId}.pdf`);
+
+    // Pipe the PDF directly to the response
+    doc.pipe(res);
 
     // Add content to the PDF document
-    doc
-      .fontSize(18)
-      .text(`Invoice for Order #${order._id}`, { underline: true });
+    doc.fontSize(18).text(`Invoice for Order #${order._id}`, { underline: true });
     doc.moveDown();
 
     // Add order details
@@ -1910,9 +1878,7 @@ export async function downloadInvoice(req, res, next) {
     doc.fontSize(16).text("Product Details:", { underline: true });
     order.products.forEach((product) => {
       doc.fontSize(12);
-      doc.text(
-        `${product.productid.product_name} - Quantity: ${product.quantity}`
-      );
+      doc.text(`${product.productid.product_name} - Quantity: ${product.quantity}`);
       doc.text(`Price: Rs. ${product.productid.price}`);
       doc.moveDown();
     });
@@ -1920,31 +1886,14 @@ export async function downloadInvoice(req, res, next) {
     // End the PDF document
     doc.end();
 
-    writeStream.on("finish", () => {
-      res.download(invoicePath, (err) => {
-        if (err) {
-          req.flash("warning_msg", "Error sending PDF file:");
-          return res.render(`partials/message/pagenotfound`, {
-            error: "Something went wrong. Please try again later",
-          });
-        } else {
-          fs.unlink(invoicePath, (error) => {
-            if (error) {
-              return res.render(`partials/message/pagenotfound`, {
-                error: "Something went wrong. Please try again later",
-              });
-            }
-          });
-        }
-      });
-    });
   } catch (err) {
-    next(err);
+    next(err)
   }
 }
 
 // Function to render forgot password page
 export async function getForgotPasswordPage(req, res, next) {
+  setcache(req,res)
   try {
     const role = "";
     const username = "";
@@ -2058,6 +2007,7 @@ export async function resetPassword(req, res, next) {
 }
 
 export async function getResetPasswordPage(req, res, next) {
+  setcache(req,res)
   try {
     if (!req.session.emailOTP) return res.redirect("/auth/login");
     const role = "";
@@ -2078,7 +2028,7 @@ export async function getResetPasswordPage(req, res, next) {
 export async function getProductCollection(req, res, next) {
   const limit = 10;
 
-  const skip = req.params.page || 1;
+  const skip = req.params.page ? req.params.page : 1;
   const page = (skip - 1) * limit;
   try {
     const role = "";
@@ -2110,6 +2060,7 @@ export async function getProductCollection(req, res, next) {
 
 // Function to render user wallet page
 export async function getUserWallet(req, res, next) {
+  setcache(req,res)
   try {
     const role = "profile";
     const username = req.session.user?.username || "";
@@ -2275,6 +2226,7 @@ export async function verfiyWalletPayment(req, res, next) {
 }
 
 export async function getProductReturnPage(req, res, next) {
+  setcache(req,res)
   const { orderid, productid } = req.params;
   try {
     const role = "profile";
@@ -2349,6 +2301,7 @@ export async function handleProductReturn(req, res, next) {
 
 
 export async function getProductReturnDetailsPage (req,res,next) {
+  setcache(req,res)
   const {orderid, productid} = req.params;
 
   try {

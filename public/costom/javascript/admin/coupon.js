@@ -1,8 +1,6 @@
 function productIsActive (event, couponid) {
     const isActiveButton = event.currentTarget
     let content = isActiveButton.textContent
-    console.log(isActiveButton.textContent)
-    console.log(content)
     fetch(`/admin/coupons/edit-coupon-active/${couponid}`, 
     {method: 'PATCH',
     headers:{'Content-Type':'application/json'},
@@ -10,7 +8,7 @@ function productIsActive (event, couponid) {
   })
     .then(response=> response.json())
     .then(data=> {
-      console.log(data)
+      
       if(data.isActive == true) {
         isActiveButton.textContent = "true"
       }else{
@@ -18,8 +16,7 @@ function productIsActive (event, couponid) {
       }
     })
     .catch(err=> {
-      console.log(err)
-    })
+      toastr.error("Something went wrong.")    })
   }
 
   function handleDelete(event,couponid) {

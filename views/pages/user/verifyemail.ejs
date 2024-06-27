@@ -9,7 +9,7 @@
                             
                             <p>An OTP has been send to you email address.<br>
                                  Please check your email</p>
-                            <a href="#" class="btn_3">Back to home</a>
+                            <a href="/auth/signup" class="btn_3">Back to signup page</a>
                         </div>
                     </div>
                 </div>
@@ -17,7 +17,7 @@
                     <div class="login_part_form">
                         <div class="login_part_form_iner">
                             
-                            <form class="row contact_form" onsubmit="handleVerifyEmail(event)" method="post">
+                            <form class="row contact_form" onsubmit="handleVerifyEmail(event)">
                                 <div id="errordiv" class="text-danger text-center"></div>
                                 <div id="successdiv" class="text-success text-center"></div>
                                 
@@ -27,7 +27,7 @@
                                         placeholder="Enter OTP">
                                 </div>
                                 <div class="col-md-12 form-group">
-                                   
+                                    <span id="verifyotpspan"></span>
                                     <button type="submit" value="submit" class="btn_3">
                                         Verify OTP
                                     </button>
@@ -47,4 +47,5 @@
     <!--================login_part end =================-->
 </main>
 
-<script class="/costom/javascript/verifyemail.js"></script>
+<script src="/costom/javascript/verifyemail.js"></script>
+

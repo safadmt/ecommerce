@@ -2,7 +2,6 @@ function productIsActive (event, productid) {
     const isActiveButton = event.currentTarget
     let content = isActiveButton.textContent
     
-    console.log(content)
     fetch(`/admin/products/edit-product-active/${productid}`, 
     {method: 'POST',
     headers:{'Content-Type':'application/json'},
@@ -28,7 +27,7 @@ function productIsActive (event, productid) {
       }
     })
     .catch(err=> {
-      console.log(err)
+      toastr.error("Something went wrong.")
     })
   }
 
@@ -36,7 +35,6 @@ function productIsActive (event, productid) {
     const isActiveButton = event.currentTarget
     let content = isActiveButton.textContent
     
-    console.log(content.trim())
     fetch(`/admin/products/edit-product-returnble/${productid}`, 
     {method: 'PATCH',
     headers:{'Content-Type':'application/json'},
@@ -57,11 +55,9 @@ function productIsActive (event, productid) {
 
         }
         
-      }else{
-        console.log(err)
       }
     })
     .catch(err=> {
-      console.log(err)
+      toastr.error("Something went wrong.")
     })
   }

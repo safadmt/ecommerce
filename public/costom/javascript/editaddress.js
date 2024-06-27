@@ -2,11 +2,12 @@ function handleSubmit(formInfo, addressid) {
     event.preventDefault();
 
     const formData = new FormData(formInfo);
-    console.log(...formData);
     if (!formData.get("recipient_name")) {
       return showMessage("Recipient Name is required");
     } else if (!formData.get("mobile")) {
       return showMessage("Mobile number is required");
+    }else if (!/^\d{10}$/.test(formData.get("mobile"))) {
+      return showMessage("Enter valid mobile number", "error");
     } else if (!formData.get("postal_code")) {
       return showMessage("Postal code is required");
     } else if (formData.get("postal_code").match) {
@@ -42,7 +43,7 @@ function handleSubmit(formInfo, addressid) {
         }
       })
       .catch((err) => {
-        console.log(err);
+        toastr.error("Something went wrong.")
       });
     let obj = {};
     for (const [name, value] of formData.entries()) {
@@ -58,7 +59,6 @@ function handleSubmit(formInfo, addressid) {
         return response.json();
       })
       .then((response) => {
-        console.log(response);
         if (response.message) {
           return showMessage(response.error, "error");
         } else {
@@ -66,7 +66,7 @@ function handleSubmit(formInfo, addressid) {
         }
       })
       .catch((err) => {
-        console.log(err);
+        toastr.error("Something went wrong.")
       });
   }
 

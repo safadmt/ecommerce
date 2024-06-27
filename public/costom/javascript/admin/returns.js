@@ -1,9 +1,7 @@
 async function handleReturnStatus(event, returnid) {
-    console.log(returnid)
     if(!returnid) return
     const value = event.target.value;
 
-    console.log("value", value)
     if (!value) return;
   
     fetch(`${window.location.origin}/admin/returns/status/${returnid}`, {
@@ -13,7 +11,6 @@ async function handleReturnStatus(event, returnid) {
     })
       .then((response) => response.json())
       .then((result) => {
-        console.log(result); 
         const row = event.target.closest("tr");
         if (!result.message) {
          
@@ -29,7 +26,7 @@ async function handleReturnStatus(event, returnid) {
         }
       })
       .catch((err) => {
-        console.log(err);
+        toastr.error("Something went wrong.")
       });
   }
 

@@ -249,6 +249,15 @@ article {
         display: grid;
         place-items: center;   
     }
+    .rating {
+        font-size: 0.8rem;
+        
+    }
+    .item-info-parent {
+    padding-top: 4rem;
+    order: 1;
+    width: 100%;
+}
 }
 
 
@@ -287,7 +296,7 @@ article {
                 <% }else {%>
                 <li>Rs. <%= product.price%></li>    
                 <% } %>
-                <li style="display: flex; font-size:1rem;">
+                <li>
                     <span class="rating"><%= rating %><span v-for="n in max">&starf;</span>
                     </span> 
                 Rating & <span class="mx-2"><%= totalcomments%> </span> Reviews
@@ -315,10 +324,22 @@ article {
       <!-- Choose -->
       <div class="select-items">
           <p><%= product.description %></p>
-          <button class="genric-btn primary-border circle" 
-          onclick="addToCart(event,'<%= product._id%>')">Add to Cart</button>
-          <button class="genric-btn primary-border circle mt-2" 
-          onclick="addToWishlist(event,'<%= product._id%>')">Add to Wishlist</button>
+          <% if(product.stock_available !== 0) {%>
+            <button
+              class="genric-btn primary-border circle"
+              onclick="addToCart(event,'<%= product._id%>')"
+            >
+              Add to Cart
+            </button>
+            <button
+              class="genric-btn primary-border circle mt-2"
+              onclick="addToWishlist(event,'<%= product._id%>')"
+            >
+              Add to Wishlist
+            </button>
+            <% } else {%>
+              <button class="genric-btn danger circle">Out of stock</button>
+            <% } %>
           
       </div>
       <!-- Description -->

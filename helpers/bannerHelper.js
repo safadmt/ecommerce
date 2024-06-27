@@ -10,9 +10,9 @@ export async function insertOneBanner (info) {
 }
 
 // Find all banners
-export async function findBanner () {
+export async function findBanner (info) {
     
-        const response = await Banner.find().sort({_id: -1  })
+        const response = await Banner.find(info).sort({_id: -1  })
         return response
     
 }

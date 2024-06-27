@@ -1,12 +1,20 @@
 window.addEventListener("DOMContentLoaded", ()=> {
+  const nextpagebtn =  document.getElementById('nextpagebutton')
     const previouspageli = document.getElementById('previouspageli')
     if(currentPage === "1") {
       previouspageli.classList.add('disabled')
     }else{
       previouspageli.classList.remove('disabled')
     }
+    if(currentPage === totalpages){
+      nextpagebtn.disabled = true
+    }
   })
   function gotoNextPage(event) {
+    
+    if(currentPage == event.target.textContent.trim()) {
+      return
+    }
     currentPage = event.target.textContent.trim();
     pages();
   }
@@ -19,16 +27,14 @@ window.addEventListener("DOMContentLoaded", ()=> {
   }
 
   function handleNextPage() {
-    const total_page = parseInt(totalpages);
-    if (total_page === currentPage) return;
+    
+    if (totalpages == currentPage) return;
     currentPage = parseInt(currentPage) + 1;
     pages();
   }
 
-  function pages() {
-    const url = new URL(window.location.href);
-    const path = url.pathname.replace(previouspage, currentPage)
-    console.log(url.origin)
-    console.log(path)
-    window.location.href = `${url.origin}${path}/${currentPage}`;
-  }
+    function pages() {
+      const url = new URL(window.location.href);
+      const path = url.pathname.replace(previouspage, currentPage)
+      window.location.href = `${url.origin}${path}`;
+    }

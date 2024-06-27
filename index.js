@@ -16,9 +16,9 @@ import adminRouter from './routes/admin.js'
 import { handleError } from './middleware/errorHandler.js'
 const currentFilePath = fileURLToPath(import.meta.url)
 const __dirname = dirname(currentFilePath)
-process.loadEnvFile()
+import dotenv from 'dotenv';
+dotenv.config()
 // Initialize MongoDBStore with express-session
-console.log(process.env.MONGO_URL)
 const MongoDBStore = connectMongoDBSession(expressSession);
 const store = new MongoDBStore({uri : process.env.MONGO_URL, collection: "session"})
 store.on('error', function (err) {
@@ -33,7 +33,7 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(expressSession({secret: process.env.SESSION_SECRET,
-cookie:{maxAge: 60 * 60 * 1000},
+cookie:{maxAge: 14 * 24 * 60 * 60 * 1000},
 store: store,
 resave: false,
 saveUninitialized: false,

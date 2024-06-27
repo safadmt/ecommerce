@@ -60,7 +60,6 @@ function emailChange(event) {
   const email = document.getElementById('email').value
   const password = document.getElementById('password').value
   const mobile = document.getElementById('mobile').value
-    console.log("mobileddd",mobile)
       if(!username.trim()) {
           username_span.textContent ="Username is required"
           return
@@ -81,21 +80,23 @@ function emailChange(event) {
           return
       }else {
           const message = document.getElementById('messagesignup')
+          message.classList.add('txt-sm', 'text-success')
+          message.textContent = "Please wait. Processing your request"
           setTimeout(() => {
              message.textContent = ""
-          }, 3000);
+          }, 7000);
           const xhttp = new XMLHttpRequest()
           xhttp.onload = function() {
           let response = JSON.parse(xhttp.response)
           if(response.error) {
               errordiv.textContent = response.error
-              clearError(errorDiv)
+              clearError(errordiv)
               return
           }
           window.location.href =  "/auth/verify/email"
 
           
-      }
+        }
         xhttp.open('POST', `${window.location.origin}/auth/verify-email` ,true)
           xhttp.setRequestHeader('Content-Type','application/json')
           xhttp.send(JSON.stringify({email,username,mobile,password}))
@@ -103,8 +104,4 @@ function emailChange(event) {
 
   }
   
-  function showMessage(text, color) {
-    errordiv.classList.remove()
-    er
-    
-  }
+  

@@ -1,52 +1,4 @@
-<style>
-  .checkbox-group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .checkbox-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .checkbox-item input[type="checkbox"] {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    width: 18px;
-    height: 18px;
-    border: 2px solid #ccc;
-    border-radius: 3px;
-    outline: none;
-    cursor: pointer;
-    position: relative;
-    margin-right: 10px;
-  }
-
-  .checkbox-item input[type="checkbox"]:checked {
-    background-color: #4caf50;
-    border-color: #4caf50;
-  }
-
-  .checkbox-item input[type="checkbox"]:checked::before {
-    content: "\2713";
-    font-size: 14px;
-    color: white;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .checkbox-item label {
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-    color: #333;
-    cursor: pointer;
-  }
-  
+ 
 </style>
 <section class="product_list section_padding">
   <div class="container">
@@ -89,18 +41,22 @@
                       <% } %>                       
                   </ul>
                 </div>
-                <button
-                  class="genric-btn primary-border circle"
-                  onclick="addToCart(event,'<%= item._id%>')"
-                >
-                  Add to Cart
-                </button>
-                <button
-                  class="genric-btn primary-border circle mt-2"
-                  onclick="addToWishlist(event,'<%= item._id%>')"
-                >
-                  Add to Wishlist
-                </button>
+                <% if(item.stock_available !== 0) {%>
+                  <button
+                    class="genric-btn primary-border circle"
+                    onclick="addToCart(event,'<%= item._id%>')"
+                  >
+                    Add to Cart
+                  </button>
+                  <button
+                    class="genric-btn primary-border circle mt-2"
+                    onclick="addToWishlist(event,'<%= item._id%>')"
+                  >
+                    Add to Wishlist
+                  </button>
+                  <% } else {%>
+                    <button class="genric-btn danger circle">Out of stock</button>
+                  <% } %>
               </div>
             </div>
             <% }) %>
@@ -150,28 +106,6 @@
   </div>
 </section>
 <!-- product list part end-->
-
-<!-- subscribe part here -->
-<section class="subscribe_part section_padding">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-8">
-        <div class="subscribe_part_content">
-          <h2>Get promotions & updates!</h2>
-          <p>
-            Seamlessly empower fully researched growth strategies and
-            interoperable internal or “organic” sources credibly innovate
-            granular internal .
-          </p>
-          <div class="subscribe_form">
-            <input type="email" placeholder="Enter your mail" />
-            <a href="#" class="btn_1">Subscribe</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <script src="/costom/javascript/cart.js"></script>
 <script src="/costom/javascript/productssearch.js"></script>

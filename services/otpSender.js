@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer';
 import otpGenerator from 'otp-generator';
-process.loadEnvFile()
+import dotenv from 'dotenv';
+dotenv.config()
 
 async function sendOTP(email) {
     const otp = otpGenerator.generate(6, { 
@@ -59,10 +60,10 @@ async function emailChangesConfirmation(email,newemail ,username) {
 
     try {
         const response = await sendMail(email, obj);
-        console.log(response);
+        
         return response;
     } catch (err) {
-        console.error(err);
+        
         return err;
     }
 }

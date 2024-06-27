@@ -22,11 +22,13 @@ function showMessage(message, status) {
       event.preventDefault();
   
       const formData = new FormData(formInfo);
-      console.log(...formData);
+      
       if (!formData.get("recipient_name").trim()) {
         return showMessage("Recipient Name is required", "error");
       } else if (!formData.get("mobile").trim()) {
         return showMessage("Mobile number is required", "error");
+      } else if (!/^\d{10}$/.test(formData.get("mobile"))) {
+        return showMessage("Enter valid mobile number", "error");
       } else if (!formData.get("postal_code").trim()) {
         return showMessage("Postal code is required", "error");
       } else if (formData.get("postal_code").match) {
@@ -60,10 +62,10 @@ function showMessage(message, status) {
           }
         })
         .catch((err) => {
-          console.log(err);
+          toastr.error("Something went wrong.")
         });
       let obj = {}
-      console.log("obj",obj)
+  
       for(const [name, value] of formData.entries()) {
           obj[name] = value
        }
@@ -77,11 +79,11 @@ function showMessage(message, status) {
           return response.json()
       })
       .then(result=> {
-          console.log(result.error)
+          
           if(result.error) {
               return showMessage(result.error, "error")
           }else{
-            return showMessage("Address added successfully", "success")
+            showMessage("Address added successfully", "success")
             setTimeout(() => {
                 window.location.reload()
             }, 3000);

@@ -10,7 +10,8 @@ function bannerIsActive(event, bannerid) {
       .then((response) => response.json())
       .then((data) => {
         const row = isActiveButton.closest('tr');
-        const activeTd = row.getElementsByTagName('td')[4]; // Index of the 'Active' td
+        const activeTd = row.getElementsByTagName('td')[3]; // Index of the 'Active' td
+        console.log(activeTd)
         const activeSpan = activeTd.getElementsByTagName('span')[0];
         if (data?.isActive) {
           isActiveButton.textContent = "true";
@@ -22,7 +23,7 @@ function bannerIsActive(event, bannerid) {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err)
       });
   }
 

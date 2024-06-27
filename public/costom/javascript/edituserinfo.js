@@ -20,13 +20,11 @@ const otpGroup = document.getElementById("otp-group");
       data[key] = value;
     });
     const regex = /^\d{10}$/;
-    console.log(data);
     if (!data.username?.trim() || !mobile) {
-      return alert("Username or mobile field is required");
+      return toastr.warning("Username or mobile field is required");
     } else if (!regex.test(data.mobile)) {
-      return alert("Not a valid mobile number");
+      return toastr.warning("Not a valid mobile number");
     }
-    console.log(data);
     const response = await fetch("/user/profile/edit-credential", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -35,13 +33,13 @@ const otpGroup = document.getElementById("otp-group");
 
     const result = await response.json();
     if (response.ok) {
-      alert("Changes saved successfully!");
+      toastr.success("Changes saved successfully!");
       closeModal(form.closest(".model-div").id);
       document.getElementById("username").textContent = data.username;
       document.getElementById("profilename").textContent = data.username;
 
     } else {
-      alert(`Error: ${result.message}`);
+      toastr.warning(`Error: ${result.message}`);
     }
   }
 
@@ -59,23 +57,22 @@ const otpGroup = document.getElementById("otp-group");
       !new_password.trim() ||
       !confirm_new_password.trim()
     ) {
-      return alert("Required all * indiacted field");
+      return toastr.warning("Required all * indiacted field");
     } else if (new_password !== confirm_new_password) {
-      return alert("Passwords do not match");
+      return toastr.warning("Passwords do not match");
     } else if (!validatePassword(current_password)) {
-      return alert(
+      return toastr.warning(
         "Current Password is invalid. It must be between 8 and 25 characters long."
       );
     } else if (!validatePassword(new_password)) {
-      return alert(
+      return toastr.warning(
         "New Password is invalid. It must be between 8 and 25 characters long."
       );
     } else if (!validatePassword(confirm_new_password)) {
-      return alert(
+      return toastr.warning(
         "Confirm New Password is invalid. It must be between 8 and 25 characters long."
       );
     }
-    console.log(data);
     const response = await fetch("/user/profile/edit-password", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -84,10 +81,10 @@ const otpGroup = document.getElementById("otp-group");
 
     const result = await response.json();
     if (response.ok) {
-      alert("Changes saved successfully!");
+      toastr.success("Changes saved successfully!");
       closeModal(form.closest(".model-div").id);
     } else {
-      alert(`Error: ${result.message}`);
+      toastr.warning(`Error: ${result.message}`);
     }
   }
   function validatePassword(password) {
@@ -104,9 +101,9 @@ const otpGroup = document.getElementById("otp-group");
     const isEmailValid = pattern.test(email);
 
     if (!email.trim()) {
-      return alert("Email is required");
+      return toastr.warning("Email is required");
     } else if (!pattern.test(email)) {
-      return alert("Not a valid Email");
+      return toastr.warning("Not a valid Email");
     }
     showMessage("Please wait", "green", editemailform, otpGroup);
 
@@ -119,25 +116,23 @@ const otpGroup = document.getElementById("otp-group");
 
       const result = await response.json();
       if (response.ok) {
-        alert(result.data);
+        toastr.success(result.data);
         otpGroup.classList.remove("hidden");
         otpbtn.classList.remove("hidden");
         emailbtn.classList.add("hidden");
       } else {
-        return alert(`Error: ${result.message}`);
+        return toastr.warning(`Error: ${result.message}`);
       }
     } catch (err) {
-      console.log(err);
-    }
+      toastr.error("Something went wrong.")    }
   }
 
   async function handleSubmitOTP() {
     event.preventDefault();
 
     const otp = document.getElementById("otp").value;
-    console.log("hello otp", otp);
     if (!otp.trim()) {
-      return alert("OTP field required");
+      return toastr.warning("OTP field required");
     } else if (otp.length !== 6) {
       return "OTP only 6 charactors.";
     }
@@ -153,7 +148,7 @@ const otpGroup = document.getElementById("otp-group");
       const result = await response.json();
       if (response.ok) {
         if (result.data) {
-          alert("Email has been changed successfully");
+          toastr.success("Email has been changed successfully");
           window.location.reload();
         }
       } else {
@@ -161,15 +156,13 @@ const otpGroup = document.getElementById("otp-group");
           document.getElementById("otp-group").classList.add("hidden");
           document.getElementById("otpbtn").classList.add("hidden");
           document.getElementById("emailbtn").classList.remove("hidden");
-          return alert(result.message);
+          return toastr.warning(result.message);
         } else {
-          console.log(result);
-          return alert(result.message);
+          return toastr.warning(result.message);
         }
       }
     } catch (err) {
-      console.log(err);
-      alert(err);
+      toastr.error("Something went wrong.")
     }
   }
 

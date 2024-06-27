@@ -27,6 +27,12 @@
     padding: 1rem 4rem;
     
   }
+  @media only screen and (max-width: 600px) {
+    .btn_1 {
+      
+      margin-top: 10px;
+    }
+  }
 </style>
 <!--================Cart Area =================-->
 <% if(products.length > 0) {%> 
@@ -124,7 +130,7 @@
           </tbody>
         </table>
         <div class="checkout_btn_inner float-right">
-          <a class="btn_1" href="#">Continue Shopping</a>
+          <a class="btn_1" href="/shop">Continue Shopping</a>
           <% if(isAllAvailable === true) {%> 
             <a class="btn_1 checkout_btn_1" href="/user/checkout">Proceed to checkout</a>
           <% } else {%> 

@@ -188,9 +188,6 @@ export async function getReturnedProduct (orderid,productId){
       .populate('productid')
       return product
 }
-// updatepr()
-
-
 
 
 

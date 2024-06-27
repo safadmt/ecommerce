@@ -1,6 +1,7 @@
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import User from "../models/users.js";
-process.loadEnvFile()
+import dotenv from 'dotenv';
+dotenv.config()
 function passportGoogleOauth(passport) {
   passport.use(
     new GoogleStrategy(
@@ -10,7 +11,7 @@ function passportGoogleOauth(passport) {
         callbackURL: process.env.CALLBACK_URL,
       },
       function (accessToken, refreshToken, profile, cb) {
-        console.log(profile);
+        
         User.findOne({ email: profile.emails.value })
           .then((user) => {
             if (user) {
@@ -39,7 +40,7 @@ function passportGoogleOauth(passport) {
 
   passport.serializeUser(function (user, cb) {
     process.nextTick(function () {
-      console.log("process", user);
+      
       return cb(null, user._id);
     });
   });
@@ -47,7 +48,7 @@ function passportGoogleOauth(passport) {
   passport.deserializeUser((id, cb) => {
     User.findById(id, { password: 0 })
       .then((user) => {
-        console.log("user", user);
+       
         cb(null, user);
       })
       .catch((err) => {

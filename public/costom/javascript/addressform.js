@@ -2,11 +2,12 @@ function handleSubmit(formInfo) {
     event.preventDefault();
 
     const formData = new FormData(formInfo);
-    console.log(...formData);
     if (!formData.get("recipient_name").trim()) {
       return showMessage("Recipient Name is required");
     } else if (!formData.get("mobile").trim()) {
       return showMessage("Mobile number is required");
+    } else if (!/^\d{10}$/.test(formData.get("mobile"))) {
+      return showMessage("Enter valid mobile number", "error");
     } else if (!formData.get("postal_code").trim()) {
       return showMessage("Postal code is required");
     } else if (formData.get("postal_code").match) {
@@ -43,7 +44,6 @@ function handleSubmit(formInfo) {
         console.log(err);
       });
     let obj = {}
-    console.log("obj", obj)
     for (const [name, value] of formData.entries()) {
       obj[name] = value
     }
@@ -57,7 +57,6 @@ function handleSubmit(formInfo) {
         return response.json()
       })
       .then(result => {
-        console.log(result.error)
         if (result.error) {
           return showMessage(result.error)
         } else {

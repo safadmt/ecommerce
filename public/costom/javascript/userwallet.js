@@ -38,7 +38,6 @@ const response = await fetch("/user/profile/add-cash-to-wallet", {
       
     }
     }catch(err) {
-      console.log(err)
       showMessage("Something went wrong", "red")
     }
     
@@ -75,9 +74,7 @@ function paywithrazorpay(payment,username) {
         verifyPayment(response, payment.receipt)
         .then(response=> {
           if(response.message) {    
-            console.log(response.message)
           }else{
-            console.log(response)
             window.location.reload()
           }
         })
@@ -95,9 +92,9 @@ function paywithrazorpay(payment,username) {
     rzp1.on("payment.failed", function (response) {
 
      
-      alert(response.error.description);
+      toastr.error(response.error.description);
       
-      alert(response.error.reason);
+      toastr.error(response.error.reason);
       
     });
   }

@@ -50,7 +50,7 @@
 <section class="product_list section_padding">
   <div class="container">
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-4 col-sm-12">
         <div class="product_sidebar">
           
           <form onsubmit="handleFilter('filter')">
@@ -172,7 +172,7 @@
           </form>
         </div>
       </div>
-      <div class="col-md-8">
+      <div class="col-md-8 col-sm-12">
         <% if(products.length> 0) {%> <% if(products.length==10) { %>
         <div class="row">
           <p>
@@ -194,7 +194,7 @@
                   <img
                     src="/products/images/<%= item.images[0]%>"
                     alt=""
-                    class="image-product-collection"
+                    class="img-fuid productimageshop"
                   />
                 </a>
                 <h3><%= item.brand%> | <%= item.gender %></h3>

@@ -24,7 +24,6 @@ async function addToWishlist(event, productid) {
       },
     });
     const result = await response.json();
-    console.log(result);
     if (response.ok) {
       toastr.success("Added to wishlist");
       document.getElementById("wishlist-count").innerHTML =
@@ -32,8 +31,9 @@ async function addToWishlist(event, productid) {
     } else {
       if (result.message === "login") {
         window.location.href = "/auth/login";
-      } else {
-        console.log(result);
+      } else if(result.message !== "login"){
+        toastr.warning(result.message)
+        
       }
     }
   } catch (err) {

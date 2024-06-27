@@ -38,7 +38,6 @@ let product_qty = "";
     if (!retunreason || !return_refund_status) {
       return;
     }
-    console.log(product_qty, retunreason, return_refund_status);
 
     try {
       const response = await fetch(

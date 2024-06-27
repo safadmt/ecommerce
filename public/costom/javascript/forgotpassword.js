@@ -1,8 +1,6 @@
-function handleSendOTP () {
+function handleSendOTP (event) {
     event.preventDefault()
-    console.log("hello again")
     const email = document.getElementById('email').value
-    console.log(email)
     if(!email.trim()) {
         return 
     }
@@ -17,7 +15,7 @@ function handleSendOTP () {
   .then((response) => response.json())
   .then((data) => {
     if (data.message) {
-      alert(data.message);
+      toastr.warning(data.message);
     } else {
       const otpinput = document.getElementById('otpinput')
         const otp_button = document.getElementById('otp_button')
@@ -42,12 +40,10 @@ const maindiv = document.getElementById('otp_button')
         const otpbtn = document.getElementById('otpbtn')
     const otp = document.getElementById('otp').value
     if(!otp) return 
-    console.log(otp, "value")
     if(otp.length !== 6) {  
         
         return showMessage("OTP length only 6 digit long", "red", maindiv, otpbtn)
     }
-    console.log("oTP", otp)
 fetch(`${window.location.origin}/auth/forgot-password/verify-otp`, {
   method: "POST",
   headers: {'Content-Type': 'application/json'},
@@ -55,19 +51,17 @@ fetch(`${window.location.origin}/auth/forgot-password/verify-otp`, {
 })
   .then((response) => response.json())
   .then((data) => {
-    console.log(data)
     if (data.message) {
-      alert(data.message);
+      toastr.warning(data.message);
       window.location.href = data.url
     } else {
-      alert('OTP verified successfully')
+      toastr.warning('OTP verified successfully')
       window.location.href = data.data.url
 
     }
   })
   .catch((err) => {
-    console.log(err)
-  });
+    toastr.error("Something went wrong.")  });
 }
 
 

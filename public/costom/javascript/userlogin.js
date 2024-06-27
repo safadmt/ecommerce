@@ -1,11 +1,9 @@
 const loginbtn = document.getElementById("loginbtn");
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 function inputEmailChange(event) {
-  console.log("hello");
   const email = event.target.value.trim();
   const emailError = document.getElementById("email_span");
 
-  console.log("email ", email);
   if (!email) {
     loginbtn.classList.add("disabled");
     emailError.textContent = "Email is required.";

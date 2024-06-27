@@ -3,9 +3,7 @@ function handleImage (event, imageurl) {
     mainimg.src = `/products/images/${imageurl}`
 } 
 
-// function addTotCart(event, productid, user) {
-//   console.log(user)
-// }
+
 
 document.querySelectorAll('input[name="rating"]').forEach(item=> {
     item.addEventListener('change', function (event) {
@@ -17,7 +15,6 @@ document.querySelectorAll('input[name="rating"]').forEach(item=> {
         })
         .then(response=> response.json())
         .then(result=> {
-            console.log(result)
             const commentform =  document.getElementById('commentform')
                 const star_rating =  document.querySelector('.star-rating')
             if(result.message) {
@@ -31,7 +28,7 @@ document.querySelectorAll('input[name="rating"]').forEach(item=> {
             }, 2000);
             }
         }).catch(err=> {
-            console.log(err)
+            toastr.error("Something went wrong.")
         })
     })
 })
@@ -41,7 +38,6 @@ async function handleReviewandRating () {
         const review = document.getElementById('comment').value
         const button = document.getElementById('commentbtn')
         const commentdiv = document.getElementById('commentdiv')
-        console.log(review)
         
         if(!review.trim()) {
             return 
@@ -61,7 +57,7 @@ async function handleReviewandRating () {
             }, 2000);
         }
     }catch(err) {
-        console.log(err)
+        toastr.error("Something went wrong.")
     }
 }
 function showMessage(message,color, parentdiv, childdiv ) {

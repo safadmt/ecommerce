@@ -21,7 +21,6 @@ function gotoNextPage(event) {
 
     const brands = params.getAll("brand");
     brands.forEach((brand) => {
-      console.log(brand);
       const checkbox = document.querySelector(
         `input[name="brand"][value="${brand}"]`
       );
@@ -101,7 +100,6 @@ function gotoNextPage(event) {
 
     // Construct the new URL with updated query parameters
     const path = currentUrl.pathname.split("/")[1];
-    console.log(path);
     const newUrl = `${
       currentUrl.origin
     }/${path}/${currentPage}/?${params.toString()}`;

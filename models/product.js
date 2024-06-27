@@ -18,7 +18,7 @@ const productSchema = new Schema({
         {type: String,required: true}
     ],
     product_sold : {type: Number , default : 0},
-    discount_in_percentage : {type: Number,required:true, default: 0},
+    discount_in_percentage : {type: Number, default: 0, required:true},
     returnable : {type: Boolean, default: true, required:true},
     isActive: {type:Boolean, default: true}
 },{timestamps: true})

@@ -26,6 +26,7 @@
   }
   .coupon p{
     color: white;
+    font-size: 100% !important;
   }
   @media only screen and (min-width: 700px) {
   .image-product-collection{
@@ -34,20 +35,18 @@
     max-height: 432px !important;
   }
   .imgbanner{
-    filter: blur(3px);
+    
     height: 700px;
     object-fit: cover;
   }
-  
+  .coupon p {
+    font-size: 80%;
+  }
 }
 </style>
 <main id="mainpage">
   <!-- coupon -->
-  <% if(wallet) {%>
-  <div>
-    <div class="coupon"><p><%= wallet.description %></p></div>
-  </div>
-  <% } %>
+  
   <!-- slider Area Start -->
   <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
@@ -57,7 +56,7 @@
         <img class="d-block w-100 imgbanner" src="/banners/<%= banner.imageurl%>" alt="First slide">
         <div class="carousel-caption d-none d-md-block">
           <h1><%=banner.first_caption%></h1>
-          <h3><%=banner.second_caption%></h3>
+          <h4><%=banner.second_caption%></h4>
         </div>
       </div>
       
@@ -66,7 +65,7 @@
           <img class="d-block w-100 imgbanner" src="/banners/<%= banner.imageurl%>" alt="First slide">
           <div class="carousel-caption d-none d-md-block">
             <h1><%=banner.first_caption%></h1>
-          <h3><%=banner.second_caption%></h3>
+          <h4><%=banner.second_caption%></h4>
           </div>
         </div>
       <% } %>
@@ -81,6 +80,11 @@
       <span class="sr-only">Next</span>
     </a>
   </div>
+  <% if(wallet) {%>
+    <div>
+      <div class="coupon"><p><%= wallet.description %></p></div>
+    </div>
+    <% } %>
   <!-- slider Area End-->
   <!-- Category Area Start-->
   <section class="category-area section-padding30">

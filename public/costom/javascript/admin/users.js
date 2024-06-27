@@ -1,8 +1,6 @@
 function userIsBlocked(event, userid) {
     const isActiveButton = event.currentTarget;
     let content = isActiveButton.textContent;
-    console.log(isActiveButton);
-    console.log(content);
     fetch(`/admin/users/block-or-unblock/${userid}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -28,7 +26,7 @@ function userIsBlocked(event, userid) {
         
       })
       .catch((err) => {
-        console.log(err);
+        toastr.error("Something went wrong.")
       });
   }
   
@@ -71,8 +69,7 @@ function userIsBlocked(event, userid) {
         .then((response) => response.json())
         .then((data) => {
           if (data.error) {
-            console.log(data.error)
-            
+              toastr.warning(data.error)            
           }else{
             document.getElementById('totalusers').textContent = data.totalusers;
             document.getElementById('newusers').textContent = data.newusers

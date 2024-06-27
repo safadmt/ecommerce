@@ -456,7 +456,9 @@ h3,h2,h1,h4{
     width: auto;
   }
 }
-
+#imagebanner{
+  max-height: 258px;
+}
 @media only screen and (max-width: 900px) {
   .checkout_div {
     background-color: rgba(127, 17, 224, 0.3);
@@ -470,5 +472,24 @@ h3,h2,h1,h4{
     object-fit: contain;
     min-height: 432px !important;
     max-height: 432px !important;
+  }
+  .productimageshop{
+    object-fit: contain;
+    min-height: 432px !important;
+    max-height: 432px !important;
+  }
+}
+.carousel-caption h1,
+.carousel-caption h4{
+  color: white !important;
+  font-family: "Poppins", sans-serif !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+}
+@media only screen and (max-width: 700px) {
+  .productimageshop{
+    object-fit: contain;
+    min-height: 80% !important;
+    max-height: 400px !important;
   }
 }

@@ -9,7 +9,6 @@ function handleSubmit(formElement) {
     for (const [name, value] of formData.entries()) {
       obj[name] = value;
     }
-console.log(obj)
     if (!formData.get("first_caption").trim()) {
       return showMessage("First Caption is required");
     }
@@ -34,12 +33,14 @@ console.log(obj)
           setTimeout(() => {
             window.location.reload();
           }, 2000);
+          return
         } else if (data.error) {
           return showMessage(data.error);
         }
       })
       .catch((err) => {
-        console.log(err);
+         
+        toastr.error("Something went wrong.")
       });
   }
 

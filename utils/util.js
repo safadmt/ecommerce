@@ -107,7 +107,9 @@ export async function getTotalCartPriceDiscount(req, res, next) {
           } else {
             if (
               totalprice > coupon.minimum_purchase_value &&
-              totalprice < coupon.maximum_purchase_value
+              (totalprice < coupon.maximum_purchase_value ||
+                coupon.maximum_purchase_value == 0
+              )
             ) {
               coupon_discount += discount;
               valid_coupons.push({ _id, discount, coupon_code });

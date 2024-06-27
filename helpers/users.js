@@ -295,7 +295,10 @@ export async function createProductReturn (info) {
  }
 
  export async function findAllProductReturns (info) {
-   const response = await Return.find(info).populate('userid', {username: 1}).populate('productid')
+   const response = await Return.find(info).
+   populate('userid', {username: 1}).
+   populate('productid')
+   .sort({createdAt: -1})
    return response;
  }
  
@@ -309,6 +312,10 @@ export async function findOneReturn (returnid) {
   const response = await Return.findById(returnid)
   return response;
 }
+
+
+
+
 
 
 

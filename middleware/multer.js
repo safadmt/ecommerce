@@ -28,7 +28,7 @@ function uploadFile () {
         }}))
         // Middleware function to handle multiple file uploads (max 4 files)
         return (req, res, next) => {
-          upload.array('files',4)(req, res, (err) => {
+          upload.array('files',5)(req, res, (err) => {
             if (err) {
               
               // Handle the error and send it to the client

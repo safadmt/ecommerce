@@ -5,7 +5,12 @@ const discount_value_warning = document.getElementById('discount_value_warning')
 const minimum_purchase_value_warning = document.getElementById('minimum_purchase_value_warning')
 const description_span_warning = document.getElementById('description_warning')
 
-
+window.addEventListener("DOMContentLoaded", setMinDate())
+function setMinDate () {
+  const today = new Date().toISOString().split('T')[0];
+ 
+  document.getElementById('valid_till').setAttribute('min', today);
+}
 function generateCoupon () {
     event.preventDefault()
     fetch(`${window.location.origin}/admin/generate-coupon-code`)
@@ -44,7 +49,6 @@ function handleSubmit(formElement) {
     for (const [name, value] of formData.entries()) {
       obj[name] = value;
     }
-    console.log(obj);
     if (!formData.get("coupon_code").trim()) {
       valid = false;
       coupon_code_warning.textContent = "coupon code is required";
@@ -78,7 +82,6 @@ function handleSubmit(formElement) {
     const xhttp = new XMLHttpRequest();
     xhttp.onload = function () {
       const response = JSON.parse(xhttp.response);
-      console.log(response);
       if (response) {
         const successdiv = document.createElement("div");
         successdiv.classList.add("text-green-500");
@@ -133,7 +136,6 @@ function handleSubmit(formElement) {
 
   function discountValueChange(event) {
     const type = document.getElementById("discount_type").value;
-    console.log(type);
     const discount_value = document.getElementById("discount_value");
     if (type === "percentage") {
       const value = event.target.value;

@@ -8,14 +8,6 @@ function handleSubmit(formElement,event) {
       obj[name] = value;
     }
     
-    const {
-      price,
-      product_name,
-      stock_available,
-      brand,
-      description,
-      isBlocked
-    } = obj;
   
     if (!formData.get("product_name").trim()) {
       valid = false
@@ -67,15 +59,41 @@ function handleSubmit(formElement,event) {
     const xhttp = new XMLHttpRequest();
     xhttp.onload = function () {
       const response = JSON.parse(xhttp.response);
-      console.log(response);
-      if (response === "Ok") {
+      if (response.error) {
+        return toastr.error(response.error);
+      }else if (response.validation_error) {
+        if (validation_error.product_name) {
+          toastr.warning(response.validation_error.product_name);
+          return;
+        } else if (validation_error.brand) {
+          toastr.warning(response.validation_error.brand);
+          return;
+        } else if (validation_error.description) {
+          toastr.warning(response.validation_error.description);
+          return;
+        } else if (validation_error.type) {
+          toastr.warning(response.validation_error.type);
+          return;
+        }
+        else if (validation_error.gender) {
+          toastr.warning(response.validation_error.gender);
+          return;
+        }else if (validation_error.price) {
+          toastr.warning(response.validation_error.price);
+          return;
+        }else if (validation_error.isActive) {
+          toastr.warning(response.validation_error.isActive);
+          return;
+        }else if (validation_error.stock_available) {
+          toastr.warning(response.validation_error.stock_available);
+          return;
+        }
+      }else if (response === "Ok") {
         toastr.success("Product added successfully")
         setTimeout(() => {
           window.location.reload()
         }, 2000);
-      } else if (response.error) {
-        return toastr.error(response.error);
-      }
+      } 
     };
     xhttp.open(
       "POST",
@@ -115,7 +133,8 @@ function selectOptionChange (e) {
 
 function showWarning (e, message_span,message) {
   const submitbutton = document.getElementById('submitbutton')
-  if(!e.value) {
+  console.log("hello",e.value)
+  if(e.value.trim() === "") {
     message_span.textContent = message
     submitbutton.disabled = true;
   }else {
@@ -129,7 +148,9 @@ function validateInput (e) {
   
   switch (e.name) {
     case 'product_name':
-      showWarning(e,warning_span, "Product name is required")
+      
+        showWarning(e,warning_span, "Product name is required")
+      
       break;
     case 'price':
       showWarning(e,warning_span, "Price is required")

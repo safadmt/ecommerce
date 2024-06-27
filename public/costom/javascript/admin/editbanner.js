@@ -6,13 +6,10 @@ function handleSubmit(formElement, bannerid) {
     for (const [name, value] of formData.entries()) {
       obj[name] = value;
     }
-    console.log(obj);
-    console.log(bannerid);
+
     if (!formData.get("first_caption").trim()) {
       return showMessage("First Caption is required");
     }
-    
-    console.log(obj);
 
     fetch(`${window.location.origin}/admin/banners/edit/${bannerid}`, {
       method: "PUT",
@@ -20,7 +17,6 @@ function handleSubmit(formElement, bannerid) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         if (data === "Ok") {
           const successdiv = document.createElement("div");
           successdiv.classList.add("text-orange-800");
@@ -36,7 +32,7 @@ function handleSubmit(formElement, bannerid) {
         }
       })
       .catch((err) => {
-        console.log(err);
+        toastr.error("Something went wrong.")
       });
   }
 
