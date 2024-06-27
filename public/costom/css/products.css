@@ -466,7 +466,19 @@ h3,h2,h1,h4{
     margin: 4rem 1rem;
   }
 }
-
+.carousel-caption h1,
+.carousel-caption h4{
+  color: white !important;
+  font-family: "Poppins", sans-serif !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+}
+.carousel-caption h1 {
+  font-size: calc(1.5rem + 1.5vw) !important;
+}
+.carousel-caption h4 {
+  font-size: calc(1rem + 0.5vw);
+}
 @media only screen and (min-width: 700px) {
   .image-product-collection{
     object-fit: contain;
@@ -479,13 +491,7 @@ h3,h2,h1,h4{
     max-height: 432px !important;
   }
 }
-.carousel-caption h1,
-.carousel-caption h4{
-  color: white !important;
-  font-family: "Poppins", sans-serif !important;
-  font-weight: 400 !important;
-  font-style: normal !important;
-}
+
 @media only screen and (max-width: 700px) {
   .productimageshop{
     object-fit: contain;

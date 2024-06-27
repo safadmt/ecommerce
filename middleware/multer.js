@@ -19,6 +19,7 @@ function uploadFile () {
       })
        // Initialize multer with the configured storage and file filter
     const upload = multer(({storage: storage,
+        limits : {fileSize: 1024000},
         fileFilter: function (req,file,cb) {
           // Allow only image files with specific extensions
           if (!file.originalname.match(/\.(jpg|jpeg|png|gif|webp)$/)) {
@@ -57,6 +58,7 @@ function uploadBannerFile () {
     })
     // Initialize multer with the configured storage and file filter
   const upload = multer(({storage: storage,
+      limits: {fileSize:  1368006},
       fileFilter: function (req,file,cb) {
         // Allow only image files with specific extensions
         if (!file.originalname.match(/\.(jpg|jpeg|png|gif|webp)$/)) {

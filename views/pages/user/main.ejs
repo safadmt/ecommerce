@@ -36,7 +36,8 @@
   }
   .imgbanner{
     
-    height: 700px;
+    max-height: 700px;
+    aspect-ratio: 16/9;
     object-fit: cover;
   }
   .coupon p {
@@ -54,7 +55,7 @@
         <% if(index === 0) {%> 
       <div class="carousel-item active imgdiv">
         <img class="d-block w-100 imgbanner" src="/banners/<%= banner.imageurl%>" alt="First slide">
-        <div class="carousel-caption d-none d-md-block">
+        <div class="carousel-caption">
           <h1><%=banner.first_caption%></h1>
           <h4><%=banner.second_caption%></h4>
         </div>
@@ -63,7 +64,7 @@
       <% } else { %>
         <div class="carousel-item">
           <img class="d-block w-100 imgbanner" src="/banners/<%= banner.imageurl%>" alt="First slide">
-          <div class="carousel-caption d-none d-md-block">
+          <div class="carousel-caption">
             <h1><%=banner.first_caption%></h1>
           <h4><%=banner.second_caption%></h4>
           </div>
