@@ -20,9 +20,14 @@ export const adminAuth = (req,res,next)=> {
         // If the admin is authenticated, proceed to the next middleware or route handler
         next()
     }else{
-        // Set a flash message and redirect to the admin login page
-        req.flash('error', 'Session timeout . Please login')
-        res.redirect('/auth/admin/login')
+        if(req.session.user) {
+            return res.redirect('/')
+        }else {
+            // Set a flash message and redirect to the admin login page
+            req.flash('error', 'Session timeout . Please login')
+            res.redirect('/auth/admin/login')
+        }
+        
     }
 }
 

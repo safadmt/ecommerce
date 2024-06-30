@@ -440,7 +440,18 @@ h3,h2,h1,h4{
   margin: 4px 0;
   line-height: 1.5;
 }
-
+.branddisplaysection{
+  display: flex;
+  flex-wrap: wrap;
+  gap:60px;
+  justify-content: center;
+  align-items: center;
+}
+.brandimg{
+  width: 300px;
+  height: 200px;
+  object-fit: contain;
+}
 @media (min-width: 481px) {
   .address-row {
     flex-direction: row;
@@ -456,6 +467,7 @@ h3,h2,h1,h4{
     width: auto;
   }
 }
+
 #imagebanner{
   max-height: 258px;
 }
@@ -501,5 +513,22 @@ h3,h2,h1,h4{
   }
   .carousel-caption h4 {
     font-size: 0.5rem;
+  }
+  .branddisplaysection{
+    
+    gap:20px;
+    
+  }
+  .product-item {
+    width: 100%;
+    display: block;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+  }
+  .brandimg{
+    width: 150px;
+    height: 100px;
   }
 }

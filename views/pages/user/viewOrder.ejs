@@ -92,7 +92,7 @@
       <div class="flex flex-col flex-1 w-full">
         <%- include('../../partials/user/profileHeader.ejs') %>
         <main class="h-full pb-16 overflow-y-auto">
-          <div class="container grid px-6 mx-auto">
+          <div class="container grid px-6 mx-auto" id="viewordercontainer">
             <div class="product-details-page">
                 <div class="section">
                   <h3>Shipping Address</h3>
@@ -118,7 +118,7 @@
                         <div class="product-info">
                           <h4><%= product.productid.product_name %></h4>
                           <p><%= product.productid.brand %></p>
-                          <p><%= product.productid.description %></p>
+                          
                           <p>Price: Rs. <%= product.productid .price %></p>
                           <p>Quantity: <%= product.quantity %></p>
                         </div>
@@ -147,3 +147,17 @@
     </div>
   </body>
 </html>
+<script>
+  function checkWindowsize () {
+    const viewordercontainer = document.getElementById('viewordercontainer')
+    const productdetailspage = document.querySelector('.product-details-page')
+    if(viewordercontainer.offsetWidth < 500) {
+      viewordercontainer.classList.remove('container','px-6')
+      productdetailspage.style.padding = "0px"
+    }else{
+      viewordercontainer.classList.add('container', 'px-6')
+    }
+  }
+  checkWindowsize()
+  window.addEventListener("resize", checkWindowsize)
+</script>

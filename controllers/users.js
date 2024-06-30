@@ -299,6 +299,15 @@ export const googleCallback = (req, res, next) => {
 export async function getMainLandingPage(req, res, next) {
   setcache(req,res)
   try {
+    const brandname = [
+      { label: 'ROLEX', value: 'rolex' },
+      { label: 'BOAT', value: 'boat' },
+      { label: 'FOSSIL', value: 'fossil' },
+      { label: 'TISSOT', value: 'tissot' },
+      { label: 'ARMANI EXCHANGE', value: 'armani-exchange' },
+      { label: 'GUESS', value: 'guess' },
+      
+  ]
     const wishlist = await wishlistCount(req, res, next); // Get wishlist count
     const banners = await findBanner({isActive:true}); // Get banner data
 
@@ -315,6 +324,7 @@ export async function getMainLandingPage(req, res, next) {
       wishlist,
       banners,
       wallet: wallet || "",
+      brandname
     });
   } catch (err) {
     next(err);
@@ -2032,7 +2042,7 @@ export async function getProductCollection(req, res, next) {
   const page = (skip - 1) * limit;
   try {
     const role = "";
-    const username = "";
+    const username = req.session?.user?.username || "";
     const count = await getCartTotalQuantity(req, res, next); // Get cart total product quantity
     const wishlist = await wishlistCount(req, res, next); // Get wishlist count
     const { item } = req.params;
@@ -2222,6 +2232,28 @@ export async function verfiyWalletPayment(req, res, next) {
     } catch (err) {
       res.status(500).json(err);
     }
+  }
+}
+
+export async function getProductByBrand(req,res,next) {
+  const {brandname} = req.params;
+  try{
+    const role = "profile";
+    const username = req.session?.user?.username || "";
+    const count = await getCartTotalQuantity(req, res, next); // Get cart total product quantity
+    const wishlist = await wishlistCount(req, res, next); // Get wishlist count
+    const products = await getAllProduct({isActive:true, brand:brandname},100)
+    
+      return res.render('pages/user/newproduct', {
+        username,
+        role,
+        count,
+        wishlist,
+        products
+      })
+      
+  }catch(err) {
+    next(err)
   }
 }
 

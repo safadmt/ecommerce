@@ -9,7 +9,9 @@ import { getMainLandingPage , pageNotFound, viewProduct,getUserCartPage,
      addProductReview,
      orderSuccess,
      orderCancelled,
-     stripeVerifyPayment} from '../controllers/users.js';
+     stripeVerifyPayment,
+     getProductByBrand
+} from '../controllers/users.js';
 
 const router = express.Router();
 
@@ -38,6 +40,9 @@ router.get('/collection/:item/:page?', getProductCollection)
 
 // Route to get product collection page
 router.get('/new-products', getnewProducts)
+
+// Route to get product collection page
+router.get('/brand/:brandname', getProductByBrand)
 
 // Route to handle product rating
 router.post('/product/rating/:productid',userAuth, addProductRating )
