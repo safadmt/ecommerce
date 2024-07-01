@@ -2241,7 +2241,7 @@ export async function verfiyWalletPayment(req, res, next) {
 export async function getProductByBrand(req,res,next) {
   const {brandname} = req.params;
   try{
-    const role = "profile";
+    const role = "user";
     const username = req.session?.user?.username || "";
     const count = await getCartTotalQuantity(req, res, next); // Get cart total product quantity
     const wishlist = await wishlistCount(req, res, next); // Get wishlist count
