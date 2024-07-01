@@ -41,7 +41,7 @@ router.get('/collection/:item/:page?', getProductCollection)
 // Route to get product collection page
 router.get('/new-products', getnewProducts)
 
-// Route to get product collection page
+// Route to get product by brands
 router.get('/brand/:brandname', getProductByBrand)
 
 // Route to handle product rating

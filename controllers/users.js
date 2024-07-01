@@ -520,6 +520,7 @@ export async function addProductToCart(req, res, next) {
 
 // Get user cart page
 export async function getUserCartPage(req, res, next) {
+  setcache(req,res)
   let shipping_charge;
   var role = "user";
 
@@ -801,6 +802,7 @@ export async function getCheckoutPage(req, res, next) {
 
 // Funtion to render adding a address page
 export async function getAddressPage(req, res, next) {
+  setcache(req,res)
   var role = req.session?.role ? req.session.role : "user";
   const username = req.session.user.username;
   try {
@@ -819,6 +821,7 @@ export async function getAddressPage(req, res, next) {
 
 // Function to hanlde inserting address to the database
 export async function addNewAddress(req, res, next) {
+  setcache(req,res)
   if (!req.body) {
     return res.status(400).json({ error: "formData not found" });
   }
@@ -1318,13 +1321,7 @@ export async function orderSuccess(req, res, next) {
 
 // Function to render the user profile page
 export async function getUserProfile(req, res, next) {
-  res.set(
-    "Cache-Control",
-    "no-store, no-cache, must-revalidate, proxy-revalidate"
-  );
-  res.set("Pragma", "no-cache");
-  res.set("Expires", "0");
-  res.set("Surrogate-Control", "no-store");
+  setcache(req,res)
   try {
     const count = await getCartTotalQuantity(req, res, next);
     const wishlist = await wishlistCount(req, res, next);
@@ -1339,6 +1336,7 @@ export async function getUserProfile(req, res, next) {
 
 // Function to render the edit user account page
 export async function editUserAccount(req, res, next) {
+  setcache(req,res)
   try {
     const count = await getCartTotalQuantity(req, res, next);
     const wishlist = await wishlistCount(req, res, next);
@@ -1484,6 +1482,7 @@ export async function verifyOtpforEditedEmail(req, res, next) {
 
 // Function to get user addresses
 export async function getUserAddress(req, res, next) {
+  setcache(req,res)
   try {
     // Get user addresses from the database
     const addresses = await findUserAddresses(req.session.user._id);
@@ -1508,6 +1507,7 @@ export async function getUserAddress(req, res, next) {
 
 // Function to render the edit address page for a specific address
 export async function editOneAddressPage(req, res, next) {
+  setcache(req,res)
   try {
     const wishlist = await wishlistCount(req, res, next); // Get wishlist count
     // Get address details by Id
@@ -1586,6 +1586,7 @@ export async function removeOneAddress(req, res, next) {
 
 // Function to get all user orders
 export async function getAllUserOrder(req, res, next) {
+  setcache(req,res)
   const updatedOrders = [];
   try {
     // Get orders for the logged-in user
@@ -1638,6 +1639,7 @@ export async function getAllUserOrder(req, res, next) {
 
 // Function to get details for a specific order
 export async function getOrderdetails(req, res, next) {
+  setcache(req,res)
   try {
     const order = await findOneOrder(req.params.orderid); // Get order details by ID
     if (order) {
@@ -1686,6 +1688,7 @@ export async function addToWishList(req, res, next) {
 
 // Function to get the user's wishlist
 export async function getWishlist(req, res, next) {
+  setcache(req,res)
   try {
     const user = await getUser(req.session.user._id); // Get the logged-in user
     if (user) {

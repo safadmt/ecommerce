@@ -57,6 +57,7 @@ import {
 } from "../utils/enum.js";
 import { dateFilters } from "../utils/util.js";
 import logger from "../utils/logger.js";
+import setcache from "../middleware/cache.js";
 
 const path = dirname(dirname(fileURLToPath(import.meta.url)));
 
@@ -64,13 +65,7 @@ const path = dirname(dirname(fileURLToPath(import.meta.url)));
 export const getAdminLogin = (req, res) => {
   // Set various cache-control headers to prevent caching
   // This ensures that sensitive pages like login aren't cached by browsers or proxies
-  res.set(
-    "Cache-Control",
-    "no-store, no-cache, must-revalidate, proxy-revalidate"
-  );
-  res.set("Pragma", "no-cache");
-  res.set("Expires", "0");
-  res.set("Surrogate-Control", "no-store");
+  setcache(req,res)
 
   // Set the role as "admin" for this page
   const role = "admin";
@@ -129,13 +124,7 @@ export function adminLogout(req, res, next) {
 }
 // Function to render the admin home page
 export const getHomePage = async (req, res, next) => {
-  res.set(
-    "Cache-Control",
-    "no-store, no-cache, must-revalidate, proxy-revalidate"
-  );
-  res.set("Pragma", "no-cache");
-  res.set("Expires", "0");
-  res.set("Surrogate-Control", "no-store");
+  setcache(req,res)
   // Get the user's role from session,
   const role = req.session.admin?.role || "admin";
 
@@ -208,6 +197,7 @@ export const getHomePage = async (req, res, next) => {
 
 //Render the products details page
 export const getProductsPage = async (req, res, next) => {
+  setcache(req,res)
   let data = [];
   // Destruring search query
   const { q } = req.query;
@@ -237,6 +227,7 @@ export const getProductsPage = async (req, res, next) => {
 //Function to render a page for adding a new product
 export const getAddProductPage = (req, res) => {
   // Get the user's role from session,
+  setcache(req,res)
   const role = req.session.admin?.role || "admin";
   res.render("pages/admin/addproduct", {
     username: req.session.admin ? req.session.admin.username : "",
@@ -287,6 +278,7 @@ export const createNewProduct = (req, res, next) => {
 
 // Function to get the edit page for a product
 export const getEditPage = (req, res, next) => {
+  setcache(req,res)
   // Get the user's role from session,
   const role = req.session.admin?.role || "admin";
   if (isValidObjectId(req.params.productid)) {
@@ -391,6 +383,7 @@ export async function isProductReturnable(req, res, next) {
 }
 // Function to get the coupon management page
 export async function getCouponPage(req, res, next) {
+  setcache(req,res)
   // Get the user's role from session,
   const role = req.session.admin?.role || "admin";
   try {
@@ -407,6 +400,7 @@ export async function getCouponPage(req, res, next) {
 
 // Function to get the add coupon page
 export function getAddCouponPage(req, res) {
+  setcache(req,res)
   // Get the user's role from session,
   const role = req.session.admin?.role || "admin";
   res.render("pages/admin/addcoupon", {
@@ -417,6 +411,7 @@ export function getAddCouponPage(req, res) {
 
 // Function to get the edit coupon page
 export async function getEditCouponPage(req, res, next) {
+  setcache(req,res)
   // Get the user's role from session,
   const role = req.session.admin?.role || "admin";
   try {
@@ -502,6 +497,7 @@ export async function removeOneCoupon(req, res, next) {
 
 // Function to get the banner management page
 export async function getBannerPage(req, res, next) {
+  setcache(req,res)
   // Get the user's role from session,
   const role = req.session.admin?.role || "admin";
   try {
@@ -518,6 +514,7 @@ export async function getBannerPage(req, res, next) {
 
 // Function to get the banner edit page
 export async function getBannerEditPage(req, res, next) {
+  setcache(req,res)
   // Get the user's role from session,
   const role = req.session.admin?.role || "admin";
   try {
@@ -540,6 +537,7 @@ export async function getBannerEditPage(req, res, next) {
 
 // Function to get the add banner page
 export async function getAddBannerPage(req, res, next) {
+  setcache(req,res)
   // Get the user's role from session,
   const role = req.session.admin?.role || "admin";
   try {
@@ -668,6 +666,7 @@ export async function removeOneBanner(req, res, next) {
 
 // Function to get the orders management page
 export async function getOrderPage(req, res, next) {
+  setcache(req,res)
   try {
     const { date, start_date, end_date } = req.query;
     // Get the user's role from session,
@@ -743,6 +742,7 @@ export async function getOrderPage(req, res, next) {
 
 // Function to get all users
 export async function getAllUsers(req, res, next) {
+  setcache(req,res)
   try {
     const currentDate = new Date();
     // Calculate the date 30 days ago
@@ -921,6 +921,7 @@ export async function removeUser(req, res) {
 }
 
 export async function getReturnsListingPage(req, res, next) {
+  setcache(req,res)
   // Get the user's role from session,
   const role = req.session.admin?.role || "admin";
 
