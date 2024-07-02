@@ -35,11 +35,17 @@
       <%- include('../../partials/admin/adminHeader.ejs') %>
       <main class="h-full pb-16 overflow-y-auto">
         <div class="container grid px-6 mx-auto">
-                
-                <a href="/admin/banners/add-banner"
-    class="px-5 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                  Add Banner
+              
+    <div class="mb-2 mt-3">
+      <a
+      href="/admin/banners/add-banner"
+        class="flex items-center ml-auto justify-between w-40 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+        style="width: 250px; text-decoration: none;"
+      >
+        Create Banner
+        <span class="ml-2" aria-hidden="true">+</span>
     </a>
+      </div>
     <div class="w-full overflow-hidden rounded-lg shadow-xs">
       <div class="w-full overflow-x-auto">
         <table class="w-full whitespace-no-wrap">
