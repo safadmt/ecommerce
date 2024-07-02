@@ -96,10 +96,13 @@
       }
 
       .btn-sm {
-        display: inline-block;
+        display: block !important;
         padding: 8px 16px;
+        border: 1px solid black;
         border-radius: 20px;
         font-size: 0.8rem;
+        color: white;
+        margin-bottom: 8px;
       }
 
       .btn-yellow {
@@ -108,10 +111,14 @@
       }
 
       .btn-black {
-        background-color: black;
-        color: white;
+        
+        background-color: white !important;
+        color: black ;
       }
-
+      .btn-black:hover{
+        background-color: black !important;
+        color: white ;
+      }
       @media only screen and (max-width: 800px) {
         .order-details {
           display: block;
@@ -195,7 +202,7 @@
                       href="/user/profile/return/<%= order._id%>/<%= product.productid._id%>">Return Item</a>
                       <% } %>
                       <% if (existingReturn) { %>
-                      <a class="btn-sm btn-white circle" href="/user/profile/return/details/<%= order._id%>/<%= product.productid._id%>"
+                      <a class="btn-sm btn-black circle" href="/user/profile/return/details/<%= order._id%>/<%= product.productid._id%>"
                        id="existingstatus_<%= product.productid._id %>"><%= existingReturn.returnStatus %> / View </a>
                       <% } %>
                       

@@ -18,10 +18,10 @@ const productSchema = new Schema({
         {type: String,required: true}
     ],
     product_sold : {type: Number , default : 0},
-    discount_in_percentage : {type: Number, default: 0, required:true},
+    discount_in_percentage : {type: Number, default: 0, required:true, max:[70, "Discount percentage not greater than 70%"]},
     returnable : {type: Boolean, default: true, required:true},
     isActive: {type:Boolean, default: true}
-},{timestamps: true})
+},{timestamps: true})   
 
 
 productSchema.index({ gender:1, brand: 1, type: 1})

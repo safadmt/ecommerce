@@ -18,6 +18,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css"
     />
+    
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
       defer
@@ -39,13 +40,13 @@
             <div class="account-section">
               <div class="edituseraccount">
                 <h2>Edit Account Information</h2>
-                <button class="btn" onclick="openModal('edit-username')">
+                <button class="btn-user-info btn-clr-info" onclick="openModal('edit-username')">
                   Edit Username
                 </button>
-                <button class="btn" onclick="openModal('edit-email')">
+                <button class="btn-user-info btn-clr-info" onclick="openModal('edit-email')">
                   Edit Email
                 </button>
-                <button class="btn" onclick="openModal('edit-password')">
+                <button class="btn-user-info btn-clr-info" onclick="openModal('edit-password')">
                   Change Password
                 </button>
               </div>
@@ -77,10 +78,10 @@
                       required
                     />
                   </div>
-                  <button type="submit" class="btn">Save Changes</button>
+                  <button type="submit" class="btn-user-info btn-clr-info">Save Changes</button>
                   <button
                     type="button"
-                    class="btn close-btn"
+                    class="btn-user-info btn-clr-hash"
                     onclick="closeModal('edit-username')"
                   >
                     Cancel
@@ -108,17 +109,17 @@
                   <button
                     type="button"
                     id="otpbtn"
-                    class="btn hidden"
+                    class="btn-user-info btn-clr-info hidden"
                     onclick="handleSubmitOTP()"
                   >
                     Submit OTP
                   </button>
-                  <button type="submit" id="emailbtn" class="btn">
+                  <button type="submit" id="emailbtn" class="btn-user-info btn-clr-info">
                     Change Email
                   </button>
                   <button
                     type="button"
-                    class="btn close-btn"
+                    class="btn-user-info btn-clr-hash"
                     onclick="closeModal('edit-email')"
                   >
                     Cancel
@@ -171,10 +172,10 @@
                       required
                     />
                   </div>
-                  <button type="submit" class="btn">Change Password</button>
+                  <button type="submit" class="btn-user-info btn-clr-info">Change Password</button>
                   <button
                     type="button"
-                    class="btn close-btn"
+                    class="btn-user-info btn-clr-hash"
                     onclick="closeModal('edit-password')"
                   >
                     Cancel

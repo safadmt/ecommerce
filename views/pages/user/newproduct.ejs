@@ -64,11 +64,11 @@
             <p>showing <%= products.length%> out of <%= products.length %></p>
           </div>
     
-          <div class="product_list">
-            <div class="row">
+          <div class="">
+            <div class="">
                 <% products.forEach((item,index)=> {%>
     
-                <div class="col-xl-4 col-lg-4 col-md-6">
+                <div class="">
                   <div class="single-product mb-60">
                     <div class="product-img">
                       <a href="/product/<%= item._id%>"
@@ -80,7 +80,8 @@
                     </div>
                     <div class="product-caption">
                       
-                      <h4><a href="#"><%= item.brand%></a></h4>
+                      <h4><%= item.brand%></h4>
+                      <h4><%= item.gender %></h4>
     
                       <div class="price">
                         <ul>
