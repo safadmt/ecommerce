@@ -531,6 +531,7 @@ export async function getBannerEditPage(req, res, next) {
       });
     }
   } catch (err) {
+    console.log(err)
     next(err);
   }
 }
@@ -602,7 +603,7 @@ export async function editOneBanner(req, res, next) {
       req.body.imageurl = req.file.filename;
       // Update the banner in the database
       await updateOneBanner(req.params.bannerid, req.body);
-      res.json("Ok");
+      res.status(200).json("Ok");
     } else {
       const { first_caption, second_caption, link, isActive } = req.body;
 
@@ -611,7 +612,7 @@ export async function editOneBanner(req, res, next) {
 
       // Update the banner in the database
       await updateOneBanner(req.params.bannerid, obj);
-      res.json("Ok");
+      res.status(200).json("Ok");
     }
   } catch (err) {
     next(err);

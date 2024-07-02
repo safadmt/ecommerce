@@ -1,5 +1,1 @@
-2024-06-25T14:02:41.937Z info: Error: Error finding -ysp0j_5WkQcZbajpwW9zDIsg6YvcExw: read ECONNRESET
-    at E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\connect-mongodb-session\index.js:143:19
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-2024-06-25T14:02:41.949Z error: Error finding -ysp0j_5WkQcZbajpwW9zDIsg6YvcExw: read ECONNRESET
-2024-06-27T11:36:19.304Z info: banner edit image unlink error
+
