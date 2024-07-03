@@ -2,13 +2,26 @@
   .searchbutn:hover {
     cursor: pointer;
   }
+  
+  .navbar,.navbar-brand, .navbar-toggler-icon,.navbar-toggler, .navbar-nav .nav-link, .nav-icon{
+    color: white !important;
+  }
+  
+  .navbar-toggler-icon {
+    filter: invert(1);
+  }
+  
+  .badge {
+    color: white !important;
+  }
+  
   @media only screen and (max-width: 991.5px) {
-    .header-search{
+    .header-search {
       margin-bottom: 13px;
     }
   }
 </style>
-<nav class="navbar navbar-expand-lg navbar-light bg-light py-4">
+<nav class="navbar navbar-expand-lg navbar-light py-4 text-white" style="background-color: rgb(65, 2, 65);">
   <button
     class="navbar-toggler"
     type="button"
@@ -67,7 +80,7 @@
       </div>
     </form>
     <a href="/user/wishlist" class="mr-3 nav-icon">
-      <li class="far fa-heart" style="color: black; font-size: 1.5rem"></li>
+      <li class="far fa-heart" style="color: white; font-size: 1.5rem"></li>
       <span class="badge badge-danger" id="wishlist-count"
         ><%= wishlist %></span
       >
@@ -75,9 +88,9 @@
     <a href="/cart" class="mr-3 nav-icon">
       <li
         class="fas fa-shopping-cart"
-        style="color: black; font-size: 1.5rem"
+        style="color: white; font-size: 1.5rem"
       ></li>
-      <span class="badge badge-primary" id="cart-count"><%= count %></span>
+      <span class="badge badge-primary " id="cart-count"><%= count %></span>
     </a>
 
     
