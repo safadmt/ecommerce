@@ -13,46 +13,35 @@
       src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
       defer
     ></script>
-    <script src="/admin/assets/js/init-alpine.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css"
-    />
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
-      defer
-    ></script>
-    <script src="/admin/assets/js/charts-lines.js" defer></script>
-    <script src="/admin/assets/js/charts-pie.js" defer></script>
     <style>
-      .filterdate{
+      .filterdate {
         display: flex;
         gap: 10px;
       }
-      .costomdatediv{
+      .costomdatediv {
         display: flex;
         gap: 10px;
       }
-      #costomdateform{
+      #costomdateform {
         display: none;
       }
-      #costomdatebtn{
+      #costomdatebtn {
         margin-left: 10px;
         padding: 1.5rem 0rem 0rem 0rem;
       }
       @media only screen and (max-width: 600px) {
-        .costomdatediv{
+        .costomdatediv {
           flex-direction: column;
         }
         .filterdate {
           flex-direction: column;
         }
-        #costomdateform{
-        flex-direction: column;
-      }
-      #costomdatebtn{
-        padding: 0rem 0rem;
-      }
+        #costomdateform {
+          flex-direction: column;
+        }
+        #costomdatebtn {
+          padding: 0rem 0rem;
+        }
       }
     </style>
   </head>
@@ -133,73 +122,128 @@
                 </div>
               </div>
             </div>
-            
+
             <h4
               class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
             >
               Orders
             </h4>
-            <div class="filterdate mb-2">
+            <div class="text-gray-900 dark:text-gray-400 flex items-center mb-2">Filter by : </div>
+            <div class="flex flex-wrap sm:flex-row">
+            <div class="filterdate mb-2 ml-2">
               <div class="">
-              <label class="block text-sm mb-1">
-                <span class="text-gray-700 dark:text-gray-400">filter by date</span></label>
-              <select
-                onchange="handleDateFilter(event)"
-                name="status"
-                class="block  appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-              >
-              <% datefilteres.forEach(item=> {%> 
-                <option value="<%= item.value%>"><%= item.label %></option>
-              <% }) %>
-              </select>
-            </div>
-              
-              <form action="" id="costomdateform" onsubmit="handleCustomDateFilter(this)">
-              <div class="costomdatediv">
-              <label class="block text-sm ">
-                <span class="text-gray-700 dark:text-gray-400"
-                  >Start Date></span
+                
+                <select
+                  onchange="handleDateFilter(event)"
+                  name="status"
+                  class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                 >
-                <input
-                  class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                  type="date"
-                  name="start_date"
-                  id="start_date"
-                  oninput="validateInput(this)"
-                  style="color: gray"
-                  
-                />
-                <span id="valid_till_warning" class="txt-sm text-danger"></span>
-              </label>
-              <label class="block text-sm">
-                <span class="text-gray-700 dark:text-gray-400"
-                  >End Date</span>
-                <input
-                  class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                  type="date"
-                  name="end_date"
-                  id="end_date"
-                  oninput="validateInput(this)"
-                  style="color: gray"
-                  
-                />
-                <span id="valid_till_warning" class="txt-sm text-danger"></span>
-              </label>
+                  <% datefilteres.forEach(item=> {%>
+                  <option value="<%= item.value%>"><%= item.label %></option>
+                  <% }) %>
+                </select>
+              </div>
+
+              <form
+                action=""
+                id="costomdateform"
+                onsubmit="handleCustomDateFilter(this)"
+              >
+                <div class="costomdatediv">
+                  <label class="block text-sm">
+                   
+                    <input
+                      class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                      type="date"
+                      name="start_date"
+                      id="start_date"
+                      placeholder="Start Date"
+                      oninput="validateInput(this)"
+                      style="color: gray"
+                    />
+                    <span
+                      id="valid_till_warning"
+                      class="txt-sm text-danger"
+                    ></span>
+                  </label>
+                  <label class="block text-sm">
+                    
+                    <input
+                      class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                      type="date"
+                      name="end_date"
+                      id="end_date"
+                      placeholder="End Date"
+                      oninput="validateInput(this)"
+                      style="color: gray"
+                    />
+                    <span
+                      id="valid_till_warning"
+                      class="txt-sm text-danger"
+                    ></span>
+                  </label>
+                </div>
+                <div class="ml-2 mt-1">
+                  <button
+                    type="submit"
+                    class="px-4 py-2 w-full text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                  >
+                    Filter
+                  </button>
+                </div>
+              </form>
             </div>
-            <div id="costomdatebtn" ><button
-              type="submit" 
-              class="px-4 py-2 w-full text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+            <div class="ml-2">
+              <form action="">
+              <div>
+                
+                <select
+                  onchange="paymentMethodFilter(event)"
+                  name="payment_method"
+                  class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                >
+                  
+                  <option value="">Select payment method</option>
+                  <option value="Razorpay">Razorpay</option>
+                  <option value="Wallet">Wallet</option>
+                  <option value="Stripe">Stripe</option>
+                </select>
+              </div>
+            </form>
+            </div>
+            <div class="ml-2">
+              
+              <div>
+                
+                <select
+                  onchange="orderStatusFilter(event)"
+                  name="order_status"
+                  class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                >
+                  
+                  <option value="">Select order status</option>
+                  <% orderStatus.forEach(item=> {%>
+                    <option value="<%= item%>"><%= item%></option>
+                  <% }) %>
+                  
+                </select>
+              </div>
+            </div>
+            <% if(Object.keys(queryParams).length > 1)  {%> 
+            <div class="ml-2 mt-1" >
+              <button
+              type="button"
+              onclick="clearFilter()"
+              class="px-4 py-2 w-full text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline-red"
             >
-              Filter
+              Clear
             </button>
-          </div>
-              
-          </form>
-              
             </div>
+            <% } %>
+          </div>
             <div class="w-full overflow-hidden rounded-lg shadow-xs">
               <div class="w-full overflow-x-auto" id="tablediv">
-                <% if(orders.length > 0) {%> 
+                <% if(orders.length > 0) {%>
                 <table class="w-full whitespace-no-wrap" id="ordertable">
                   <thead>
                     <tr
@@ -271,10 +315,46 @@
                     <% }) %>
                   </tbody>
                 </table>
-                <% } else {%> 
+                <% } else {%>
                 <p>No orders were created.</p>
                 <% } %>
-              </div>
+              </div> 
+            </div>
+            <div class="">
+              <nav aria-label="..." class="float-right" style="margin-right: 40px;">
+                <ul class="pagination mt-5">
+                  <% if(currentpage !== 1) {%> 
+                  <li class="page-item">
+                    <button class="page-link" tabindex="-1" onclick="handlePreviouPage('<%= currentpage - 1%>')">Previous</a>
+                  </li>
+                  <% } %>
+                  <% for(let i=1 ; i <=totalpages; i++) {%> 
+                    <% if(currentpage==i)
+                  {%>
+                  <li class="page-item active">
+                    <button disabled class="page-link"><%= i %></button>
+                  </li>
+                  <% } else {%>
+                  <li class="page-item">
+                    <button class="page-link" onclick="gotoSpecifiedPage(event.target.textContent)">
+                      <%= i %>
+                    </button>
+                  </li>
+                  <% } %> <% } %>
+                  <% if(currentpage < totalpages) {%> 
+                  <li class="page-item">
+                    <button
+                      class="page-link"
+                      id="nextpagebutton"
+                      onclick="handleNextPage(event)"
+                    >
+                      Next
+                    </button>
+                  </li>
+                  <% } %>
+                </ul>
+              </nav>
+
             </div>
           </div>
         </main>
@@ -283,4 +363,12 @@
   </body>
 </html>
 
+<script src="/costom/javascript/admin/pagination.js"></script>
 <script src="/costom/javascript/admin/orders.js"></script>
+
+<script>
+  let currentpage = "<%= currentpage %>" || 1;
+  let totalpages = "<%= totalpages%>";
+
+  
+</script>

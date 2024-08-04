@@ -52,10 +52,10 @@
                       <p
                         class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400"
                       >
-                        Total Products
+                        Total products by Brand
                       </p>
                       <% productcount.forEach(item=> {%>
-                      <p class="text-lg text-gray-700 dark:text-gray-200">
+                      <p class="text-sm font-medium text-gray-700 dark:text-gray-200">
                         <%= item._id %> : <%= item.totalproduct %>
                         <span>products</span>
                       </p>
@@ -69,7 +69,7 @@
                 <div>
                   <a
                   href="/admin/products/add-product"
-                    class="flex items-center ml-auto justify-between w-40 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                    class="flex items-center ml-auto mb-2 justify-between w-40 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
                     style="width: 250px; text-decoration: none;"
                   >
                     Create Product

@@ -31,9 +31,11 @@ import {
 } from "../helpers/bannerHelper.js";
 import { authenticateAdmin } from "../helpers/admin.js";
 import {
+  countTotalOrdersByFilter,
   findAllOrder,
   findOneOrder,
   getTotalIncome,
+  getTotalOrderCountByStatus,
   getTotalProductSold,
   totalOrders,
   totalSalesByBrand,
@@ -668,15 +670,29 @@ export async function removeOneBanner(req, res, next) {
 // Function to get the orders management page
 export async function getOrderPage(req, res, next) {
   setcache(req,res)
-  try {
-    const { date, start_date, end_date } = req.query;
-    // Get the user's role from session,
+  // Get the user's role from session,
     const role = req.session.admin?.role || "admin";
     // Date filter
     const filter = {};
+    let countTotalOrders = {};
     const now = new Date();
     let start = "";
     let end = now;
+    let page = req.query.page || 1;
+    let limit = 10
+    let skip = (page - 1) * limit; // Skipp number of products
+
+    const { date, start_date, end_date , payment_method , orderStatus} = req.query;
+    
+
+    if(payment_method) {
+      filter.payment_method = payment_method
+      countTotalOrders.payment_method = payment_method
+    }
+    if(orderStatus) {
+      filter.orderStatus = orderStatus
+      countTotalOrders.orderStatus = orderStatus
+    }
     if (date) {
       switch (date) {
         case dateFilters.LAST_24_HOURS.value:
@@ -707,23 +723,26 @@ export async function getOrderPage(req, res, next) {
     }
     if (start && end) {
       filter.createdAt = { $gte: start, $lt: end };
+      countTotalOrders.createdAt = {$gte: start , $lt: end}
     }
+    try {
+    const orderCountByStatus = await getTotalOrderCountByStatus()
+  
     // Get all orders from the database
-    const orders = await findAllOrder(filter);
+    const orders = await findAllOrder(filter,limit,skip);
     // Get the total number of orders
-    const totalorders = await totalOrders({});
+    const totalorders = orderCountByStatus[0].total_orders
     // Get the total number of pending orders
-    const pendingorders = await totalOrders({
-      orderStatus: orderStatusEnum.PENDING,
-    });
+    const pendingorders = orderCountByStatus[0].pending_orders
     // Get the total number of successful orders
-    const successorders = await totalOrders({
-      orderStatus: orderStatusEnum.DELIVERED,
-    });
+    const successorders = orderCountByStatus[0].success_orders
     // Get the total number of failed orders
-    const failedorders = await totalOrders({
-      orderStatus: orderStatusEnum.FAILED,
-    });
+    const failedorders = orderCountByStatus[0].failed_orders
+    
+    const totalorderbyfilter = await countTotalOrdersByFilter(countTotalOrders)
+    // Get the total pages 
+    const totalpages = Math.ceil(totalorderbyfilter/ limit)
+    delete orderStatusEnum.FAILED;
     delete orderStatusEnum.FAILED;
     res.render("pages/admin/orders", {
       role,
@@ -732,6 +751,9 @@ export async function getOrderPage(req, res, next) {
       pendingorders,
       failedorders,
       successorders,
+      currentpage : page,
+      totalpages ,
+      queryParams : req.query,
       username: req.session.admin?.username || "Admin",
       orderStatus: Object.values(orderStatusEnum),
       datefilteres: Object.values(dateFilters),

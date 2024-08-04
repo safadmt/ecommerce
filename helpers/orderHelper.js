@@ -57,13 +57,19 @@ export async function getUserOrdersForcheck(userid) {
     
 }
 // find all order based on the filter
-export async function findAllOrder(info) {
+export async function findAllOrder(info,limit=10, skip=0) {
     
         const orders = await Order.find(info).populate('userId', {username: 1}).sort({createdAt: -1})
+        .skip(skip)
+        .limit(limit)
         return orders;
     
 }
-
+// count Total order by filter 
+export async function countTotalOrdersByFilter(info) {
+  const Totalorders = await Order.countDocuments(info)
+  return Totalorders
+}
 // Get the total orders count
 export async function totalOrders(info) {
     
@@ -189,6 +195,20 @@ export async function getReturnedProduct (orderid,productId){
       return product
 }
 
+export async function getTotalOrderCountByStatus () {
+  const result = await Order.aggregate([
+    {
+      $group: {
+        _id: null,
+        total_orders: { $sum: 1 },
+        pending_orders: { $sum: { $cond: [{ $eq: ["$orderStatus", orderStatusEnum.PENDING] }, 1, 0] } },
+        success_orders: { $sum: { $cond: [{ $eq: ["$orderStatus", orderStatusEnum.DELIVERED] }, 1, 0] } },
+        failed_orders: { $sum: { $cond: [{ $eq: ["$orderStatus", orderStatusEnum.FAILED] }, 1, 0] } },
+      }
+    }
+  ]);
+  return result;
+}
 
 
 

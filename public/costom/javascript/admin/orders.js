@@ -1,5 +1,9 @@
 const url = new URL(window.location.href)
 
+window.addEventListener("DOMContentLoaded", function () {
+    url.searchParams.set('page', currentpage)
+    window.history.replaceState({},'', url)
+})
 function productIsActive(event, couponid) {
     const isActiveButton = event.currentTarget;
     let content = isActiveButton.textContent;
@@ -90,7 +94,17 @@ function productIsActive(event, couponid) {
   // Append the new text node to the orderStatusSpan
   orderStatusSpan.appendChild(statusText);
 }
-
+function clearFilter () {
+  window.location.href = '/admin/orders'
+}
+async function paymentMethodFilter(event) {
+  url.searchParams.set('payment_method', event.target.value)
+  handleFilter()
+}
+async function orderStatusFilter (event) {
+  url.searchParams.set('orderStatus', event.target.value)
+  handleFilter()
+}
 async function handleDateFilter(event) {
   const date = event.target.value
   if(url.searchParams.get('date') === date) {
@@ -100,13 +114,18 @@ async function handleDateFilter(event) {
     const params = url.searchParams;
     url.search = ''
     params.set('date', date)
-    window.location.href = `${url.origin}${url.pathname}?${params.toString()}`
+    handleFilter()
   }else{
     const costomdateform = document.getElementById('costomdateform')
     costomdateform.style.display = 'flex'
     setMaxDate()
   }
 }
+function handleFilter () {
+  url.searchParams.set('page', 1)
+  window.location.href = `${url.pathname}?${url.searchParams}`
+}
+
 
 async function handleCustomDateFilter (form) {
   event.preventDefault()
@@ -120,10 +139,11 @@ async function handleCustomDateFilter (form) {
   }
   const params = url.searchParams;
   url.search = ""
+  
   params.set("date", "custom")
   params.set('start_date', formData.get('start_date'))
   params.set('end_date', formData.get('end_date'))
-  window.location.href = `${url.origin}${url.pathname}?${params.toString()}`
+  handleFilter()
 }
 
 function setMaxDate() {

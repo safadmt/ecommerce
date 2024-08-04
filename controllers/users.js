@@ -1778,7 +1778,7 @@ export async function getShopingPage(req, res, next) {
     const wishlist = await wishlistCount(req, res, next); // Get wishlist count
     const totalproduct = await countProductDocuments(filter); // Get total filtered product count
     const totalpages = Math.ceil(totalproduct / limit); // Total pages
-
+    
     const count = await getCartTotalQuantity(req, res, next); // Cart total product quantity count
     var role = req.session?.role ? req.session.role : "user";
     const username = req.session.user ? req.session.user.username : "";

@@ -18,10 +18,12 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
       defer
     ></script>
+
     <script src="/admin/assets/js/charts-pie.js" defer></script>
     <script src="./assets/js/charts-bars.js" defer></script>
 
@@ -52,11 +54,13 @@
                   >
                     Total Users
                   </p>
-                  <p
-                    class="text-lg font-semibold text-gray-700 dark:text-gray-200"
+                  <div
+                    class="d-flex justify-start text-lg font-semibold text-gray-700 dark:text-gray-200"
                   >
-                    <%= totalUser%>
-                  </p>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.33-8 4v2h16v-2c0-2.67-5.33-4-8-4z"/>
+                  </svg> <span><%= totalUser%></span>
+                </div>
                 </div>
               </div>
               <!-- Card -->
@@ -70,11 +74,12 @@
                   >
                     Total Sales
                   </p>
-                  <p
-                    class="text-lg font-semibold text-gray-700 dark:text-gray-200"
+                  <div
+                    class="d-flex justify-start items-center font-semibold text-gray-700 dark:text-gray-200"
                   >
-                    <%= totalsales%>
-                  </p>
+                  <i class="fa-solid fa-arrow-up-right-dots"></i>
+                   <span class="ml-2"><%= totalsales%></span>
+                </div>
                 </div>
               </div>
               <!-- Card -->
@@ -88,11 +93,12 @@
                   >
                     Total Orders
                   </p>
-                  <p
-                    class="text-lg font-semibold text-gray-700 dark:text-gray-200"
+                  <div
+                    class="d-flex justify-start font-semibold text-gray-700 dark:text-gray-200"
                   >
-                    <%= totalorders%>
-                  </p>
+                  <i class="fa-solid fa-bag-shopping"></i>
+                  <span class="ml-2"><%= totalorders%></span>
+                </div>
                 </div>
               </div>
                
@@ -106,11 +112,12 @@
                 >
                   Total Income
                 </p>
-                <p
-                  class="text-lg font-semibold text-gray-700 dark:text-gray-200"
+                <div
+                  class="flex justify-center items-center text-lg font-semibold text-gray-700 dark:text-gray-200"
                 >
-                 Rs. <%= totalincome%>
-                </p>
+                <i  class="fa-sharp fa-solid fa-indian-rupee-sign"></i> 
+                 <span class="ml-2"><%= totalincome%></span>
+              </div>
               </div>
             </div>
             </div>

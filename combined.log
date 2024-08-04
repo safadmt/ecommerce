@@ -7,3 +7,6 @@
     at emitErrorNT (node:internal/streams/destroy:169:8)
     at emitErrorCloseNT (node:internal/streams/destroy:128:3)
     at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+2024-08-04T15:21:09.372Z info: Error: Error connecting to db: read ECONNRESET
+    at E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\connect-mongodb-session\index.js:110:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
