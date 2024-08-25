@@ -7,7 +7,7 @@ const couponSchema = new Schema({
     discount_type : {type: String, enum: ["free_shipping", "percentage", "fixed_amount"]},
     discount_value : {type: Number},
     minimum_purchase_value : {type: Number , required: true, default: 0},
-    maximum_purchase_value : {type: Number ,required:true, default:0},
+    maximum_purchase_value : {type: Number , default:0},
     valid_till : Date,
     isActive: {type: Boolean, default: false}
 

@@ -71,6 +71,7 @@ function handleSubmit(formElement) {
          discount_value_warning.textContent = "Discount percentage not greater than 70 %";
       }
     }
+    console.log(obj);
     
     if (!formData.get("minimum_purchase_value").trim()) {
       valid = false;

@@ -23,13 +23,7 @@
       rel="stylesheet"
       href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css"
     />
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
-    <script>
-      $(document).ready(function () {
-        $("#example").DataTable();
-      });
-    </script>
+    
   </head>
   <body>
     <div
@@ -98,12 +92,69 @@
                     class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-input"
                     type="search"
                     name="q"
-                    placeholder="Search for products"
+                    placeholder="Search for product names , brands , categories"
                     aria-label="Search"
                   />
                 </form>
                 </div>
-
+                <div class="font-medium text-black ml-2">Filter by: </div>
+                <div class="flex flex-wrap">
+                  <form></form>
+                  <div class="ml-2">
+                
+                    <select
+                      onchange="handlePriceFilter(event)"
+                      name="price"
+                      class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                    >
+                      
+                      <option value="" >Select price</option>
+                      <option value="gt:2000000">price > 2000000/- </option>
+                      <option value="lt:2000000">price < 2000000/-</option>
+                      <option value="lt:1000000">price < 1000000/-</option>
+                      <option value="lt:500000">price < 500000/-</option>
+                    </select>
+                  </div>
+                  <div class="ml-2">
+                
+                    <select
+                      onchange="handleProductIsActiveFilter(event)"
+                      name="isActive"
+                      class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                    >
+                      
+                      <option value="">Select active or not</option>
+                      <option value="Active">Active products</option>
+                      <option value="Inactive">Inactive products</option>
+                      
+                    </select>
+                  </div>
+                  <div class="ml-2">
+                
+                    <select
+                      onchange="handleStockAvailableFilter(event)"
+                      name="stock_available"
+                      class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                    >
+                      
+                      <option value="">Select stock available</option>
+                      <option value="lt:5">stock < 5</option>
+                      <option value="lt:10">stock < 10</option>
+                      <option value="gt:10">stock > 10</option>
+                    </select>
+                  </div>
+                  <% if(Object.keys(queryParams).length > 1)  {%> 
+                    <div class="ml-2 mt-1" >
+                      <button
+                      type="button"
+                      onclick="clearFilter()"
+                      class="px-4 py-2 w-full text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline-red"
+                    >
+                      Clear
+                    </button>
+                    </div>
+                    <% } %>
+                </div>
                 <table id="example" class="w-full whitespace-no-wrap">
                   <thead>
                     <tr
@@ -166,10 +217,10 @@
                       <td class="px-4 py-3">--</td>
                       <% } %>
 
-                      <td class="px-4 py-3 text-xs">
+                      <td class="px-4 py-3 text-xs " style="cursor: pointer;">
                         <span
                           id="productisactive"
-                          class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"
+                          class="px-2 hover:cursor-pointer py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"
                         >
                           <%= product.isActive %>
                         </span>
@@ -209,12 +260,55 @@
                 </table>
               </div>
             </div>
+            <div class="">
+              <nav aria-label="..." class="float-right" style="margin-right: 40px;">
+                <ul class="pagination mt-5">
+                  <% if(currentpage !== 1 ||  products.length !== 0) {%> 
+                  <li class="page-item">
+                    <button class="page-link" tabindex="-1" onclick="handlePreviouPage('<%= currentpage - 1%>')">Previous</a>
+                  </li>
+                  <% } %>
+                  <% for(let i=1 ; i <=totalpages; i++) {%> 
+                    <% if(currentpage==i)
+                  {%>
+                  <li class="page-item active">
+                    <button disabled class="page-link"><%= i %></button>
+                  </li>
+                  <% } else {%>
+                  <li class="page-item">
+                    <button class="page-link" onclick="gotoSpecifiedPage(event.target.textContent)">
+                      <%= i %>
+                    </button>
+                  </li>
+                  <% } %> <% } %>
+                  <% if(currentpage < totalpages) {%> 
+                  <li class="page-item">
+                    <button
+                      class="page-link"
+                      id="nextpagebutton"
+                      onclick="handleNextPage(event)"
+                    >
+                      Next
+                    </button>
+                  </li>
+                  <% } %>
+                </ul>
+              </nav>
+
+            </div>
           </div>
         </main>
       </div>
     </div>
   </body>
 </html>
-<script src="https://cdn.datatables.net/2.0.8/js/jquery.dataTables.min.js"></script>
 
 <script src="/costom/javascript/admin/products.js"></script>
+<script src="/costom/javascript/admin/pagination.js"></script>
+
+<script>
+  let currentpage = "<%= currentpage %>" || 1;
+  let totalpages = "<%= totalpages%>";
+
+  
+</script>

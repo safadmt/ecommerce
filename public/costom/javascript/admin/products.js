@@ -1,3 +1,10 @@
+const url = new URL(window.location.href)
+
+window.addEventListener("DOMContentLoaded", function () {
+  url.searchParams.set('page', currentpage)
+  window.history.replaceState({},'', url)
+})
+
 function productIsActive (event, productid) {
     const isActiveButton = event.currentTarget
     let content = isActiveButton.textContent
@@ -31,6 +38,26 @@ function productIsActive (event, productid) {
     })
   }
 
+  function handlePriceFilter(event) {
+    url.searchParams.set('price', event.target.value)
+    handleFilter()
+  }
+  function handleProductIsActiveFilter(event) {
+    url.searchParams.set('isActive', event.target.value)
+    handleFilter()
+  } 
+  function handleStockAvailableFilter(event) {
+    url.searchParams.set('stock_available', event.target.value)
+    handleFilter()
+  }
+  function handleFilter () {
+    url.searchParams.set('page', 1)
+    window.location.href = `${url.pathname}?${url.searchParams}`
+  }
+
+  function clearFilter () {
+    window.location.href = '/admin/products'
+  }
   function productIsReturnable (event, productid) {
     const isActiveButton = event.currentTarget
     let content = isActiveButton.textContent

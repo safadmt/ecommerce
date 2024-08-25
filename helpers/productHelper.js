@@ -9,7 +9,7 @@ export async function insertProduct(productInfo) {
 }
 
 // Get all product from the database based on the filteration , limit number of product , skip
-export async function getAllProduct(info,limit = 50, skip=0, sort = 1) {
+export async function getAllProduct(info,limit = 10, skip=0, sort = 1) {
         const response = await Product.find(info)
         .skip(skip)
         .limit(limit)

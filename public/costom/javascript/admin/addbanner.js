@@ -6,9 +6,7 @@ function handleSubmit(formElement) {
     
     const obj = {};
     
-    for (const [name, value] of formData.entries()) {
-      obj[name] = value;
-    }
+    
     if (!formData.get("first_caption").trim()) {
       return showMessage("First Caption is required");
     }
@@ -17,7 +15,13 @@ function handleSubmit(formElement) {
     if (formData.get("image").name === "" && formData.get("image").size === 0) {
       return showMessage("Image field is required");
     }
-
+    if (croppedBlob) {
+      let img = formData.get('image').name.split('.')[0];
+        formData.delete( "image")
+        console.log(img);
+        
+        formData.append('image', croppedBlob, `${img}.png`);
+    }
     fetch(`${window.location.origin}/admin/banners/add-banner`, {
       method: "POST",
       body: formData,

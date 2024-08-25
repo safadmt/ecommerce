@@ -158,3 +158,38 @@ html, body {
   font-weight: 700;
 }
 
+#progressBar {
+  display: none;
+  width: 100%;
+  background-color: #f3f3f3;
+  margin-top: 10px;
+  border-radius: 20px;
+}
+#progressBar div {
+  height: 20px;
+  width: 0%;
+  background-color: #4caf50;
+}
+.styleform {
+  display: grid;
+  place-items: center;
+  padding: 3rem 0rem;
+}
+.image-crop{
+  display: none;
+  position: fixed;
+  top: 10px;
+  left: 15%;
+  z-index: 1000;
+  width: 70%;
+  background-color: white;
+  border: 2px solid gray;
+  border-radius: 10px;
+}
+
+.form-image-banner {
+  width: 250px;
+  object-fit: contain;
+  aspect-ratio: 16/9;
+}
+

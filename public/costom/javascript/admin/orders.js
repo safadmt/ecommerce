@@ -124,7 +124,7 @@ async function handleDateFilter(event) {
 function handleFilter () {
   url.searchParams.set('page', 1)
   window.location.href = `${url.pathname}?${url.searchParams}`
-}
+} 
 
 
 async function handleCustomDateFilter (form) {

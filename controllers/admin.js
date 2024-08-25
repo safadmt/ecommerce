@@ -1,6 +1,7 @@
 import { isValidObjectId } from "mongoose";
 import voucher_code from "voucher-code-generator";
 import {
+  countProductDocuments,
   getAllProduct,
   getOneProduct,
   getProductCountByBrand,
@@ -201,23 +202,50 @@ export const getHomePage = async (req, res, next) => {
 export const getProductsPage = async (req, res, next) => {
   setcache(req,res)
   let data = [];
-  // Destruring search query
-  const { q } = req.query;
+  let totalproductscount = 0
+  let limit = 10;
+  let page = req.query.page || 1;
 
+  // Destruring search query
+  const { q , price, isActive, stock_available} = req.query;
+  const filter = {}
+  
+  if(price) {
+    filter.price = {}
+    let [operator, value] = price.split(':')
+    filter.price[`$${operator}`] = Number(value)
+  }
+  
+  if(stock_available) {
+    filter.stock_available = {}
+    let [operator,value] = stock_available.split(':')
+    filter.stock_available[`$${operator}`] = Number(value)
+  }
+
+  if(isActive) {
+    filter.isActive = isActive == "Active" ? true : false
+  }
+  console.log(filter);
+  
   // Get the user's role from session,
   const role = req.session.admin?.role || "admin";
   try {
     const productcountbybarand = await getProductCountByBrand();
     if (!q) {
       // Giving arguments first one is null object , second one limit product, skip, sort
-      data = await getAllProduct({}, 50, 0, -1);
+      data = await getAllProduct(filter, limit, (page - 1)* limit, -1);
+      totalproductscount = await countProductDocuments(filter)
     } else {
       data = await searchProduct(q, 0, 200);
+      totalproductscount = data.length
     }
     const products = data.length > 0 ? data : [];
     res.render("pages/admin/products", {
       username: req.session.admin ? req.session.admin.username : "",
+      currentpage : page,
+      totalpages: Math.ceil(totalproductscount/limit),
       products,
+      queryParams : req.query,
       role,
       productcount: productcountbybarand,
     });
@@ -437,6 +465,9 @@ export async function createNewCoupon(req, res, next) {
     res.redirect("/admin/coupons/add-product");
   }
   try {
+    if(!req.body.maximum_purchase_value) {
+      req.body.maximum_purchase_value = 0
+    }
     const response = await insertCoupon(req.body); // Insert the new coupon into the database
     res.status(201);
     res.json(response);
@@ -588,6 +619,8 @@ export async function editOneBanner(req, res, next) {
 
       // Check if the banner ID is valid
       if (!isValidObjectId(req.params.bannerid)) {
+        console.log("why wrong");
+        
         req.flash("error", "Something went wrong");
         res.redirect(`/admin/banners/edit/${req.params.bannerid}`);
       }

@@ -58,8 +58,10 @@ function uploadBannerFile () {
     })
     // Initialize multer with the configured storage and file filter
   const upload = multer(({storage: storage,
-      limits: {fileSize:  1368006},
+      limits: {fileSize:  1048576},
       fileFilter: function (req,file,cb) {
+        console.log(file);
+        
         // Allow only image files with specific extensions
         if (!file.originalname.match(/\.(jpg|jpeg|png|gif|webp)$/)) {
           return cb(new Error('Only image files are allowed!'), false);
@@ -70,7 +72,7 @@ function uploadBannerFile () {
       return (req, res, next) => {
         upload.single('image')(req, res, (err) => {
           if (err) {
-            
+         
             // Handle the error and send it to the client
             res.status(400).json({ error: err.message });
           } else {

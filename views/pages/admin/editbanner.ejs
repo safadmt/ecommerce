@@ -4,38 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Windmill Dashboard</title>
-    <style>
-      .form-image-banner {
-        width: 250px;
-        object-fit: contain;
-        aspect-ratio: 16/9;
-      }
-      .styleform {
-        display: grid;
-        place-items: center;
-        padding: 3rem 0rem;
-      }
-    </style>
+    
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
+
     <link rel="stylesheet" href="/admin/assets/css/tailwind.output.css" />
     <script
       src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
       defer
     ></script>
     <script src="/admin/assets/js/init-alpine.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css"
-    />
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
-      defer
-    ></script>
-    <script src="/admin/assets/js/charts-lines.js" defer></script>
-    <script src="/admin/assets/js/charts-pie.js" defer></script>
+   
+    
   </head>
   <body>
     <div
@@ -107,7 +90,7 @@
                       </span>
                     </label>
 
-                    <div>
+                    <div class="mb-2">
                       <img
                         src="/banners/<%= banner.imageurl%>"
                         id="imgView"
@@ -115,14 +98,16 @@
                         alt=""
                       />
                     </div>
+                    <div id="progressBar" class="mb-2"><div></div></div>
+                    <button type="button" style="display: none;" id="cropButton" onclick="handleCropImage(event)" class="px-2 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                    >Crop image</button>
+                    <button type="button" style="display: none;" id="reduceButton" onclick="reduceImageSize(event)" class="px-2 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                    >Reduce image size</button>
+                    <button type="button" style="display: none;" id="cancelReduceButton" onclick="reduceImageSize(event)" class="px-2 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                    >Cancel compression</button>
                     <label class="block text-sm"
                       >Upload Image
-                      <span class="text-gray-700 dark:text-gray-400"
-                        >Locality / Area / Street<span
-                          style="color: red; font-size: larger"
-                          >*</span
-                        ></span
-                      >
+                      
                       <input
                         class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                         type="file"
@@ -145,11 +130,28 @@
                 </div>
               </form>
             </div>
+            
+            <div class="image-crop" id="imagecropdiv">
+              <div>
+                <img id="imageToCrop" style="max-height: 80dvh;" src="" a alt="">
+              </div>
+              <div class="flex justify-center items-center my-2">
+                <button class=" px-2 py-1 text-white rounded mr-2 transition-colors bg-blue-600" 
+                onclick="cropImage()">Save</button>
+                <button class=" px-2 py-1 text-white rounded transition-colors bg-red-600" 
+                onclick="cancelCrop()">Cancel</button>
+               
+              </div>
+            </div>
           </div>
         </main>
       </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@latest/dist/browser-image-compression.js"></script>
+
   </body>
 </html>
+
 <script src="/costom/javascript/admin/editbanner.js"></script>
- 
+<script src="/costom/javascript/admin/cropper.js"></script>
