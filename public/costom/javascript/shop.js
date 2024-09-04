@@ -83,6 +83,8 @@ function gotoNextPage(event) {
     // Get the existing query parameters
     const params = currentUrl.searchParams;
     const gender = document.querySelector("select").value;
+    console.log(gender, "gend");
+    
     params.delete("brand");
     Array.from(
       document.querySelectorAll('input[name="brand"]:checked')

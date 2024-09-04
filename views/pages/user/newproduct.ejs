@@ -1,78 +1,54 @@
-
-  <section class="section_padding">
-    <div class="container">
-      <div class="product-display">
-        
-          <% if(products.length > 0) {%>
-            
-          <div class="row">
-            <p>showing <%= products.length%> out of <%= products.length %></p>
-          </div>
-    
-          <div class="product_list">
-            
-                <% products.forEach((item,index)=> {%>
-    
-                <div class="product-item mb-2">
-                  
-                    
-                      <a href="/product/<%= item._id%>"
-                        ><img src="/products/images/<%= item.images[0] %>" alt="" class="image-product-collection"
-                      /></a>
-                      <div class="new-product">
-                        <span>New</span>
-                      </div>
-                    
-                    <div class="product-caption">
-                      
-                      <h4><%= item.brand%></h4>
-                      <h4><%= item.gender %></h4>
-    
-                      <div class="price">
-                        <ul>
-                          <% if(item.discount_in_percentage) {%> 
-                            <li class="price-product">Rs.<%= Math.round(item.price - (item.price * item.discount_in_percentage / 100)) %> MRP Rs.
-                                <span class="mrp"><%= item.price%></span><span class="discount">(<%= item.discount_in_percentage%>% OFF)</span>
-                            </li>
-                            <% }else {%>
-                            <li class="price-product">Rs. <%= item.price%></li>    
-                            <% } %>
-                        </ul>
-                      </div>
-                      <% if(item.stock_available !== 0) {%>
-                        <button
-                          class="genric-btn primary-border circle"
-                          onclick="addToCart(event,'<%= item._id%>')"
-                        >
-                          Add to Cart
-                        </button>
-                        <button
-                          class="genric-btn primary-border circle mt-2"
-                          onclick="addToWishlist(event,'<%= item._id%>')"
-                        >
-                          Add to Wishlist
-                        </button>
-                        <% } else {%>
-                          <button class="genric-btn danger circle">Out of stock</button>
-                        <% } %>
-                    </div>
-                  
-                </div>
-    
-                <% }) %>
-                <!-- Card two -->
-              </div>
-            
-            <% } else {%>
-            <div>
-              <h2>No products found for your filter</h2>
-            </div>
-            <% } %>
-          </div>
-        
+<section class="section_padding">
+  <div class="container">
+    <% if (products.length > 0) { %>
+      <div class="row">
+        <p>Showing <%= products.length %> out of <%= products.length %></p>
       </div>
-    </div>
-  </section>
-  <!-- product list part end-->
-  
-  <script src="/costom/javascript/cart.js"></script>
+      <div class="product-display">
+        <div class="product_list">
+          <% products.forEach((item, index) => { %>
+            <div class="product-item mb-2">
+              <a href="/product/<%= item._id %>">
+                <img src="/products/images/<%= item.images[0] %>" alt="" class="product-img" />
+              </a>
+              <div class="new-product">
+                <span>New</span>
+              </div>
+              <div class="product-caption">
+                <h4><%= item.brand %></h4>
+                <h4><%= item.gender %></h4>
+                <div class="price">
+                  <ul>
+                    <% if (item.discount_in_percentage) { %> 
+                      <li class="price-product">
+                        Rs.<%= Math.round(item.price - (item.price * item.discount_in_percentage / 100)) %> MRP Rs.
+                        <span class="mrp"><%= item.price %></span>
+                        <span class="discount">(<%= item.discount_in_percentage %>% OFF)</span>
+                      </li>
+                    <% } else { %>
+                      <li class="price-product">Rs. <%= item.price %></li>    
+                    <% } %>
+                  </ul>
+                </div>
+                <% if (item.stock_available !== 0) { %>
+                  <button class="genric-btn primary-border circle" onclick="addToCart(event, '<%= item._id %>')">Add to Cart</button>
+                  <button class="genric-btn primary-border circle mt-2" onclick="addToWishlist(event, '<%= item._id %>')">Add to Wishlist</button>
+                <% } else { %>
+                  <button class="genric-btn danger circle">Out of stock</button>
+                <% } %>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+    <% } else { %>
+      <div>
+        <h2>No products found for your filter</h2>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<!-- Product list part end -->
+
+<script src="/costom/javascript/cart.js"></script>

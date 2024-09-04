@@ -11,7 +11,6 @@ import { addProductToCart,
      verfiyPayment,
      paymentFailed,
      getUserProfile,
-     editUserAccount,
      editUserCredential,
      editPassword,
      verifyOtpforEditedEmail,
@@ -70,7 +69,7 @@ router.post('/place-order', userAuth, placeOrder);
 router.post('/payment-failed', userAuth, paymentFailed);
 
 // Route to get the page for editing user account details, requires user authentication
-router.get('/profile/edit-account', userAuth , editUserAccount);
+// router.get('/profile/edit-account', userAuth ,editUserAccount);
 
 // Route to update user credentials (like username or other profile details);, requires user authentication
 router.patch('/profile/edit-credential', userAuth , editUserCredential);

@@ -44,7 +44,7 @@ function productIsActive(event, couponid) {
       .then((result) => {
         if (!result.message) {
           const row = event.target.closest("tr");
-          const statusTd = row.querySelector("td:nth-child(6)");
+          const statusTd = row.querySelector("td:nth-child(7)");
           
           updateOrderStatusSpan(result.data.status, statusTd)
           return

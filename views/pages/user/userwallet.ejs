@@ -10,7 +10,7 @@
     />
     <link rel="stylesheet" href="/admin/assets/css/tailwind.output.css" />
     <style>
-      .product-details-page {
+      /* .product-details-page {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
@@ -28,6 +28,7 @@
   margin-top: 0;
 }
 /* Chrome, Safari, Edge, Opera */
+
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -65,19 +66,15 @@ input[type="number"] {
 
 
 
-.main-wallets{
-    padding: 4rem;
-    margin: 4rem;
 
-}
 .walletamount{
-  display: flex;
+  display: flex;  
   justify-content: center;
   align-items: center;
 
-
+  max-width: 100%;
   background-color: white;
-
+  box-sizing: border-box;
   padding: 1.5rem 3rem;
   margin-bottom: 1rem;
 }
@@ -85,19 +82,26 @@ input[type="number"] {
   font-size: 2rem;
   font-weight: bold;
 }
+table {
+  width: 100%;
+  overflow-x: auto;
+}
+
 .transaction-list p {
     font-size: 1rem;
     font-weight: bold;
     color: #8E3E63;
+    max-width: 100%;
 }
 @media only screen and(max-width: 600px) {
   .main-wallets{
     padding: 0.8rem;
     margin: 0.8rem;
+    box-sizing: border-box;
     
+   }
+} 
 
-}
-}
 
     </style>
     <script
@@ -119,6 +123,7 @@ input[type="number"] {
 
   <body>
     <div
+      style="box-sizing: border-box;"
       class="flex h-screen bg-gray-50 dark:bg-gray-900"
       :class="{ 'overflow-hidden': isSideMenuOpen }"
     >
@@ -145,22 +150,28 @@ input[type="number"] {
                 
                 <% if(wallet.transactions.length > 0) {%> 
                 <table class="w-full whitespace-no-wrap ">
-                  <tbody
-                    class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
-                  >
-                  <% wallet.transactions.forEach((item , index)=> {%>
-                    <tr class="text-gray-700 dark:text-gray-400">
-                              <td class="px-4 py-3">Rs. <%= item.amount %> </td>
-                              <td class="px-4 py-3"><%= item.description %></td>
-                              <td class="px-4 py-3"><%= item.createdAt.toLocaleString()%></td>
-                              <% if(item.status === "Received") {%> 
-                              <td class="px-4 py-3 text-green-600" ><%= item.status%></td>
-                              <% } else if(item.status === "Paid"){ %> 
-                                <td class="px-4 py-3 text-red-600" ><%= item.status%></td>
-                              <% } %>
-                    </tr>
-                    <% }) %>
+                  <tbody>
+                    <% 
+                      // Check if transactions exist and sort them by createdAt in descending order
+                      const sortedTransactions = wallet?.transactions?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                      
+                      // Iterate over the sorted transactions
+                      sortedTransactions?.forEach((item, index) => { 
+                    %>
+                      <tr class="text-gray-700 dark:text-gray-400">
+                        <td class="px-4 py-3">Rs. <%= item.amount %> </td>
+                        <td class="px-4 py-3"><%= item.description %></td>
+                        <td class="px-4 py-3"><%= new Date(item.createdAt).toLocaleString() %></td>
+                        <% if (item.status === "Received") { %> 
+                          <td class="px-4 py-3 text-green-600"><%= item.status %></td>
+                        <% } else if (item.status === "Paid") { %> 
+                          <td class="px-4 py-3 text-red-600"><%= item.status %></td>
+                        <% } %>
+                      </tr>
+                    <% }); %>
                   </tbody>
+                  
+                   
                 </table>
                 <% } else {%> 
                   <h6>No transactions created yet.</h6>

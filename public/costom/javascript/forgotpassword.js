@@ -52,12 +52,17 @@ fetch(`${window.location.origin}/auth/forgot-password/verify-otp`, {
   .then((response) => response.json())
   .then((data) => {
     if (data.message) {
-      toastr.warning(data.message);
-      window.location.href = `${window.location.origin}${data.url}`
+      toastr.error(data.message);
+      setTimeout(()=> {
+        window.location.href = `${window.location.origin}${data.url}`
+      },2000)
+      
     } else {
       toastr.success('OTP verified successfully')
-
-      window.location.href = `${window.location.origin}${data.data.url}`
+      setTimeout(()=> {
+        window.location.href = `${window.location.origin}${data.data.url}`
+      },2000)
+      
 
     }
   })

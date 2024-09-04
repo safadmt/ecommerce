@@ -760,6 +760,7 @@ export async function getCheckoutPage(req, res, next) {
       coupon_code: { $ne: "WALLET" },
       valid_till : {$gte : currentDate}
     });
+    console.log(coupons);
     
 
     
@@ -876,10 +877,12 @@ export async function applyCoupons(req, res, next) {
           .status(403)
           .json({ message: "Not eligible for free shipping" });
       }
-    } else if (coupon.discount_type === "percentage") {
+    } else if (coupon?.discount_type === "percentage") {
       if (
-        totalprice >= coupon.minimum_purchase_value &&
-        totalprice <= coupon.maximum_purchase_value
+        totalprice >= coupon?.minimum_purchase_value &&
+        (coupon.maximum_purchase_value == 0 ||
+          totalprice <= coupon.maximum_purchase_value
+        )
       ) {
         let value = (totalprice * coupon.discount_value) / 100;
         req.session.cart_charge_offer.coupon_discount.push({
@@ -895,8 +898,8 @@ export async function applyCoupons(req, res, next) {
     } else if (coupon.discount_type === "fixed_amount") {
       if (
         totalprice >= coupon.minimum_purchase_value &&
-        (totalprice <= coupon.maximum_purchase_value ||
-          coupon.maximum_purchase_value == 0
+        (coupon.maximum_purchase_value == 0 ||
+          totalprice <= coupon.maximum_purchase_value
         )
       ) {
         req.session.cart_charge_offer.coupon_discount.push({
@@ -1126,6 +1129,9 @@ export async function placeOrder(req, res, next) {
           mode: 'payment',
           success_url: `${req.headers.origin}/order/stripe/verify-payment/${order._id}`,
           cancel_url: `${req.headers.origin}/order/cancelled/${order._id}`,
+          shipping_address_collection : {
+            allowed_countries: ['IN']
+          }
         })
         return res.status(200).json({stripeurl: session.url,status: "stripe"})
       }
@@ -1225,7 +1231,7 @@ export async function verfiyPayment(req, res, next) {
             description: "Discount on first purchase",
             status: "Received",
             createdAt: new Date(),
-          };
+          }; 
           user.wallet.balance += wallet.discount_value;
           user.wallet.transactions.push(obj);
           await user.save();
@@ -1334,26 +1340,26 @@ export async function getUserProfile(req, res, next) {
   }
 }
 
-// Function to render the edit user account page
-export async function editUserAccount(req, res, next) {
-  setcache(req,res)
-  try {
-    const count = await getCartTotalQuantity(req, res, next);
-    const wishlist = await wishlistCount(req, res, next);
-    var role = "profile";
-    const username = req.session.user ? req.session.user.username : "";
-    const user = await getUser(req.session.user._id); // Get user details from the database
-    res.render("pages/user/edituserinfo", {
-      role,
-      count,
-      username,
-      user,
-      wishlist,
-    });
-  } catch (err) {
-    next(err);
-  }
-}
+// // Function to render the edit user account page
+// export async function editUserAccount(req, res, next) {
+//   setcache(req,res)
+//   try {
+//     const count = await getCartTotalQuantity(req, res, next);
+//     const wishlist = await wishlistCount(req, res, next);
+//     var role = "profile";
+//     const username = req.session.user ? req.session.user.username : "";
+//     const user = await getUser(req.session.user._id); // Get user details from the database
+//     res.render("pages/user/edituserinfo", {
+//       role,
+//       count,
+//       username,
+//       user,
+//       wishlist,
+//     });
+//   } catch (err) {
+//     next(err);
+//   }
+// }
 
 // Function to edit user credentials
 export async function editUserCredential(req, res, next) {
@@ -1364,8 +1370,11 @@ export async function editUserCredential(req, res, next) {
   const { username, mobile } = req.body;
   try {
     const user = await getUser(req.session.user._id); // Get user details
+    console.log(user);
+    
     user.username = username; // Update username
     user.mobile = mobile; // Update mobile number
+    
     const response = await user.save();
     if (response) {
       req.session.user.username = username; // Update session username
@@ -1374,6 +1383,8 @@ export async function editUserCredential(req, res, next) {
       res.status(304).json({ message: null });
     }
   } catch (err) {
+    console.log(err);
+    
     res.status(500).json("Something went wrong. Please try again later");
   }
 }

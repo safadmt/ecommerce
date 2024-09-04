@@ -465,10 +465,12 @@ export async function createNewCoupon(req, res, next) {
     res.redirect("/admin/coupons/add-product");
   }
   try {
+    
     if(!req.body.maximum_purchase_value) {
       req.body.maximum_purchase_value = 0
     }
     const response = await insertCoupon(req.body); // Insert the new coupon into the database
+    
     res.status(201);
     res.json(response);
   } catch (err) {
@@ -487,9 +489,14 @@ export async function editCoupon(req, res, next) {
     if (req.body.discount_type === "free_shipping") {
       req.body.discount_value = 0;
     }
+    if(!req.body.maximum_purchase_value) {
+      req.body.maximum_purchase_value = 0
+    }
     if (isValidObjectId(req.params.couponid)) {
       // Check if the coupon ID is valid
       const response = await updateCoupon(req.params.couponid, req.body); // Update the coupon in the database
+      console.log(response);
+      
       res.status(200);
       res.json("Ok");
     }
@@ -1098,6 +1105,8 @@ export async function handleReturnStatus(req, res, next) {
     }
   } catch (err) {
     // If an error occurs, respond with a 500 error and a message
+    console.log(err);
+    
     res.status(500).json("Something went wrong");
   }
 }

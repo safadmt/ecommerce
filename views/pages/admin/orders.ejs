@@ -252,6 +252,7 @@
                     >
                       <th class="px-4 py-3">Date</th>
                       <th class="px-4 py-3">Customer</th>
+                      <th class="px-4 py-3">Shipping <br> Address</th>
                       <th class="px-4 py-3">Amount</th>
                       <th class="px-4 py-3">Items</th>
                       <th class="px-4 py-3">Paymnet method</th>
@@ -268,6 +269,16 @@
                         <%= order.createdAt.toDateString() %>
                       </td>
                       <td class="px-4 py-3"><%= order.userId.username %></td>
+                      <td class="px-4 py-3">
+                        <div>
+                          <%= order.addressId?.recipient_name %> <br>
+                          <%= order.addressId?.street_address_line1 %> <br>
+                          <%= order.addressId?.street_address_line2 %> <br>
+                          <%= order.addressId?.city %> <br>
+                          <%= order.addressId?.mobile %>
+
+                        </div>
+                      </td>
                       <td class="px-4 py-3"><%= order.totalPrice %></td>
                       <td class="px-4 py-3"><%= order.products.length %></td>
                       <td class="px-4 py-3"><%= order.payment_method %></td>

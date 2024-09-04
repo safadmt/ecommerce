@@ -16,6 +16,8 @@ window.addEventListener("DOMContentLoaded", ()=> {
       return
     }
     currentPage = event.target.textContent.trim();
+    console.log(currentPage);
+    
     pages();
   }
 
@@ -34,7 +36,17 @@ window.addEventListener("DOMContentLoaded", ()=> {
   }
 
     function pages() {
+      console.log(currentPage);
+      console.log(previouspage);
+      
       const url = new URL(window.location.href);
-      const path = url.pathname.replace(previouspage, currentPage)
-      window.location.href = `${url.origin}${path}`;
+      let path = url.pathname.split('/')
+      if(path[path.length - 1] === previouspage) {
+        path[path.length - 1] = currentPage
+      }else{
+        path.push(currentPage)
+      }
+      const newpath = path.join('/')
+      
+      window.location.href = `${url.origin}${newpath}`;
     }

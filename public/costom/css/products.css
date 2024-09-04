@@ -549,11 +549,7 @@ h3,h2,h1,h4{
 }
 
 @media only screen and (min-width: 700px) {
-  .image-product-collection{
-    object-fit: contain;
-    min-height: 432px !important;
-    max-height: 432px !important;
-  }
+  
   .productimageshop{
     object-fit: contain;
     min-height: 432px !important;

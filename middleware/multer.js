@@ -58,7 +58,7 @@ function uploadBannerFile () {
     })
     // Initialize multer with the configured storage and file filter
   const upload = multer(({storage: storage,
-      limits: {fileSize:  1048576},
+      limits: {fileSize:  1448576},
       fileFilter: function (req,file,cb) {
         console.log(file);
         

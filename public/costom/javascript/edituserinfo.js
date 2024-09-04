@@ -39,7 +39,10 @@ const otpGroup = document.getElementById("otp-group");
       document.getElementById("profilename").textContent = data.username;
 
     } else {
+  
       toastr.warning(`Error: ${result.message}`);
+      console.log(result);
+      
     }
   }
 

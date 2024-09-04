@@ -59,9 +59,11 @@ export async function getUserOrdersForcheck(userid) {
 // find all order based on the filter
 export async function findAllOrder(info,limit=10, skip=0) {
     
-        const orders = await Order.find(info).populate('userId', {username: 1}).sort({createdAt: -1})
+        const orders = await Order.find(info).populate('userId', {username: 1}).populate('addressId').sort({createdAt: -1})
         .skip(skip)
         .limit(limit)
+        console.log(orders);
+        
         return orders;
     
 }

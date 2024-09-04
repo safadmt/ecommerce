@@ -209,7 +209,6 @@ export async function deleteUserCart (userid) {
 // Get one user by userid
 export async function getUser (userid) {
     const response = await User.findById(userid,{password: 0})
-    
     return response;
 }
 

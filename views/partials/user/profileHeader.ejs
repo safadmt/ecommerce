@@ -110,12 +110,12 @@ defer
       <!-- Notifications menu -->
       
         <a href="/user/wishlist" class=" nav-icon">
-          <li class="far fa-heart" style="color: black; font-size: 1.5rem;"></li>
+          <li class="far fa-heart" style="color: white; font-size: 1.5rem;"></li>
           <span class="badge badge-danger" id="wishlist-count"><%= wishlist %></span>
       </a>
       
-<a href="/cart" class=" nav-icon">
-          <li class="fas fa-shopping-cart " style="color: black; font-size: 1.5rem;"></li>
+<a href="/cart" class="nav-icon">
+          <li class="fas fa-shopping-cart " style="color: white; font-size: 1.5rem;"></li>
           <span class="badge badge-primary" id="cart-count"><%= count %></span>
       </a>
       
@@ -124,7 +124,7 @@ defer
       <li class="relative">
         <button
           id="profilename"
-          class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none"
+          class="text-white align-middle rounded-full focus:shadow-outline-purple focus:outline-none"
           @click="toggleProfileMenu"
           @keydown.escape="closeProfileMenu"
           aria-label="Account"

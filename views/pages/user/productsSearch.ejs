@@ -1,112 +1,80 @@
- 
-</style>
 <section class="section_padding">
   <div class="container">
-
-      <div class="product-display">
-        <% if(products.length > 0) {%> <% if(products.length == 10) { %>
+    <% if(products.length > 0) {%> 
+      <% if(products.length == 10) { %>
         <div class="row">
           <p>
-            showing <%= currentpage * products.length%> out of <%= totalproduct
-            %>
+            Showing <%= currentpage * products.length%> out of <%= totalproduct %>
           </p>
         </div>
-        <%} else {%>
+      <% } else { %>
         <div class="row">
-          <p>showing <%= totalproduct%> out of <%= totalproduct %></p>
+          <p>Showing <%= totalproduct %> out of <%= totalproduct %></p>
         </div>
-        <% } %>
+      <% } %>
+
+      <div class="product-display">
         <div class="product_list">
-          
-            <% products.forEach(item=> {%>
+          <% products.forEach(item => { %>
             <div class="product-item mb-2">
-             
-                <a href="/product/<%= item._id%>">
-                  <img
-                    src="/products/images/<%= item.images[0]%>"
-                    alt=""
-                    class="product-img"
-                    
-                  />
-                </a>
-                <h3><%= item.brand%></h3>
-                <h3><%= item.gender %></h3>
-                <div class="price">
-                  <ul>
-                    <% if(item.discount_in_percentage) {%> 
-                      <li class="price-product">Rs.<%= Math.round(item.price - (item.price * item.discount_in_percentage / 100)) %> MRP Rs.
-                          <span class="mrp"><%= item.price%></span><span class="discount">(<%= item.discount_in_percentage%>% OFF)</span>
-                      </li>
-                      <% }else {%>
-                      <li class="price-product">Rs. <%= item.price%></li>    
-                      <% } %>                       
-                  </ul>
-                </div>
-                <% if(item.stock_available !== 0) {%>
-                  <button
-                    class="genric-btn primary-border circle"
-                    onclick="addToCart(event,'<%= item._id%>')"
-                  >
-                    Add to Cart
-                  </button>
-                  <button
-                    class="genric-btn primary-border circle mt-2"
-                    onclick="addToWishlist(event,'<%= item._id%>')"
-                  >
-                    Add to Wishlist
-                  </button>
-                  <% } else {%>
-                    <button class="genric-btn danger circle">Out of stock</button>
+              <a href="/product/<%= item._id %>">
+                <img src="/products/images/<%= item.images[0] %>" alt="" class="product-img" />
+              </a>
+              <h3><%= item.brand %></h3>
+              <h3><%= item.gender %></h3>
+              <div class="price">
+                <ul>
+                  <% if(item.discount_in_percentage) { %>
+                    <li class="price-product">Rs.<%= Math.round(item.price - (item.price * item.discount_in_percentage / 100)) %> MRP Rs.
+                      <span class="mrp"><%= item.price %></span>
+                      <span class="discount">(<%= item.discount_in_percentage %>% OFF)</span>
+                    </li>
+                  <% } else { %>
+                    <li class="price-product">Rs. <%= item.price %></li>
                   <% } %>
-              
+                </ul>
+              </div>
+              <% if(item.stock_available !== 0) { %>
+                <button class="genric-btn primary-border circle" onclick="addToCart(event,'<%= item._id %>')">Add to Cart</button>
+                <button class="genric-btn primary-border circle mt-2" onclick="addToWishlist(event,'<%= item._id %>')">Add to Wishlist</button>
+              <% } else { %>
+                <button class="genric-btn danger circle">Out of Stock</button>
+              <% } %>
             </div>
-            <% }) %>
-         
+          <% }) %>
+        </div>
+        
+        <div style="display: flex; justify-content: center;">
           <nav aria-label="...">
             <ul class="pagination">
-              <li class="page-item " id="previouspageli">
-                <button
-                  class="page-link"
-                  id="previouspage"
-                  onclick="handlePreviouPage(event)"
-                >
-                  Previous
-                </button>
+              <li class="page-item" id="previouspageli">
+                <button class="page-link" id="previouspage" onclick="handlePreviouPage(event)">Previous</button>
               </li>
-              <% for(let i = 1 ; i <= totalpages; i++) {%> <% if(currentpage ===
-              i) {%>
-              <li class="page-item active">
-                <button disabled class="page-link"><%= i %></button>
-              </li>
-              <% } else {%>
+              <% for(let i = 1; i <= totalpages; i++) { %>
+                <% if(currentpage === i) { %>
+                  <li class="page-item active">
+                    <button disabled class="page-link"><%= i %></button>
+                  </li>
+                <% } else { %>
+                  <li class="page-item">
+                    <button class="page-link" onclick="gotoNextPage(event)"><%= i %></button>
+                  </li>
+                <% } %>
+              <% } %>
               <li class="page-item">
-                <button class="page-link" onclick="gotoNextPage(event)">
-                  <%= i %>
-                </button>
-              </li>
-              <% } %> <% } %>
-              <li class="page-item">
-                <button
-                  class="page-link"
-                  id="nextpagebutton"
-                  onclick="handleNextPage(event)"
-                >
-                  Next
-                </button>
+                <button class="page-link" id="nextpagebutton" onclick="handleNextPage(event)">Next</button>
               </li>
             </ul>
           </nav>
-          <% } else {%>
-          <div>
-            <h2>No products found for your filter</h2>
-          </div>
-          <% } %>
         </div>
       </div>
-    
+    <% } else { %>
+      <div>
+        <h2>No products found for your filter</h2>
+      </div>
+    <% } %>
   </div>
 </section>
-<!-- product list part end-->
 
 <script src="/costom/javascript/cart.js"></script>
 <script src="/costom/javascript/productssearch.js"></script>
