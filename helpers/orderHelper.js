@@ -20,6 +20,7 @@ export async function updateOrder(orderId, orderInfo) {
         {
             $set : orderInfo
         },{new:true})
+        
         return response;
     
 }

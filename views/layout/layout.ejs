@@ -45,11 +45,13 @@
 }
   </style>
   <body>
+    <%- include('../partials/chatbot/chatbot.ejs') %>
     <% if(role == "" || role === "user") {%> <%-
     include('../partials/user/Header.ejs') %>
      <% } %>
     <main><%- body %></main>
     <%- include('../partials/user/Footer.ejs') %>
+    
     <script src="/costom/javascript/adminsidebar.js"></script>
 
     <!-- END PAGE LEVEL JAVASCRIPTS -->

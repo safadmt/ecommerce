@@ -77,12 +77,12 @@ import {
 } from "../utils/enum.js";
 import setcache from "../middleware/cache.js";
 
+import {io,connectedUsers} from '../index.js'
 // Create razorpay instances
 const instance = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
-
 // Function to verify email during signup
 export const verfiyEmail = async (req, res, next) => {
   // Check if the request body is empty
@@ -1641,6 +1641,7 @@ export async function getAllUserOrder(req, res, next) {
         wishlist,
         return_reasons: Object.values(ReturnReasonEnum),
         return_status: Object.values(returnStatusEnum),
+        userId : req.session.user._id
       });
     }
   } catch (err) {

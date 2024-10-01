@@ -11,3 +11,124 @@
     at E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\connect-mongodb-session\index.js:110:17
     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
 2024-08-23T08:02:25.550Z info: banner edit image unlink error
+2024-09-27T16:00:36.187Z info: Error: Error connecting to db: querySrv ETIMEOUT _mongodb._tcp.cluster0.9ekwixw.mongodb.net
+    at E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\connect-mongodb-session\index.js:110:17
+2024-09-30T07:40:47.707Z info: TypeError: Assignment to constant variable.
+    at file:///E:/Backup/dell/Downloads/makbignodejs/ecommerceproject/index.js:33:6
+    at Layer.handle [as handle_request] (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:328:13)
+    at E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:286:9
+    at Function.process_params (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:346:12)
+    at next (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:280:10)
+    at expressInit (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\middleware\init.js:40:5)
+    at Layer.handle [as handle_request] (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:328:13)
+    at E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:286:9
+    at Function.process_params (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:346:12)
+    at next (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:280:10)
+    at query (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\middleware\query.js:45:5)
+    at Layer.handle [as handle_request] (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:328:13)
+    at E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:286:9
+    at Function.process_params (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:346:12)
+    at next (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:280:10)
+    at Function.handle (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:175:3)
+    at Function.handle (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\application.js:181:10)
+    at Server.app (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\express.js:39:9)
+    at Server.emit (node:events:518:28)
+2024-09-30T07:40:55.238Z info: TypeError: Assignment to constant variable.
+    at file:///E:/Backup/dell/Downloads/makbignodejs/ecommerceproject/index.js:33:6
+    at Layer.handle [as handle_request] (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:328:13)
+    at E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:286:9
+    at Function.process_params (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:346:12)
+    at next (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:280:10)
+    at expressInit (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\middleware\init.js:40:5)
+    at Layer.handle [as handle_request] (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:328:13)
+    at E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:286:9
+    at Function.process_params (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:346:12)
+    at next (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:280:10)
+    at query (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\middleware\query.js:45:5)
+    at Layer.handle [as handle_request] (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:328:13)
+    at E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:286:9
+    at Function.process_params (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:346:12)
+    at next (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:280:10)
+    at Function.handle (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:175:3)
+    at Function.handle (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\application.js:181:10)
+    at Server.app (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\express.js:39:9)
+    at Server.emit (node:events:518:28)
+2024-09-30T07:41:09.264Z info: TypeError: Assignment to constant variable.
+    at file:///E:/Backup/dell/Downloads/makbignodejs/ecommerceproject/index.js:33:6
+    at Layer.handle [as handle_request] (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:328:13)
+    at E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:286:9
+    at Function.process_params (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:346:12)
+    at next (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:280:10)
+    at expressInit (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\middleware\init.js:40:5)
+    at Layer.handle [as handle_request] (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:328:13)
+    at E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:286:9
+    at Function.process_params (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:346:12)
+    at next (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:280:10)
+    at query (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\middleware\query.js:45:5)
+    at Layer.handle [as handle_request] (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:328:13)
+    at E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:286:9
+    at Function.process_params (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:346:12)
+    at next (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:280:10)
+    at Function.handle (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:175:3)
+    at Function.handle (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\application.js:181:10)
+    at Server.app (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\express.js:39:9)
+    at Server.emit (node:events:518:28)
+2024-09-30T07:41:23.268Z info: TypeError: Assignment to constant variable.
+    at file:///E:/Backup/dell/Downloads/makbignodejs/ecommerceproject/index.js:33:6
+    at Layer.handle [as handle_request] (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:328:13)
+    at E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:286:9
+    at Function.process_params (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:346:12)
+    at next (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:280:10)
+    at expressInit (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\middleware\init.js:40:5)
+    at Layer.handle [as handle_request] (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:328:13)
+    at E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:286:9
+    at Function.process_params (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:346:12)
+    at next (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:280:10)
+    at query (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\middleware\query.js:45:5)
+    at Layer.handle [as handle_request] (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:328:13)
+    at E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:286:9
+    at Function.process_params (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:346:12)
+    at next (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:280:10)
+    at Function.handle (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:175:3)
+    at Function.handle (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\application.js:181:10)
+    at Server.app (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\express.js:39:9)
+    at Server.emit (node:events:518:28)
+2024-09-30T07:55:29.251Z info: TypeError: Assignment to constant variable.
+    at file:///E:/Backup/dell/Downloads/makbignodejs/ecommerceproject/index.js:33:6
+    at Layer.handle [as handle_request] (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:328:13)
+    at E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:286:9
+    at Function.process_params (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:346:12)
+    at next (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:280:10)
+    at expressInit (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\middleware\init.js:40:5)
+    at Layer.handle [as handle_request] (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:328:13)
+    at E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:286:9
+    at Function.process_params (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:346:12)
+    at next (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:280:10)
+    at query (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\middleware\query.js:45:5)
+    at Layer.handle [as handle_request] (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:328:13)
+    at E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:286:9
+    at Function.process_params (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:346:12)
+    at next (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:280:10)
+    at Function.handle (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\router\index.js:175:3)
+    at Function.handle (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\application.js:181:10)
+    at Server.app (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\express\lib\express.js:39:9)
+    at Server.emit (node:events:518:28)
+2024-09-30T11:31:06.290Z info: MongooseServerSelectionError: Server selection timed out after 30000 ms
+    at _handleConnectionErrors (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\mongoose\lib\connection.js:875:11)
+    at NativeConnection.openUri (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\mongoose\lib\connection.js:826:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)

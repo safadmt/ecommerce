@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chatbot</title>
+  <link rel="stylesheet" href="/costom/css/chatbot.css">
+</head>
+<body>
+  <div class="chatbot-container">
+    <!-- Chatbot Logo Button -->
+    <div id="chatbot-button" class="chatbot-button">
+      <img src="https://e7.pngegg.com/pngimages/811/700/png-clipart-chatbot-internet-bot-business-natural-language-processing-facebook-messenger-business-people-logo-thumbnail.png" alt="Chatbot" class="chatbot-logo">
+      <div class="chatbot-text">How may we help you?</div>
+    </div>
+
+    <!-- Chatbot Form -->
+    <div id="chatbot-form" class="chatbot-form hidden">
+      <div class="chatbot-header">
+        <span>Chatbot</span>
+        <span id="close-chatbot" class="close-button">&times;</span>
+      </div>
+      
+      <div class="chatbot-messages" id="chatbot-messages">
+
+      </div>
+      <div class="chatbot-input">
+        <input type="text" id="message-input" placeholder="Type your message...">
+        <button id="send-message">Send</button>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+
+  <script>
+    // Show and hide chatbot form and toggle visibility of the button (logo and text)
+    const sendButton = document.querySelector("#send-message")
+    const chatbotmessages = document.querySelector('#chatbot-messages')
+    const chatList = document.querySelector('#chat-list'); // UL for messages
+
+    const chatbotButton = document.getElementById('chatbot-button');
+    const chatbotForm = document.getElementById('chatbot-form');
+    const closeChatbot = document.getElementById('close-chatbot');
+    const input = document.querySelector('#message-input')
+    localStorage.debug = '*';
+
+    const chatbot = io('/chatbot')
+    const username = "<%= username%>"
+
+    function appendMessage(text, sender, message) {
+      
+      const messageElement = document.createElement('li'); // Create list item
+      messageElement.classList.add(message);
+
+      const messageText = document.createElement('div');
+      messageText.classList.add(sender);
+      messageText.textContent = text;
+      messageElement.appendChild(messageText)
+
+      chatbotmessages.appendChild(messageElement);
+      // Append li to ul
+      
+      // Scroll to the bottom of the messages container
+      const chatbotMessages = document.getElementById('chatbot-messages');
+      chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    }
+    chatbot.on("chat_messages", (data)=> {
+      console.log(data, "data respo");
+      
+      if(data?.length > 0) {
+
+        for(item of data) {
+
+        if (item.question) {
+          console.log(item.question);
+          
+          appendMessage(item.question, 'user', 'message-user'); // User's question on the right
+        }
+        if (item.answer) {
+          appendMessage(`Helios: ${item.answer}`, 'bot', 'message-bot'); // Bot's answer on the left
+        }
+      };
+
+      }
+    })
+    sendButton.addEventListener("click", function (){
+
+      if(!input.value) {
+        return
+      }
+      sendButton.disabled = true;
+      setTimeout(() => {
+        sendButton.disabled = false
+      }, 1000);
+      chatbot.emit("chatmessage", input.value)
+      appendMessage(input.value, 'user', 'message-user')
+      input.value = ""
+    })
+    chatbot.on("chatmessage", (data)=> {
+      appendMessage(`Helios: ${data}`, 'bot', 'message-bot')
+    })
+    chatbotButton.addEventListener('click', () => {
+      if(!username) {
+
+        window.location.href = '/auth/login'
+        
+      }
+      chatbotForm.classList.toggle('hidden');
+      chatbotButton.classList.toggle('hidden'); // Hide chatbot logo and text
+    });
+
+    closeChatbot.addEventListener('click', () => {
+      
+      chatbotForm.classList.add('hidden');
+      chatbotButton.classList.remove('hidden'); // Show chatbot logo and text again
+    });
+  </script>
+</body>
+</html>

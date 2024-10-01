@@ -61,6 +61,7 @@ import {
 import { dateFilters } from "../utils/util.js";
 import logger from "../utils/logger.js";
 import setcache from "../middleware/cache.js";
+import { connectedUsers,io } from "../index.js";
 
 const path = dirname(dirname(fileURLToPath(import.meta.url)));
 
@@ -843,6 +844,12 @@ export async function handleOrderStatus(req, res, next) {
   try {
     // Get the order by ID
     const order = await findOneOrder(req.params.orderid);
+    let userids = connectedUsers.find(u=> JSON.stringify(u.userid) === JSON.stringify(order.userId))
+    console.log(userids, "userids");
+    
+      if(userids) {
+        io.to(userids.socketid).emit("order_status", {status: order.orderStatus})
+      }
     // Check if the order exists
     if (!order) return res.status(404).json({ message: "Order not found" });
 
@@ -868,6 +875,7 @@ export async function handleOrderStatus(req, res, next) {
       (order.orderStatus === orderStatusEnum.SHIPPED ||
         order.orderStatus === orderStatusEnum.DELIVERED)
     ) {
+      
       return res
         .status(409)
         .json({
@@ -918,7 +926,7 @@ export async function handleOrderStatus(req, res, next) {
       await user.save();
       // Save the order updates
       const neworder = await updateOrder(order._id, { orderStatus: status });
-
+      
       return res
         .status(200)
         .json({ message: null, data: { status: neworder.orderStatus } });
@@ -929,7 +937,14 @@ export async function handleOrderStatus(req, res, next) {
 
     //save the order updates
     const neworder = await updateOrder(order._id, { orderStatus: status });
-
+    console.log(connectedUsers,neworder.userId);
+    
+    let user_id = connectedUsers.some(u=> u.userid == neworder.userId)
+    console.log(user_id, 'boolean');
+    
+      if(user_id) {
+        io.to(neworder.userId).emit("order_status", {status: neworder.orderStatus})
+      }
     if (neworder) {
       return res
         .status(200)
