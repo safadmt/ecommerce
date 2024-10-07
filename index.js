@@ -16,6 +16,7 @@ import adminRouter from './routes/admin.js'
 import { handleError } from './middleware/errorHandler.js'
 import InitializeSocket from './utils/socket.js'
 import chatBotSocket from './utils/chatSocket.js'
+import { orderStatusSocket } from './utils/orderStatusSocket.js'
 const currentFilePath = fileURLToPath(import.meta.url)
 const __dirname = dirname(currentFilePath)
 // Initialize MongoDBStore with express-session
@@ -34,8 +35,9 @@ const session = expressSession({secret: process.env.SESSION_SECRET,
   })
 const app = express();
 const server = createServer(app)
-const {io,connectedUsers} = InitializeSocket(server,session)
+const {io} = InitializeSocket(server,session)
 chatBotSocket(io,session)
+const {getConnectedUsers, orderstatus} = orderStatusSocket(io)
 app.use(expressEjsLayouts)
 app.set('layout', './layout/layout.ejs')
 app.set('views', path.join(__dirname, 'views'))
@@ -68,4 +70,4 @@ app.use('/auth', authRouter)
 app.use('/admin', adminRouter)
 
 
-export {io, server,connectedUsers}
+export {io, server, orderstatus}

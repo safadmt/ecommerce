@@ -1,7 +1,6 @@
-var socket = io();
+var socket = io('/orderstatus');
 
 window.addEventListener("DOMContentLoaded", function (){
-    console.log("console.log", userId);
     
     socket.emit("user_connected", userId)
     
@@ -9,5 +8,9 @@ window.addEventListener("DOMContentLoaded", function (){
 })
 
 socket.on("order_status", (data)=> {
-    console.log(data, "hello dat  i am i know"); 
+    console.log(data);
+    
+    let order_status = document.getElementById(`order_status_${data.orderid}`) 
+    order_status.textContent = data.orderStatus;
+
 })
