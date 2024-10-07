@@ -76,8 +76,8 @@ import {
   returnStatusEnum,
 } from "../utils/enum.js";
 import setcache from "../middleware/cache.js";
-
-import {io,connectedUsers} from '../index.js'
+import { getConnectedUsers } from "../utils/connectedUsers.js";
+import {io} from '../index.js'
 // Create razorpay instances
 const instance = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,

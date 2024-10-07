@@ -167,7 +167,7 @@
                     <p>Order Date: <%= order.createdAt.toLocaleString() %></p>
                     <p>Total Price: Rs. <%= order.totalPrice %></p>
                     <p>Shipping Charge: Rs. <%= order.shippingCharge %></p>
-                    <p>Order Status: <%= order.orderStatus %></p>
+                    <p>Order Status: <span id="order_status_<%= order._id %>"><%= order.orderStatus %></span></p>
                   </div>
                   <div class="order-actions">
                     <a class="genric-btn primary-border circle mb-2" href="/user/profile/orders/<%= order._id %>">View order</a>
