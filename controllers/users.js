@@ -94,6 +94,7 @@ export const verfiyEmail = async (req, res, next) => {
   if (!username.trim() || !email.trim() || !password.trim() || !mobile) {
     return res.json({ error: "Required all field" });
   }
+  console.log(req.body)
   // Check if a user is already exist with this email
   const isUser = await User.findOne({ email: email });
 
@@ -104,6 +105,7 @@ export const verfiyEmail = async (req, res, next) => {
   try {
     // Sending otp to the user provided email
     const otp = await sendOTP(email);
+    console.log(otp)
     // storing the info inside session
     req.session.signupInfo = { email, password, username, mobile };
     // Creating timeout 90 second
@@ -131,7 +133,7 @@ export async function getSignupPage(req, res, next) {
   }
 }
 // Function to handle user signup
-export const userSignup = async (req, res, next) => {
+export const  userSignup = async (req, res, next) => {
   try {
     // Check if the OTP is valid and not expired
     if (req.session?.emailOTP?.otp === req.body.otp) {

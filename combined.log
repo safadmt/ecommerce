@@ -132,3 +132,15 @@
     at _handleConnectionErrors (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\mongoose\lib\connection.js:875:11)
     at NativeConnection.openUri (E:\Backup\dell\Downloads\makbignodejs\ecommerceproject\node_modules\mongoose\lib\connection.js:826:11)
     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-07-23T08:48:33.722Z info: MongooseError: The `uri` parameter to `openUri()` must be a string, got "undefined". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.
+    at NativeConnection.createClient (E:\tappikobug\ecommerce\node_modules\mongoose\lib\drivers\node-mongodb-native\connection.js:206:11)
+    at NativeConnection.openUri (E:\tappikobug\ecommerce\node_modules\mongoose\lib\connection.js:801:34)
+    at Mongoose.connect (E:\tappikobug\ecommerce\node_modules\mongoose\lib\mongoose.js:414:15)
+    at file:///E:/tappikobug/ecommerce/config/connection.js:6:18
+    at new Promise (<anonymous>)
+    at connectDB (file:///E:/tappikobug/ecommerce/config/connection.js:5:12)
+    at file:///E:/tappikobug/ecommerce/index.js:61:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:222:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:323:24)
+    at async loadESM (node:internal/process/esm_loader:28:7)
+    at async handleMainPromise (node:internal/modules/run_main:113:12)

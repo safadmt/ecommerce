@@ -1,4 +1,5 @@
 import express from 'express';
+import bcrypt from 'bcryptjs';
 import { getHomePage ,getProductsPage,getAddProductPage,createNewProduct,
     getEditPage,editProduct, productIsAcitve,getCouponPage,getAddCouponPage,
     createNewCoupon,getEditCouponPage,editCoupon , couponIsActive,
@@ -23,7 +24,7 @@ import { getHomePage ,getProductsPage,getAddProductPage,createNewProduct,
 const router = express.Router();
 import {uploadFile,uploadBannerFile} from '../middleware/multer.js';
 import { adminAuth } from '../middleware/authorization.js';
-import { pageNotFound } from '../controllers/users.js';
+import Admin from '../models/admin.js';
 const upload = uploadFile();
 const uploadBanner = uploadBannerFile();
 
@@ -119,3 +120,19 @@ router.get('/generate-coupon-code', generateCouponCode)
 router.patch('/returns/status/:returnid', handleReturnStatus);
 
 export default router;
+
+
+const createAdmin = async()=> {
+    try {
+        const hashedPassword = await bcrypt.hash('12345678', 10);
+        const adminCreated = await  Admin.create({
+            name: 'admin',
+            email: 'admin@gmail.com',
+            password: hashedPassword,
+            role: 'admin'
+        })
+        console.log(adminCreated)
+    } catch (error) {
+        console.log(error);
+    }
+}

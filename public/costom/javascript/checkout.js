@@ -92,7 +92,7 @@ async function onPaymentFailed(info, orderid) {
 }
 function paywithrazorpay(order) {
   var options = {
-    key: "rzp_test_OmbodPGPHNOPhe", // Enter the Key ID generated from the Dashboard
+    key: "rzp_test_pqAWkIG6oTaFWq", // Enter the Key ID generated from the Dashboard
     amount: order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
     currency: "INR",
     name: "Safad",
